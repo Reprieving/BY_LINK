@@ -1,5 +1,6 @@
-package com.byritium.conn.domain.mqtt;
+package com.byritium.conn.domain.protocol.mqtt;
 
+import com.byritium.conn.domain.protocol.common.service.ProtocolHandler;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
@@ -14,7 +15,7 @@ import java.io.IOException;
 
 
 @ChannelHandler.Sharable
-public class MqttChannelInboundHandler extends ChannelInboundHandlerAdapter {
+public class MqttChannelInboundHandler extends ChannelInboundHandlerAdapter implements ProtocolHandler {
     private Logger log =  LoggerFactory.getLogger(this.getClass());
 
     /**

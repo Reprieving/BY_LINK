@@ -1,4 +1,4 @@
-package com.byritium.conn.domain.mqtt;
+package com.byritium.conn.domain.protocol.mqtt;
 
 
 import io.netty.channel.Channel;
