@@ -1,5 +1,6 @@
 package com.byritium.conn;
 
+import com.byritium.conn.domain.protocol.base.NettyServerInitializer;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.EventLoopGroup;
@@ -18,7 +19,7 @@ public class BootNettyServer {
         EventLoopGroup work = new NioEventLoopGroup();
         bootstrap.group(boss,work)
                 .handler(new LoggingHandler(LogLevel.DEBUG))
-                .channel(NioServerSocketChannel.class);
-
+                .channel(NioServerSocketChannel.class)
+                .childHandler(new NettyServerInitializer());
     }
 }

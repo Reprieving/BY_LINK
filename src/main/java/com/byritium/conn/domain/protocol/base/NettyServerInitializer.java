@@ -1,11 +1,10 @@
 package com.byritium.conn.domain.protocol.base;
 
-import com.byritium.conn.domain.protocol.http.HttpRequestHandler;
-import com.byritium.conn.domain.protocol.mqtt.MqttChannelInboundHandler;
+import com.byritium.conn.domain.protocol.http.HttpChannelHandler;
+import com.byritium.conn.domain.protocol.mqtt.MqttChannelHandler;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
-import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpServerCodec;
 import io.netty.handler.codec.mqtt.MqttDecoder;
@@ -24,13 +23,13 @@ public class NettyServerInitializer extends ChannelInitializer<SocketChannel> {
             case 1000:
                 pipeline.addLast(new HttpServerCodec());
                 pipeline.addLast("httpAggregator", new HttpObjectAggregator(1024 * 1024 * 100));
-                pipeline.addLast(new HttpRequestHandler());
+                pipeline.addLast(new HttpChannelHandler());
                 break;
 
             case 2000:
                 pipeline.addLast("encoder", MqttEncoder.INSTANCE);
                 pipeline.addLast("decoder", new MqttDecoder());
-                pipeline.addLast(new MqttChannelInboundHandler());
+                pipeline.addLast(new MqttChannelHandler());
                 break;
 
         }

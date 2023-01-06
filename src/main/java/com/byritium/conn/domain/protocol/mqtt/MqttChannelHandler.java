@@ -14,7 +14,7 @@ import java.io.IOException;
 
 
 @ChannelHandler.Sharable
-public class MqttChannelInboundHandler extends ChannelInboundHandlerAdapter {
+public class MqttChannelHandler extends ChannelInboundHandlerAdapter {
     private Logger log =  LoggerFactory.getLogger(this.getClass());
 
     /**
