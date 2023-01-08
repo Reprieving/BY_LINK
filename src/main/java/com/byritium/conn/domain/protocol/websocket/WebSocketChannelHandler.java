@@ -19,8 +19,6 @@ import static io.netty.handler.codec.http.HttpUtil.isKeepAlive;
 public class WebSocketChannelHandler extends SimpleChannelInboundHandler<Object> {
     private WebSocketServerHandshaker handshaker;
 
-    private static final String WEB_SOCKET_URL = "ws://localhost:8888/websocket";
-
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Object msg) {
         log.debug("收到消息：" + msg);
