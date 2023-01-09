@@ -7,15 +7,12 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.codec.mqtt.MqttFixedHeader;
 import io.netty.handler.codec.mqtt.MqttMessage;
 import io.netty.handler.codec.mqtt.MqttMessageType;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import lombok.extern.slf4j.Slf4j;
 import java.io.IOException;
 
-
+@Slf4j
 @ChannelHandler.Sharable
 public class MqttChannelHandler extends ChannelInboundHandlerAdapter {
-    private Logger log =  LoggerFactory.getLogger(this.getClass());
 
     /**
      * 	客户端与服务端第一次建立连接时执行 在channelActive方法之前执行
