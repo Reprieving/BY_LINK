@@ -33,13 +33,31 @@ public class ProtocolFactory {
         map.put(1000,
                 List.of(
                         new ProtocolHandler(new LoggingHandler(LogLevel.INFO)),
+                        new ProtocolHandler(new DelimiterBasedFrameDecoder(8192, Unpooled.copiedBuffer("\r\n".getBytes()))),
+                        new ProtocolHandler(new TcpCustomEncoder()),
+                        new ProtocolHandler(new TcpCustomDecoder()),
+                        new ProtocolHandler(new TcpChannelHandler())
+                )
+        );
+
+        map.put(2000,
+                List.of(
+                        new ProtocolHandler(new LoggingHandler(LogLevel.INFO)),
+                        new ProtocolHandler(new UdpChannelHandler())
+                )
+        );
+
+
+        map.put(3000,
+                List.of(
+                        new ProtocolHandler(new LoggingHandler(LogLevel.INFO)),
                         new ProtocolHandler(new HttpServerCodec()),
                         new ProtocolHandler("httpAggregator", new HttpObjectAggregator(1024 * 1024 * 100)),
                         new ProtocolHandler(new HttpChannelHandler())
                 )
         );
 
-        map.put(2000,
+        map.put(4000,
                 List.of(
                         new ProtocolHandler(new LoggingHandler(LogLevel.INFO)),
                         new ProtocolHandler("http-codec", new HttpServerCodec()),
@@ -49,37 +67,27 @@ public class ProtocolFactory {
                 )
         );
 
-        map.put(3000,
-                List.of(
-                        new ProtocolHandler(new LoggingHandler(LogLevel.INFO)),
-                        new ProtocolHandler("encoder", MqttEncoder.INSTANCE),
-                        new ProtocolHandler("decoder", new MqttDecoder()),
-                        new ProtocolHandler(new MqttChannelHandler())
-                )
-        );
-
-        map.put(4000,
-                List.of(
-                        new ProtocolHandler(new LoggingHandler(LogLevel.INFO)),
-                        new ProtocolHandler("encoder", MqttEncoder.INSTANCE),
-                        new ProtocolHandler("decoder", new MqttDecoder()),
-                        new ProtocolHandler(new MqttChannelHandler())
-                )
-        );
-
         map.put(5000,
                 List.of(
                         new ProtocolHandler(new LoggingHandler(LogLevel.INFO)),
-                        new ProtocolHandler(new DelimiterBasedFrameDecoder(8192, Unpooled.copiedBuffer("\r\n".getBytes()))),
-                        new ProtocolHandler(new TcpCustomEncoder()),
-                        new ProtocolHandler(new TcpCustomDecoder()),
-                        new ProtocolHandler(new TcpChannelHandler())
+                        new ProtocolHandler("encoder", MqttEncoder.INSTANCE),
+                        new ProtocolHandler("decoder", new MqttDecoder()),
+                        new ProtocolHandler(new MqttChannelHandler())
                 )
         );
 
         map.put(6000,
                 List.of(
                         new ProtocolHandler(new LoggingHandler(LogLevel.INFO)),
+                        new ProtocolHandler("encoder", MqttEncoder.INSTANCE),
+                        new ProtocolHandler("decoder", new MqttDecoder()),
+                        new ProtocolHandler(new MqttChannelHandler())
+                )
+        );
+
+        map.put(7000,
+                List.of(
+                        new ProtocolHandler(new LoggingHandler(LogLevel.INFO)),
                         new ProtocolHandler(new DelimiterBasedFrameDecoder(8192, Unpooled.copiedBuffer("\r\n".getBytes()))),
                         new ProtocolHandler(new TcpCustomEncoder()),
                         new ProtocolHandler(new TcpCustomDecoder()),
@@ -87,17 +95,15 @@ public class ProtocolFactory {
                 )
         );
 
-        map.put(7000,
-                List.of(
-                        new ProtocolHandler(new LoggingHandler(LogLevel.INFO)),
-                        new ProtocolHandler(new UdpChannelHandler())
-                )
-        );
 
     }
 
 
     public Map<Integer, List<ProtocolHandler>> get() {
         return map;
+    }
+
+    public List<ProtocolHandler> get(int port) {
+        return map.get(port);
     }
 }

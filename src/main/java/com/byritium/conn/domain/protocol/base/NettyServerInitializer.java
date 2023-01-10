@@ -2,6 +2,7 @@ package com.byritium.conn.domain.protocol.base;
 
 import com.byritium.conn.domain.protocol.http.HttpChannelHandler;
 import com.byritium.conn.domain.protocol.mqtt.MqttChannelHandler;
+import com.byritium.conn.infrastructure.utils.SpringUtils;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
@@ -19,19 +20,7 @@ public class NettyServerInitializer extends ChannelInitializer<SocketChannel> {
 
         InetSocketAddress socketAddress = socketChannel.localAddress();
         int port = socketAddress.getPort();
-        switch (port) {
-            case 1000:
-                pipeline.addLast(new HttpServerCodec());
-                pipeline.addLast("httpAggregator", new HttpObjectAggregator(1024 * 1024 * 100));
-                pipeline.addLast(new HttpChannelHandler());
-                break;
 
-            case 2000:
-                pipeline.addLast("encoder", MqttEncoder.INSTANCE);
-                pipeline.addLast("decoder", new MqttDecoder());
-                pipeline.addLast(new MqttChannelHandler());
-                break;
-
-        }
+        ProtocolFactory protocolFactory = SpringUtils.getBean(ProtocolFactory.class);
     }
 }
