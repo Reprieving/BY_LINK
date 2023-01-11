@@ -33,6 +33,7 @@ public class ProtocolFactory {
         map.put(1000,
                 List.of(
                         new ProtocolHandler(new LoggingHandler(LogLevel.INFO)),
+                        //自定义切割符解决粘包半包问题
                         new ProtocolHandler(new DelimiterBasedFrameDecoder(8192, Unpooled.copiedBuffer("\r\n".getBytes()))),
                         new ProtocolHandler(new TcpCustomEncoder()),
                         new ProtocolHandler(new TcpCustomDecoder()),

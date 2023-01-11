@@ -10,5 +10,6 @@ public class TcpCustomEncoder extends MessageToByteEncoder<TcpCustomMessage> {
     protected void encode(ChannelHandlerContext channelHandlerContext, TcpCustomMessage tcpCustomMessage, ByteBuf byteBuf) throws Exception {
         byteBuf.writeInt(tcpCustomMessage.getLength());
         byteBuf.writeBytes(tcpCustomMessage.getContent());
+        byteBuf.writeBytes(new byte[]{'\r', '\n'});
     }
 }
