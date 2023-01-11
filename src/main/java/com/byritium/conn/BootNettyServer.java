@@ -31,7 +31,7 @@ public class BootNettyServer {
         Map<Integer, List<ProtocolHandler>> map = protocolFactory.get();
         for (Map.Entry<Integer, List<ProtocolHandler>> entry : map.entrySet()) {
             int port = entry.getKey();
-            ChannelFuture f = bootstrap.bind(port).sync();
+            ChannelFuture f = bootstrap.bind(new InetSocketAddress(port)).sync();
             f.channel().closeFuture().sync();
         }
     }
