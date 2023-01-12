@@ -1,8 +1,6 @@
 package com.byritium.conn;
 
 import com.byritium.conn.domain.protocol.base.NettyServerInitializer;
-import com.byritium.conn.domain.protocol.base.ProtocolFactory;
-import com.byritium.conn.domain.protocol.base.ProtocolHandler;
 import com.byritium.conn.infrastructure.utils.SpringUtils;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -13,6 +11,7 @@ import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 
 import java.net.InetSocketAddress;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -27,14 +26,11 @@ public class BootNettyServer {
                 .channel(NioServerSocketChannel.class)
                 .childHandler(new NettyServerInitializer());
 
-        ProtocolFactory protocolFactory = SpringUtils.getBean(ProtocolFactory.class);
-        Map<Integer, List<ProtocolHandler>> map = protocolFactory.get();
-        for (Map.Entry<Integer, List<ProtocolHandler>> entry : map.entrySet()) {
-            int port = entry.getKey();
+        List<Integer> ports = List.of(1000, 2000, 3000, 4000, 5000);
+        for (int port : ports) {
             ChannelFuture f = bootstrap.bind(new InetSocketAddress(port)).sync();
             f.channel().closeFuture();
         }
-
 
     }
 }
