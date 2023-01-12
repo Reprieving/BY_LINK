@@ -6,8 +6,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class ConnApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(ConnApplication.class, args);
+    public static void main(String[] args) throws InterruptedException {
+        SpringApplication app = new SpringApplication(ConnApplication.class);
+        app.run(args);
+        new BootNettyServer().startup();
     }
 
 }

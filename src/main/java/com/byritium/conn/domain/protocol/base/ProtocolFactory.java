@@ -10,6 +10,8 @@ import com.byritium.conn.domain.protocol.websocket.WebSocketChannelHandler;
 import io.netty.buffer.Unpooled;
 import io.netty.handler.codec.DelimiterBasedFrameDecoder;
 import io.netty.handler.codec.http.HttpObjectAggregator;
+import io.netty.handler.codec.http.HttpRequestDecoder;
+import io.netty.handler.codec.http.HttpResponseEncoder;
 import io.netty.handler.codec.http.HttpServerCodec;
 import io.netty.handler.codec.mqtt.MqttDecoder;
 import io.netty.handler.codec.mqtt.MqttEncoder;
@@ -52,8 +54,10 @@ public class ProtocolFactory {
         map.put(3000,
                 List.of(
                         new ProtocolHandler(new LoggingHandler(LogLevel.INFO)),
-                        new ProtocolHandler(new HttpServerCodec()),
-                        new ProtocolHandler("httpAggregator", new HttpObjectAggregator(1024 * 1024 * 100)),
+                        new ProtocolHandler("http-decoder",new HttpRequestDecoder()),
+                        new ProtocolHandler("http-aggregator", new HttpObjectAggregator(1024 * 1024 * 100)),
+                        new ProtocolHandler("http-encoder",new HttpResponseEncoder()),
+                        new ProtocolHandler("http-chunked", new ChunkedWriteHandler()),
                         new ProtocolHandler(new HttpChannelHandler())
                 )
         );
@@ -76,26 +80,6 @@ public class ProtocolFactory {
                         new ProtocolHandler(new MqttChannelHandler())
                 )
         );
-
-        map.put(6000,
-                List.of(
-                        new ProtocolHandler(new LoggingHandler(LogLevel.INFO)),
-                        new ProtocolHandler("encoder", MqttEncoder.INSTANCE),
-                        new ProtocolHandler("decoder", new MqttDecoder()),
-                        new ProtocolHandler(new MqttChannelHandler())
-                )
-        );
-
-        map.put(7000,
-                List.of(
-                        new ProtocolHandler(new LoggingHandler(LogLevel.INFO)),
-                        new ProtocolHandler(new DelimiterBasedFrameDecoder(8192, Unpooled.copiedBuffer("\r\n".getBytes()))),
-                        new ProtocolHandler(new TcpCustomEncoder()),
-                        new ProtocolHandler(new TcpCustomDecoder()),
-                        new ProtocolHandler(new TcpChannelHandler())
-                )
-        );
-
 
     }
 
