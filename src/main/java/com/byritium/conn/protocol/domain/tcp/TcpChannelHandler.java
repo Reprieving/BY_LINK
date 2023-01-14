@@ -1,14 +1,9 @@
-package com.byritium.conn.domain.protocol.tcp;
+package com.byritium.conn.protocol.domain.tcp;
 
-import com.byritium.conn.domain.protocol.mqtt.BootMqttMsgBack;
-import com.byritium.conn.domain.protocol.tcp.dto.TcpCustomMessage;
-import io.netty.buffer.Unpooled;
+import com.byritium.conn.protocol.domain.tcp.dto.TcpCustomMessage;
 import io.netty.channel.*;
-import io.netty.channel.socket.DatagramPacket;
 import io.netty.util.CharsetUtil;
 import lombok.extern.slf4j.Slf4j;
-
-import java.io.IOException;
 
 @Slf4j
 @ChannelHandler.Sharable

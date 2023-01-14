@@ -1,33 +1,24 @@
-package com.byritium.conn.domain.protocol.base;
+package com.byritium.conn.protocol.domain.base;
 
-import com.byritium.conn.domain.protocol.http.HttpChannelHandler;
-import com.byritium.conn.domain.protocol.mqtt.MqttChannelHandler;
-import com.byritium.conn.domain.protocol.tcp.TcpChannelHandler;
-import com.byritium.conn.domain.protocol.tcp.TcpCustomDecoder;
-import com.byritium.conn.domain.protocol.tcp.TcpCustomEncoder;
-import com.byritium.conn.domain.protocol.udp.UdpChannelHandler;
-import com.byritium.conn.domain.protocol.websocket.WebSocketChannelHandler;
-import com.byritium.conn.infrastructure.utils.SpringUtils;
+import com.byritium.conn.protocol.domain.http.HttpChannelHandler;
+import com.byritium.conn.protocol.domain.mqtt.MqttChannelHandler;
+import com.byritium.conn.protocol.domain.tcp.TcpChannelHandler;
+import com.byritium.conn.protocol.domain.tcp.TcpCustomDecoder;
+import com.byritium.conn.protocol.domain.tcp.TcpCustomEncoder;
+import com.byritium.conn.protocol.domain.udp.UdpChannelHandler;
 import io.netty.buffer.Unpooled;
-import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.codec.DelimiterBasedFrameDecoder;
 import io.netty.handler.codec.http.HttpObjectAggregator;
-import io.netty.handler.codec.http.HttpRequestDecoder;
-import io.netty.handler.codec.http.HttpResponseEncoder;
 import io.netty.handler.codec.http.HttpServerCodec;
 import io.netty.handler.codec.mqtt.MqttDecoder;
 import io.netty.handler.codec.mqtt.MqttEncoder;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.stream.ChunkedWriteHandler;
-import org.springframework.util.StringUtils;
-
 import java.net.InetSocketAddress;
-import java.util.List;
-import java.util.Map;
 
 public class NettyServerInitializer extends ChannelInitializer<SocketChannel> {
     @Override

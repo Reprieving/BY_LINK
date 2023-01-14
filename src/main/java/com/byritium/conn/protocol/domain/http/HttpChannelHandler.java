@@ -1,4 +1,4 @@
-package com.byritium.conn.domain.protocol.http;
+package com.byritium.conn.protocol.domain.http;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.PooledByteBufAllocator;
@@ -82,8 +82,7 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<FullHttpRequ
         ByteBuf content = request.content();
         byte[] bytes = new byte[content.readableBytes()];
         content.readBytes(bytes);
-
-//        JSONObject jsonObject = JSONObject.parseObject(new String(bytes));
+//        JSONObject jsonObject = JSONObject.parseObject();
 //        jsonObject.getInnerMap().forEach((key,value) -> System.out.println(key + " ==> " + value));
     }
 }

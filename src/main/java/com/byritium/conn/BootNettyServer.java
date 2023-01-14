@@ -1,7 +1,6 @@
 package com.byritium.conn;
 
-import com.byritium.conn.domain.protocol.base.NettyServerInitializer;
-import com.byritium.conn.infrastructure.utils.SpringUtils;
+import com.byritium.conn.protocol.domain.base.NettyServerInitializer;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.EventLoopGroup;
@@ -11,9 +10,7 @@ import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 
 import java.net.InetSocketAddress;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class BootNettyServer {
 

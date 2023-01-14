@@ -1,4 +1,4 @@
-package com.byritium.conn.domain.protocol.websocket;
+package com.byritium.conn.protocol.domain.websocket;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
