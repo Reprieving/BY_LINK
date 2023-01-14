@@ -1,4 +1,4 @@
-package com.byritium.conn.protocol.domain.base;
+package com.byritium.conn;
 
 import com.byritium.conn.protocol.domain.http.HttpChannelHandler;
 import com.byritium.conn.protocol.domain.mqtt.MqttChannelHandler;

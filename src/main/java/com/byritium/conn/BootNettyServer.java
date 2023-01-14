@@ -1,6 +1,5 @@
 package com.byritium.conn;
 
-import com.byritium.conn.protocol.domain.base.NettyServerInitializer;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.EventLoopGroup;
