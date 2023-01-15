@@ -54,7 +54,6 @@ public class NettyServerInitializer extends ChannelInitializer<SocketChannel> {
                 pipeline.addLast("http-aggregator", new HttpObjectAggregator(65536));
                 pipeline.addLast("http-chunked", new ChunkedWriteHandler());
                 pipeline.addLast(new HttpChannelHandler());
-
                 break;
 
 
@@ -63,7 +62,6 @@ public class NettyServerInitializer extends ChannelInitializer<SocketChannel> {
                 pipeline.addLast("encoder", MqttEncoder.INSTANCE);
                 pipeline.addLast("decoder", new MqttDecoder());
                 pipeline.addLast(new MqttChannelHandler());
-
                 break;
 
         }
