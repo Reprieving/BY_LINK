@@ -1,4 +1,4 @@
-package com.byritium.conn.protocol.domain.tcp.dto;
+package com.byritium.conn.gateway.domain.tcp.dto;
 
 import lombok.Data;
 

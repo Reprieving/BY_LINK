@@ -1,6 +1,6 @@
-package com.byritium.conn.protocol.domain.tcp;
+package com.byritium.conn.gateway.domain.tcp;
 
-import com.byritium.conn.protocol.domain.tcp.dto.TcpCustomMessage;
+import com.byritium.conn.gateway.domain.tcp.dto.TcpCustomMessage;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;

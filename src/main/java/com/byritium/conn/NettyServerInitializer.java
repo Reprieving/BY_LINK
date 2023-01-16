@@ -1,11 +1,11 @@
 package com.byritium.conn;
 
-import com.byritium.conn.protocol.domain.http.HttpChannelHandler;
-import com.byritium.conn.protocol.domain.mqtt.MqttChannelHandler;
-import com.byritium.conn.protocol.domain.tcp.TcpChannelHandler;
-import com.byritium.conn.protocol.domain.tcp.TcpCustomDecoder;
-import com.byritium.conn.protocol.domain.tcp.TcpCustomEncoder;
-import com.byritium.conn.protocol.domain.udp.UdpChannelHandler;
+import com.byritium.conn.gateway.domain.http.HttpChannelHandler;
+import com.byritium.conn.gateway.domain.mqtt.MqttChannelHandler;
+import com.byritium.conn.gateway.domain.tcp.TcpChannelHandler;
+import com.byritium.conn.gateway.domain.tcp.TcpCustomDecoder;
+import com.byritium.conn.gateway.domain.tcp.TcpCustomEncoder;
+import com.byritium.conn.gateway.domain.udp.UdpChannelHandler;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;

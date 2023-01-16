@@ -1,4 +1,4 @@
-package com.byritium.conn.protocol.domain.http;
+package com.byritium.conn.gateway.domain.http;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.PooledByteBufAllocator;
