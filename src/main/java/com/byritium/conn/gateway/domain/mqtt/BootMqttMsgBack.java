@@ -42,7 +42,7 @@ public class BootMqttMsgBack {
     public static void puback (Channel channel, MqttMessage mqttMessage) {
         MqttPublishMessage mqttPublishMessage = (MqttPublishMessage) mqttMessage;
         MqttFixedHeader mqttFixedHeaderInfo = mqttPublishMessage.fixedHeader();
-        MqttQoS qos = (MqttQoS) mqttFixedHeaderInfo.qosLevel();
+        MqttQoS qos = mqttFixedHeaderInfo.qosLevel();
         byte[] headBytes = new byte[mqttPublishMessage.payload().readableBytes()];
         mqttPublishMessage.payload().readBytes(headBytes);
         String data = new String(headBytes);
