@@ -19,9 +19,10 @@ import java.util.Map;
 public class HttpChannelHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, FullHttpRequest fullHttpRequest) {
-
-        String uri = fullHttpRequest.uri();
-        System.out.println(uri);
+        HttpHeaders httpHeaders = fullHttpRequest.headers();
+        String identify = httpHeaders.get("identify");
+        String userName = httpHeaders.get("userName");
+        String password = httpHeaders.get("password");
         switch (fullHttpRequest.method().name()) {
             case "GET":
                 processGetRequest(fullHttpRequest);
