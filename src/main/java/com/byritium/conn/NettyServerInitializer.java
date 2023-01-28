@@ -6,6 +6,7 @@ import com.byritium.conn.gateway.domain.tcp.TcpChannelHandler;
 import com.byritium.conn.gateway.domain.tcp.TcpCustomDecoder;
 import com.byritium.conn.gateway.domain.tcp.TcpCustomEncoder;
 import com.byritium.conn.gateway.domain.udp.UdpChannelHandler;
+import com.byritium.conn.gateway.domain.websocket.WebSocketChannelHandler;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
@@ -53,7 +54,7 @@ public class NettyServerInitializer extends ChannelInitializer<SocketChannel> {
                 pipeline.addLast("http-codec", new HttpServerCodec());
                 pipeline.addLast("http-aggregator", new HttpObjectAggregator(65536));
                 pipeline.addLast("http-chunked", new ChunkedWriteHandler());
-                pipeline.addLast(new HttpChannelHandler());
+                pipeline.addLast(new WebSocketChannelHandler());
                 break;
 
 
