@@ -1,4 +1,4 @@
-package com.byritium.conn.gateway.domain.udp;
+package com.byritium.conn.apis.netty;
 
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandler;

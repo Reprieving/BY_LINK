@@ -1,5 +1,6 @@
-package com.byritium.conn.gateway.domain.websocket;
+package com.byritium.conn.apis.netty;
 
+import com.byritium.conn.infra.ChannelSupervise;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFuture;

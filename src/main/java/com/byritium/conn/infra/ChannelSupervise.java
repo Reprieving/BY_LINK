@@ -1,4 +1,4 @@
-package com.byritium.conn.gateway.domain.websocket;
+package com.byritium.conn.infra;
 
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelId;

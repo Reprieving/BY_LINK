@@ -1,4 +1,4 @@
-package com.byritium.conn.gateway.infrastructure.utils;
+package com.byritium.conn.infra;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;

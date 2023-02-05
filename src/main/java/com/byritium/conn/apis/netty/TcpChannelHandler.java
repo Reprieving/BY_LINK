@@ -1,6 +1,6 @@
-package com.byritium.conn.gateway.domain.tcp;
+package com.byritium.conn.apis.netty;
 
-import com.byritium.conn.gateway.domain.tcp.dto.TcpCustomMessage;
+import com.byritium.conn.apis.model.TcpCustomMessage;
 import io.netty.channel.*;
 import io.netty.util.CharsetUtil;
 import lombok.extern.slf4j.Slf4j;
