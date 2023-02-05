@@ -1,4 +1,4 @@
-package com.byritium.conn.equip.domain.product.entity;
+package com.byritium.conn.domain.equip.model;
 
 import lombok.Data;
 
