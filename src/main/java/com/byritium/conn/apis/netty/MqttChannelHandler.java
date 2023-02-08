@@ -48,6 +48,7 @@ public class MqttChannelHandler extends ChannelInboundHandlerAdapter {
             MqttMessage mqttMessage = (MqttMessage) msg;
             log.info("info--" + mqttMessage.toString());
             MqttFixedHeader mqttFixedHeader = mqttMessage.fixedHeader();
+
             Channel channel = ctx.channel();
 
             if (mqttFixedHeader.messageType().equals(MqttMessageType.CONNECT)) {
