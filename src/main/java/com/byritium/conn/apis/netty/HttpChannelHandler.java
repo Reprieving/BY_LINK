@@ -1,5 +1,7 @@
 package com.byritium.conn.apis.netty;
 
+import com.byritium.conn.application.ConnectionAppService;
+import com.byritium.conn.infra.SpringUtils;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.channel.ChannelFutureListener;
@@ -17,6 +19,24 @@ import java.util.Map;
 
 @ChannelHandler.Sharable
 public class HttpChannelHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
+    /**
+     * 客户端与服务端第一次建立连接时执行 在channelActive方法之前执行
+     */
+    @Override
+    public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
+        ConnectionAppService connectionAppService = SpringUtils.getBean(ConnectionAppService.class);
+        super.channelRegistered(ctx);
+    }
+
+    /**
+     * 客户端与服务端 断连时执行 channelInactive方法之后执行
+     */
+    @Override
+    public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
+        ConnectionAppService connectionAppService = SpringUtils.getBean(ConnectionAppService.class);
+        super.channelUnregistered(ctx);
+    }
+
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, FullHttpRequest fullHttpRequest) {
         HttpHeaders httpHeaders = fullHttpRequest.headers();

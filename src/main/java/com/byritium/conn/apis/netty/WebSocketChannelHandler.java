@@ -1,6 +1,8 @@
 package com.byritium.conn.apis.netty;
 
+import com.byritium.conn.application.ConnectionAppService;
 import com.byritium.conn.infra.ChannelSupervise;
+import com.byritium.conn.infra.SpringUtils;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFuture;
@@ -19,6 +21,24 @@ import static io.netty.handler.codec.http.HttpUtil.isKeepAlive;
 @Slf4j
 public class WebSocketChannelHandler extends SimpleChannelInboundHandler<Object> {
     private WebSocketServerHandshaker handshaker;
+
+    /**
+     * 客户端与服务端第一次建立连接时执行 在channelActive方法之前执行
+     */
+    @Override
+    public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
+        ConnectionAppService connectionAppService = SpringUtils.getBean(ConnectionAppService.class);
+        super.channelRegistered(ctx);
+    }
+
+    /**
+     * 客户端与服务端 断连时执行 channelInactive方法之后执行
+     */
+    @Override
+    public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
+        ConnectionAppService connectionAppService = SpringUtils.getBean(ConnectionAppService.class);
+        super.channelUnregistered(ctx);
+    }
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Object msg) {

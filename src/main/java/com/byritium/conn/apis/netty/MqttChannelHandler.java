@@ -1,6 +1,8 @@
 package com.byritium.conn.apis.netty;
 
 import com.byritium.conn.apis.netty.BootMqttMsgBack;
+import com.byritium.conn.application.ConnectionAppService;
+import com.byritium.conn.infra.SpringUtils;
 import io.netty.channel.*;
 import io.netty.handler.codec.mqtt.*;
 import io.netty.util.CharsetUtil;
@@ -10,13 +12,14 @@ import java.io.IOException;
 
 @Slf4j
 @ChannelHandler.Sharable
-public class MqttChannelHandler extends ChannelInboundHandlerAdapter {
+public class MqttChannelHandler extends SimpleChannelInboundHandler<Object> {
 
     /**
      * 客户端与服务端第一次建立连接时执行 在channelActive方法之前执行
      */
     @Override
     public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
+        ConnectionAppService connectionAppService = SpringUtils.getBean(ConnectionAppService.class);
         super.channelRegistered(ctx);
     }
 
@@ -25,6 +28,7 @@ public class MqttChannelHandler extends ChannelInboundHandlerAdapter {
      */
     @Override
     public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
+        ConnectionAppService connectionAppService = SpringUtils.getBean(ConnectionAppService.class);
         super.channelUnregistered(ctx);
     }
 
@@ -32,16 +36,14 @@ public class MqttChannelHandler extends ChannelInboundHandlerAdapter {
      * 从客户端收到新的数据时，这个方法会在收到消息时被调用
      */
     @Override
-    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception, IOException {
+    public void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception, IOException {
 
-        System.out.println(ctx.pipeline().toString());
         if (msg instanceof MqttConnectMessage) {
             MqttConnectMessage mqttConnectMessage = (MqttConnectMessage) msg;
             MqttConnectPayload payload = mqttConnectMessage.payload();
             String userName = payload.userName();
             String password = new String(payload.passwordInBytes(), CharsetUtil.UTF_8);
             String clientIdentifier = payload.clientIdentifier();
-            System.out.println(msg);
         }
 
         if (null != msg) {
@@ -94,6 +96,8 @@ public class MqttChannelHandler extends ChannelInboundHandlerAdapter {
             }
         }
     }
+
+
 
     /**
      * 从客户端收到新的数据、读取完成时调用
