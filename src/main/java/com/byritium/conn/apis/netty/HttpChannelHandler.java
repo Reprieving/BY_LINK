@@ -43,6 +43,7 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<FullHttpRequ
         String identify = httpHeaders.get("identify");
         String userName = httpHeaders.get("userName");
         String password = httpHeaders.get("password");
+
         switch (fullHttpRequest.method().name()) {
             case "GET":
                 processGetRequest(fullHttpRequest);

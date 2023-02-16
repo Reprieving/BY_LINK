@@ -16,9 +16,13 @@ import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpServerCodec;
 import io.netty.handler.codec.mqtt.MqttDecoder;
 import io.netty.handler.codec.mqtt.MqttEncoder;
+import io.netty.handler.codec.string.StringDecoder;
+import io.netty.handler.codec.string.StringEncoder;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.stream.ChunkedWriteHandler;
+import io.netty.util.CharsetUtil;
+
 import java.net.InetSocketAddress;
 
 public class NettyServerInitializer extends ChannelInitializer<SocketChannel> {
@@ -30,9 +34,11 @@ public class NettyServerInitializer extends ChannelInitializer<SocketChannel> {
         switch (port) {
             case 1000:
                 pipeline.addLast(new LoggingHandler(LogLevel.INFO));
-                pipeline.addLast(new DelimiterBasedFrameDecoder(8192, Unpooled.copiedBuffer("\r\n".getBytes())));
-                pipeline.addLast(new TcpCustomEncoder());
-                pipeline.addLast(new TcpCustomDecoder());
+//                pipeline.addLast("framer", new DelimiterBasedFrameDecoder(1024, Unpooled.copiedBuffer("$_".getBytes())));
+//                pipeline.addLast("encoder", new TcpCustomEncoder());
+//                pipeline.addLast("decoder", new TcpCustomDecoder());
+//                pipeline.addLast("encoder", new StringEncoder(CharsetUtil.UTF_8));
+//                pipeline.addLast("decoder", new StringDecoder(CharsetUtil.UTF_8));
                 pipeline.addLast(new TcpChannelHandler());
                 break;
 
