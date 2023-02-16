@@ -1,6 +1,6 @@
 package com.byritium.conn.apis.netty;
 
-import com.byritium.conn.apis.model.TcpCustomMessage;
+import com.byritium.conn.apis.model.CustomMessage;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
@@ -16,7 +16,7 @@ public class TcpCustomDecoder extends ByteToMessageDecoder {
         if(byteBuf.readableBytes() >= length){
             byte[] bytes = new byte[length];
             byteBuf.readBytes(bytes);
-            TcpCustomMessage messageProtocol = new TcpCustomMessage(length, bytes);
+            CustomMessage messageProtocol = new CustomMessage(length, bytes);
             list.add(messageProtocol);
         }else{
             log.info("消息长度不足");

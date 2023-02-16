@@ -1,6 +1,6 @@
 package com.byritium.conn.application;
 
-import com.byritium.conn.apis.model.ConnectionMessage;
+import com.byritium.conn.apis.model.CustomMessageBody;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelId;
 import io.netty.channel.group.ChannelGroup;
@@ -25,7 +25,7 @@ public class ConnectionAppService {
 //        globalGroup.writeAndFlush(tws);
 //    }
 
-    public void connect(Channel channel, ConnectionMessage connectionMessage){
+    public void connect(Channel channel, CustomMessageBody customMessageBody){
         globalGroup.add(channel);
         channelMap.put(channel.id().asShortText(), channel.id());
     }

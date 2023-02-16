@@ -1,6 +1,6 @@
 package com.byritium.conn.apis.netty;
 
-import com.byritium.conn.apis.model.TcpCustomMessage;
+import com.byritium.conn.apis.model.CustomMessage;
 import com.byritium.conn.application.ConnectionAppService;
 import com.byritium.conn.infra.SpringUtils;
 import io.netty.channel.*;
@@ -9,7 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @ChannelHandler.Sharable
-public class TcpChannelHandler extends SimpleChannelInboundHandler<TcpCustomMessage> {
+public class TcpChannelHandler extends SimpleChannelInboundHandler<CustomMessage> {
     /**
      * 客户端与服务端第一次建立连接时执行 在channelActive方法之前执行
      */
@@ -29,8 +29,8 @@ public class TcpChannelHandler extends SimpleChannelInboundHandler<TcpCustomMess
     }
 
     @Override
-    protected void channelRead0(ChannelHandlerContext channelHandlerContext, TcpCustomMessage tcpCustomMessage) throws Exception {
-        String msgString = new String(tcpCustomMessage.getContent(), CharsetUtil.UTF_8);
-        System.out.println(msgString);
+    protected void channelRead0(ChannelHandlerContext channelHandlerContext, CustomMessage customMessage) throws Exception {
+//        String msgString = new String(customMessage.getContent(), CharsetUtil.UTF_8);
+//        System.out.println(msgString);
     }
 }
