@@ -1,11 +1,10 @@
 package com.byritium.conn.application;
 
-import com.byritium.conn.apis.model.ConnectionInfo;
+import com.byritium.conn.apis.model.ConnectionMessage;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelId;
 import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
-import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import io.netty.util.concurrent.GlobalEventExecutor;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +25,7 @@ public class ConnectionAppService {
 //        globalGroup.writeAndFlush(tws);
 //    }
 
-    public void connect(Channel channel, ConnectionInfo connectionInfo){
+    public void connect(Channel channel, ConnectionMessage connectionMessage){
         globalGroup.add(channel);
         channelMap.put(channel.id().asShortText(), channel.id());
     }
