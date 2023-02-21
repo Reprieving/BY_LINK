@@ -12,14 +12,6 @@ import java.util.List;
 public class TcpCustomDecoder extends ByteToMessageDecoder {
     @Override
     protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> list) throws Exception {
-        int length = byteBuf.readInt();
-        if(byteBuf.readableBytes() >= length){
-            byte[] bytes = new byte[length];
-            byteBuf.readBytes(bytes);
-            CustomMessage messageProtocol = new CustomMessage(length, bytes);
-            list.add(messageProtocol);
-        }else{
-            log.info("消息长度不足");
-        }
+
     }
 }
