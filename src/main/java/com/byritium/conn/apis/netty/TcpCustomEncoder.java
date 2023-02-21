@@ -10,6 +10,7 @@ import io.netty.handler.codec.MessageToByteEncoder;
 import io.netty.handler.codec.MessageToMessageEncoder;
 import io.netty.handler.codec.marshalling.MarshallingEncoder;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 
@@ -34,7 +35,7 @@ public class TcpCustomEncoder extends MessageToMessageEncoder<CustomMessage> {
         // 读取消息头字段, 写入缓冲区
         outBuf.writeInt((int) getBufDefaultVal(header.getCrcCode(), 0));
         outBuf.writeInt((int) getBufDefaultVal(header.getLength(), 0));
-        outBuf.writeLong(header.getSessionId() == null ? 0L : header.getSessionId());
+        outBuf.writeLong(header.getSessionId() == 0 ? 0L : header.getSessionId());
         outBuf.writeByte((byte)getBufDefaultVal(header.getType(), -1));
         outBuf.writeByte(header.getPriority() == 0 ? (byte)-1 : header.getPriority());
         // 扩展信息, 依次写入大小和内容
@@ -48,7 +49,7 @@ public class TcpCustomEncoder extends MessageToMessageEncoder<CustomMessage> {
             for (Map.Entry<String, Object> entry : header.getAttachment().entrySet()) {
                 // key serialize
                 key = entry.getKey();
-                keyArray = key.getBytes("UTF-8");
+                keyArray = key.getBytes(StandardCharsets.UTF_8);
 
                 outBuf.writeInt(keyArray.length);
                 outBuf.writeBytes(keyArray);

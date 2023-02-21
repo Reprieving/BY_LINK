@@ -10,6 +10,12 @@ import java.util.List;
 
 @Slf4j
 public class TcpCustomDecoder extends ByteToMessageDecoder {
+    private NettyMarshallingDecoder nettyMarshallingDecoder;
+
+    public TcpCustomDecoder(){
+        this.nettyMarshallingDecoder = MarshallingCodeCFactory.buildMarshallingDecoder();
+    }
+
     @Override
     protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> list) throws Exception {
 
