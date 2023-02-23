@@ -7,6 +7,7 @@ import com.byritium.conn.apis.netty.TcpCustomDecoder;
 import com.byritium.conn.apis.netty.TcpCustomEncoder;
 import com.byritium.conn.apis.netty.UdpChannelHandler;
 import com.byritium.conn.apis.netty.WebSocketChannelHandler;
+import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
@@ -34,11 +35,11 @@ public class NettyServerInitializer extends ChannelInitializer<SocketChannel> {
         switch (port) {
             case 1000:
                 pipeline.addLast(new LoggingHandler(LogLevel.INFO));
-//                pipeline.addLast("framer", new DelimiterBasedFrameDecoder(1024, Unpooled.copiedBuffer("$_".getBytes())));
-//                pipeline.addLast("encoder", new TcpCustomEncoder());
-//                pipeline.addLast("decoder", new TcpCustomDecoder());
-//                pipeline.addLast("encoder", new StringEncoder(CharsetUtil.UTF_8));
-//                pipeline.addLast("decoder", new StringDecoder(CharsetUtil.UTF_8));
+                //加入自定义分割符号
+                ByteBuf delimiter = Unpooled.copiedBuffer("\r\n".getBytes());
+                pipeline.addLast("framer", new DelimiterBasedFrameDecoder(1024, delimiter));
+                pipeline.addLast("encoder", new StringEncoder(CharsetUtil.UTF_8));
+                pipeline.addLast("decoder", new StringDecoder(CharsetUtil.UTF_8));
                 pipeline.addLast(new TcpChannelHandler());
                 break;
 

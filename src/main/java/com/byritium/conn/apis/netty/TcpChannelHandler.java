@@ -3,13 +3,20 @@ package com.byritium.conn.apis.netty;
 import com.byritium.conn.apis.model.CustomMessage;
 import com.byritium.conn.application.ConnectionAppService;
 import com.byritium.conn.infra.SpringUtils;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.*;
 import io.netty.util.CharsetUtil;
 import lombok.extern.slf4j.Slf4j;
 
+import java.nio.charset.StandardCharsets;
+import java.util.UUID;
+
 @Slf4j
 @ChannelHandler.Sharable
-public class TcpChannelHandler extends SimpleChannelInboundHandler<CustomMessage> {
+public class TcpChannelHandler extends ChannelInboundHandlerAdapter {
+    private int counter;
+
     /**
      * 客户端与服务端第一次建立连接时执行 在channelActive方法之前执行
      */
@@ -29,8 +36,8 @@ public class TcpChannelHandler extends SimpleChannelInboundHandler<CustomMessage
     }
 
     @Override
-    protected void channelRead0(ChannelHandlerContext channelHandlerContext, CustomMessage customMessage) throws Exception {
-//        String msgString = new String(customMessage.getContent(), CharsetUtil.UTF_8);
-//        System.out.println(msgString);
+    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+        String body = (String)msg;
+        System.out.println("server receive order : " + body + ";the counter is: " + ++counter);
     }
 }
