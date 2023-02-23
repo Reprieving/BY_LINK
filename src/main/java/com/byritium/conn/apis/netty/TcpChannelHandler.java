@@ -2,6 +2,7 @@ package com.byritium.conn.apis.netty;
 
 import com.byritium.conn.apis.model.CustomMessage;
 import com.byritium.conn.application.ConnectionAppService;
+import com.byritium.conn.infra.JacksonUtils;
 import com.byritium.conn.infra.SpringUtils;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -37,7 +38,8 @@ public class TcpChannelHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        String body = (String)msg;
-        System.out.println("server receive order : " + body + ";the counter is: " + ++counter);
+        String msgJson = (String)msg;
+        CustomMessage customMessage = JacksonUtils.deserialize(msgJson,CustomMessage.class);
+
     }
 }
