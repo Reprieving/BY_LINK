@@ -1,18 +1,22 @@
 package com.byritium.conn.infra.general.constance;
 
-import lombok.Data;
 import lombok.Getter;
 
 @Getter
 public enum ProtocolType {
-    USER("USER","用户"),
-    DEVICE("DEVICE","设备");
+    HTTP("HTTP"),
+    WEBSOCKET("WEBSOCKET"),
+    TCP("TCP"),
+    UDP("UDP"),
+    MQTT("MQTT"),
+    COAP("COAP");
 
     private final String type;
-    private final String message;
-    ProtocolType(String type,String message) {
+    ProtocolType(String type) {
         this.type = type;
-        this.message = message;
     }
 
+    public String getType() {
+        return type;
+    }
 }

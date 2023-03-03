@@ -4,19 +4,14 @@ import lombok.Getter;
 
 @Getter
 public enum CustomerType {
-    HTTP("HTTP"),
-    WEBSOCKET("WEBSOCKET"),
-    TCP("TCP"),
-    UDP("UDP"),
-    MQTT("MQTT"),
-    COAP("COAP");
+    USER("USER","用户"),
+    DEVICE("DEVICE","设备");
 
     private final String type;
-    CustomerType(String type) {
+    private final String message;
+    CustomerType(String type, String message) {
         this.type = type;
+        this.message = message;
     }
 
-    public String getType() {
-        return type;
-    }
 }
