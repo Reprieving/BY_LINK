@@ -1,8 +1,10 @@
 package com.byritium.conn.apis.netty;
 
 import com.byritium.conn.application.ConnectionAppService;
+import com.byritium.conn.domain.connection.ConnectionVo;
 import com.byritium.conn.infra.ChannelSupervise;
 import com.byritium.conn.infra.SpringUtils;
+import com.byritium.conn.infra.general.constance.ProtocolType;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFuture;
@@ -20,6 +22,7 @@ import static io.netty.handler.codec.http.HttpUtil.isKeepAlive;
 
 @Slf4j
 public class WebSocketChannelHandler extends SimpleChannelInboundHandler<Object> {
+    private static final ProtocolType protocolType = ProtocolType.WEBSOCKET;
     private WebSocketServerHandshaker handshaker;
 
     /**
@@ -107,6 +110,14 @@ public class WebSocketChannelHandler extends SimpleChannelInboundHandler<Object>
             sendHttpResponse(ctx, req, new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.BAD_REQUEST));
             return;
         }
+
+        HttpHeaders httpHeaders = req.headers();
+        String identifier = httpHeaders.get("identifier");
+        String customerType = httpHeaders.get("customerType");
+        ConnectionVo connectionVo = new ConnectionVo(identifier,customerType,protocolType);
+        ConnectionAppService connectionAppService = SpringUtils.getBean(ConnectionAppService.class);
+        connectionAppService.comm(connectionVo, ctx.channel());
+
         WebSocketServerHandshakerFactory wsFactory = new WebSocketServerHandshakerFactory("ws://localhost:8081/websocket", null, false);
         handshaker = wsFactory.newHandshaker(req);
         if (handshaker == null) {

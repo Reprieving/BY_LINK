@@ -1,9 +1,8 @@
-package com.byritium.conn.domain.common;
+package com.byritium.conn.domain.connection;
 
 import com.byritium.conn.infra.general.constance.CustomerType;
 import com.byritium.conn.infra.general.constance.ProtocolType;
 import lombok.Data;
-import lombok.ToString;
 
 import java.time.LocalDateTime;
 
