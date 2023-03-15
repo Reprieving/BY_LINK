@@ -7,12 +7,10 @@ import lombok.Data;
 @Data
 public class ConnectionVo {
     private String identifier;//认证标志
-    private CustomerType customerType;//客户端类型
     private ProtocolType protocolType;//协议类型
 
-    public ConnectionVo(String identifier, String customerType, ProtocolType protocolType) {
+    public ConnectionVo(String identifier, ProtocolType protocolType) {
         this.identifier = identifier;
-        this.customerType = CustomerType.valueOf(customerType);
         this.protocolType = protocolType;
     }
 }

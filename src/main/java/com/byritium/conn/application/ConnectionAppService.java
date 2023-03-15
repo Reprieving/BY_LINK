@@ -15,14 +15,16 @@ public class ConnectionAppService {
     @Autowired
     private ConnectionAuthService connectionAuthService;
 
-    public void comm(ConnectionVo connectionVo, Channel channel){
+    public boolean comm(ConnectionVo connectionVo, Channel channel){
         String identifier = connectionVo.getIdentifier();
-        CustomerType customerType = connectionVo.getCustomerType();
+
 
         //鉴权
-        connectionAuthService.auth(customerType,identifier);
+        connectionAuthService.auth(identifier);
 
         //存储连接
         ConnectionRepository.connect(channel);
+
+        return true;
     }
 }

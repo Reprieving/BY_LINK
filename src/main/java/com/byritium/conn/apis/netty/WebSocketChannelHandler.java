@@ -114,9 +114,12 @@ public class WebSocketChannelHandler extends SimpleChannelInboundHandler<Object>
         HttpHeaders httpHeaders = req.headers();
         String identifier = httpHeaders.get("identifier");
         String customerType = httpHeaders.get("customerType");
-        ConnectionVo connectionVo = new ConnectionVo(identifier,customerType,protocolType);
+        ConnectionVo connectionVo = new ConnectionVo(identifier, customerType, protocolType);
         ConnectionAppService connectionAppService = SpringUtils.getBean(ConnectionAppService.class);
-        connectionAppService.comm(connectionVo, ctx.channel());
+        boolean authFlag = connectionAppService.comm(connectionVo, ctx.channel());
+        if (!authFlag){
+            return;
+        }
 
         WebSocketServerHandshakerFactory wsFactory = new WebSocketServerHandshakerFactory("ws://localhost:8081/websocket", null, false);
         handshaker = wsFactory.newHandshaker(req);
