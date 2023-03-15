@@ -18,7 +18,6 @@ public class ConnectionAppService {
     public boolean comm(ConnectionVo connectionVo, Channel channel){
         String identifier = connectionVo.getIdentifier();
 
-
         //鉴权
         connectionAuthService.auth(identifier);
 
