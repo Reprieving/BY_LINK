@@ -1,12 +1,10 @@
 package com.byritium.conn.apis.netty;
 
-import com.byritium.conn.apis.netty.BootMqttMsgBack;
 import com.byritium.conn.application.ConnectionAppService;
 import com.byritium.conn.domain.connection.ConnectionVo;
 import com.byritium.conn.infra.SpringUtils;
 import com.byritium.conn.infra.general.constance.ProtocolType;
 import io.netty.channel.*;
-import io.netty.handler.codec.http.HttpHeaders;
 import io.netty.handler.codec.mqtt.*;
 import io.netty.util.CharsetUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -51,7 +49,7 @@ public class MqttChannelHandler extends SimpleChannelInboundHandler<Object> {
 
             ConnectionVo connectionVo = new ConnectionVo(clientIdentifier, protocolType);
             ConnectionAppService connectionAppService = SpringUtils.getBean(ConnectionAppService.class);
-            boolean authFlag = connectionAppService.comm(connectionVo, ctx.channel());
+            boolean authFlag = connectionAppService.conn(connectionVo, ctx.channel());
             if (!authFlag){
                 return;
             }

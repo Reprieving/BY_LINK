@@ -1,10 +1,10 @@
 package com.byritium.conn.application;
 
-import com.byritium.conn.domain.connection.ConnectionAuthService;
-import com.byritium.conn.domain.connection.ConnectionVo;
+import com.byritium.conn.application.dto.ConnectionAuthDto;
+import com.byritium.conn.application.dto.PublishDto;
 import com.byritium.conn.infra.general.constance.CustomerType;
+import com.byritium.conn.infra.rpc.ConnectionAuthAclService;
 import com.byritium.conn.infra.peristent.respository.ConnectionRepository;
-import com.byritium.conn.infra.peristent.respository.SessionRepository;
 import io.netty.channel.Channel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,16 +13,25 @@ import org.springframework.stereotype.Service;
 public class ConnectionAppService {
 
     @Autowired
-    private ConnectionAuthService connectionAuthService;
+    private ConnectionAuthAclService connectionAuthACLService;
 
-    public boolean comm(ConnectionVo connectionVo, Channel channel){
-        String identifier = connectionVo.getIdentifier();
+    public boolean conn(ConnectionAuthDto connectionAuthDto, Channel channel) {
+        CustomerType customerType = connectionAuthDto.getCustomerType();
+        String objectId = connectionAuthDto.getObjectId();
+        String publicKey = connectionAuthDto.getPublicKey();
 
         //鉴权
-        connectionAuthService.auth(identifier);
+        connectionAuthACLService.auth(connectionAuthDto);
 
         //存储连接
         ConnectionRepository.connect(channel);
+
+        return true;
+    }
+
+    public boolean publish(PublishDto publishDto, Channel channel) {
+        String objectID = publishDto.getObjectId();
+
 
         return true;
     }

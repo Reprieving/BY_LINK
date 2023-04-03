@@ -1,7 +1,6 @@
 package com.byritium.conn.domain.connection.entity;
 
 //连接信息
-
 public class ConnectionInfoEntity {
     private String channelId;//
     private String protocolType; //协议类型
