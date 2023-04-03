@@ -1,6 +1,7 @@
 package com.byritium.conn.apis.netty;
 
 import com.byritium.conn.application.ConnectionAppService;
+import com.byritium.conn.application.dto.ConnectionAuthDto;
 import com.byritium.conn.domain.connection.ConnectionVo;
 import com.byritium.conn.infra.SpringUtils;
 import com.byritium.conn.infra.general.constance.ProtocolType;
@@ -46,10 +47,10 @@ public class MqttChannelHandler extends SimpleChannelInboundHandler<Object> {
             String userName = payload.userName();
             String password = new String(payload.passwordInBytes(), CharsetUtil.UTF_8);
             String clientIdentifier = payload.clientIdentifier();
-
-            ConnectionVo connectionVo = new ConnectionVo(clientIdentifier, protocolType);
+            String[] args = clientIdentifier.split(",");
+            ConnectionAuthDto connectionAuthDto = new ConnectionAuthDto(args);
             ConnectionAppService connectionAppService = SpringUtils.getBean(ConnectionAppService.class);
-            boolean authFlag = connectionAppService.conn(connectionVo, ctx.channel());
+            boolean authFlag = connectionAppService.conn(connectionAuthDto, ctx.channel());
             if (!authFlag){
                 return;
             }
