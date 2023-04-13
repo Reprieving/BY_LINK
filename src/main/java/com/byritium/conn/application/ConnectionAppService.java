@@ -4,7 +4,6 @@ import com.byritium.conn.application.dto.ConnectionAuthDto;
 import com.byritium.conn.application.dto.PublishDto;
 import com.byritium.conn.infra.general.constance.CustomerType;
 import com.byritium.conn.infra.api.ConnectionAuthAclService;
-import com.byritium.conn.infra.peristent.respository.ConnectionRepository;
 import io.netty.channel.Channel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,8 +22,6 @@ public class ConnectionAppService {
         //鉴权
         connectionAuthACLService.auth(connectionAuthDto);
 
-        //存储连接
-        ConnectionRepository.connect(channel);
 
         return true;
     }

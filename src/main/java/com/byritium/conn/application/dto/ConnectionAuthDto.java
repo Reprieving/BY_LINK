@@ -9,6 +9,10 @@ public class ConnectionAuthDto {
     private String objectId;
     private String publicKey;
 
+    public ConnectionAuthDto(){
+
+    }
+
     public ConnectionAuthDto(String[] args) {
         this.customerType = CustomerType.valueOf(args[0]);
         this.objectId = args[1];
