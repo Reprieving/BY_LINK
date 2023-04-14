@@ -17,7 +17,6 @@ public class ConnectionInfoService {
     @Autowired
     ConnectionRepository connectionRepository;
 
-
     public void connect(String objectId, Channel channel) {
         connectionRepository.saveConnection(objectId,channel);
     }

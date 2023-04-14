@@ -16,6 +16,12 @@ public class ConnectionRepositoryImpl implements ConnectionRepository {
     private static final ConcurrentMap<String, ChannelId> channelMap = new ConcurrentHashMap<>();
 
     @Override
+    public Channel findChannelByObjId(String objectId) {
+        ChannelId channelId = channelMap.get(objectId);
+        return globalGroup.find(channelId);
+    }
+
+    @Override
     public void saveConnection(String objectId, Channel channel) {
         globalGroup.add(channel);
         channelMap.put(objectId, channel.id());
