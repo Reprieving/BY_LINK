@@ -8,6 +8,8 @@ import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.util.concurrent.GlobalEventExecutor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -31,7 +33,7 @@ public class ConnectionInfoService {
     }
 
     public void borderCastMessage(){
-
+        List<Channel> channelList = connectionRepository.findAllChannel();
     }
 
 }
