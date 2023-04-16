@@ -50,8 +50,8 @@ public class MqttChannelHandler extends SimpleChannelInboundHandler<Object> {
             String[] args = clientIdentifier.split(",");
             ConnectionAuthDto connectionAuthDto = new ConnectionAuthDto(args);
             ConnectionAppService connectionAppService = SpringUtils.getBean(ConnectionAppService.class);
-            boolean authFlag = connectionAppService.conn(connectionAuthDto, ctx.channel());
-            if (!authFlag){
+            boolean authFlag = connectionAppService.conn(connectionAuthDto, ctx.channel(), true);
+            if (!authFlag) {
                 return;
             }
         }
@@ -60,6 +60,7 @@ public class MqttChannelHandler extends SimpleChannelInboundHandler<Object> {
             MqttMessage mqttMessage = (MqttMessage) msg;
             log.info("info--" + mqttMessage.toString());
             MqttFixedHeader mqttFixedHeader = mqttMessage.fixedHeader();
+
 
             Channel channel = ctx.channel();
 
@@ -106,7 +107,6 @@ public class MqttChannelHandler extends SimpleChannelInboundHandler<Object> {
             }
         }
     }
-
 
 
     /**

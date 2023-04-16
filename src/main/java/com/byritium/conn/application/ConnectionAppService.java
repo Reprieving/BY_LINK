@@ -14,14 +14,13 @@ public class ConnectionAppService {
     @Autowired
     private ConnectionAuthAclService connectionAuthACLService;
 
-    public boolean conn(ConnectionAuthDto connectionAuthDto, Channel channel) {
+    public boolean conn(ConnectionAuthDto connectionAuthDto, Channel channel, boolean ifAuth) {
         CustomerType customerType = connectionAuthDto.getCustomerType();
         String objectId = connectionAuthDto.getObjectId();
         String publicKey = connectionAuthDto.getPublicKey();
 
         //鉴权
         connectionAuthACLService.auth(connectionAuthDto);
-
 
 
         return true;

@@ -116,7 +116,7 @@ public class WebSocketChannelHandler extends SimpleChannelInboundHandler<Object>
         String identifier = httpHeaders.get("identifier");
         ConnectionAuthDto connectionAuthDto = new ConnectionAuthDto(identifier.split(","));
         ConnectionAppService connectionAppService = SpringUtils.getBean(ConnectionAppService.class);
-        boolean authFlag = connectionAppService.conn(connectionAuthDto, ctx.channel());
+        boolean authFlag = connectionAppService.conn(connectionAuthDto, ctx.channel(),true);
         if (!authFlag){
             return;
         }
