@@ -1,6 +1,6 @@
 package com.byritium.conn.infra.api;
 
-import com.byritium.conn.application.dto.ConnectionAuthDto;
+import com.byritium.conn.application.dto.ConnectionDto;
 import com.byritium.conn.infra.general.constance.CustomerType;
 import com.byritium.conn.infra.rpc.DeviceAccountRpc;
 import com.byritium.conn.infra.rpc.UserAccountRpc;
@@ -15,10 +15,10 @@ public class ConnectionAuthAclService {
     @Autowired
     private DeviceAccountRpc deviceAccountRpc;
 
-    public void auth(ConnectionAuthDto connectionAuthDto) {
-        CustomerType customerType = connectionAuthDto.getCustomerType();
-        String objectId = connectionAuthDto.getObjectId();
-        String publicKey = connectionAuthDto.getPublicKey();
+    public void auth(ConnectionDto connectionDto) {
+        CustomerType customerType = connectionDto.getCustomerType();
+        String objectId = connectionDto.getObjectId();
+        String publicKey = connectionDto.getPublicKey();
 
 
         switch (customerType) {

@@ -1,8 +1,7 @@
 package com.byritium.conn.apis.netty;
 
 import com.byritium.conn.application.ConnectionAppService;
-import com.byritium.conn.application.dto.ConnectionAuthDto;
-import com.byritium.conn.domain.connection.ConnectionVo;
+import com.byritium.conn.application.dto.ConnectionDto;
 import com.byritium.conn.infra.ChannelSupervise;
 import com.byritium.conn.infra.SpringUtils;
 import com.byritium.conn.infra.general.constance.ProtocolType;
@@ -114,9 +113,9 @@ public class WebSocketChannelHandler extends SimpleChannelInboundHandler<Object>
 
         HttpHeaders httpHeaders = req.headers();
         String identifier = httpHeaders.get("identifier");
-        ConnectionAuthDto connectionAuthDto = new ConnectionAuthDto(identifier.split(","));
+        ConnectionDto connectionDto = new ConnectionDto(identifier.split(","));
         ConnectionAppService connectionAppService = SpringUtils.getBean(ConnectionAppService.class);
-        boolean authFlag = connectionAppService.conn(connectionAuthDto, ctx.channel(),true);
+        boolean authFlag = connectionAppService.conn(connectionDto, ctx.channel(),true);
         if (!authFlag){
             return;
         }

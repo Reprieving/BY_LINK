@@ -2,6 +2,7 @@ package com.byritium.conn.domain.connection.manager;
 
 import com.byritium.conn.infra.SpringUtils;
 import com.byritium.conn.infra.general.constance.ProtocolType;
+import io.netty.channel.Channel;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -24,6 +25,10 @@ public class ConnectionManager implements ApplicationContextAware {
             ConnectionProcessor connectionProcessor = entry.getValue();
             map.put(connectionProcessor.protocolType(), connectionProcessor);
         }
-
     }
+
+    public void comm(ProtocolType protocolType, Channel channel, Object message) {
+        map.get(protocolType).messaged(channel, message);
+    }
+
 }

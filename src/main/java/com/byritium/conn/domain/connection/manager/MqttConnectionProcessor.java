@@ -1,6 +1,5 @@
 package com.byritium.conn.domain.connection.manager;
 
-import com.byritium.conn.apis.netty.BootMqttMsgBack;
 import com.byritium.conn.infra.general.constance.ProtocolType;
 import io.netty.channel.Channel;
 import io.netty.handler.codec.mqtt.*;
@@ -26,6 +25,7 @@ public class MqttConnectionProcessor implements ConnectionProcessor{
     public void connect(Channel channel,Object message) {
         MqttConnectMessage mqttConnectMessage = (MqttConnectMessage) message;
         MqttFixedHeader mqttFixedHeaderInfo = mqttConnectMessage.fixedHeader();
+
         MqttConnectVariableHeader mqttConnectVariableHeaderInfo = mqttConnectMessage.variableHeader();
 
         //	构建返回报文， 可变报头
@@ -43,6 +43,7 @@ public class MqttConnectionProcessor implements ConnectionProcessor{
         MqttMessage mqttMessage = (MqttMessage) message;
         log.info("info--" + mqttMessage.toString());
         MqttFixedHeader mqttFixedHeader = mqttMessage.fixedHeader();
+
 
 
         switch (mqttFixedHeader.messageType()) {

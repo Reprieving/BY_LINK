@@ -1,8 +1,7 @@
 package com.byritium.conn.apis.netty;
 
 import com.byritium.conn.application.ConnectionAppService;
-import com.byritium.conn.application.dto.ConnectionAuthDto;
-import com.byritium.conn.domain.connection.ConnectionVo;
+import com.byritium.conn.application.dto.ConnectionDto;
 import com.byritium.conn.infra.SpringUtils;
 import com.byritium.conn.infra.general.constance.ProtocolType;
 import io.netty.channel.*;
@@ -40,21 +39,25 @@ public class MqttChannelHandler extends SimpleChannelInboundHandler<Object> {
      */
     @Override
     public void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception, IOException {
+        ConnectionAppService connectionAppService = SpringUtils.getBean(ConnectionAppService.class);
 
-        if (msg instanceof MqttConnectMessage) {
-            MqttConnectMessage mqttConnectMessage = (MqttConnectMessage) msg;
-            MqttConnectPayload payload = mqttConnectMessage.payload();
-            String userName = payload.userName();
-            String password = new String(payload.passwordInBytes(), CharsetUtil.UTF_8);
-            String clientIdentifier = payload.clientIdentifier();
-            String[] args = clientIdentifier.split(",");
-            ConnectionAuthDto connectionAuthDto = new ConnectionAuthDto(args);
-            ConnectionAppService connectionAppService = SpringUtils.getBean(ConnectionAppService.class);
-            boolean authFlag = connectionAppService.conn(connectionAuthDto, ctx.channel(), true);
-            if (!authFlag) {
-                return;
-            }
-        }
+        ConnectionDto connectionDto = new ConnectionDto();
+        connectionAppService.comm(connectionDto, ctx.channel(), msg);
+
+//        if (msg instanceof MqttConnectMessage) {
+//            MqttConnectMessage mqttConnectMessage = (MqttConnectMessage) msg;
+//            MqttConnectPayload payload = mqttConnectMessage.payload();
+//            String userName = payload.userName();
+//            String password = new String(payload.passwordInBytes(), CharsetUtil.UTF_8);
+//            String clientIdentifier = payload.clientIdentifier();
+//            String[] args = clientIdentifier.split(",");
+//            ConnectionDto connectionDto = new ConnectionDto(args);
+//            ConnectionAppService connectionAppService = SpringUtils.getBean(ConnectionAppService.class);
+//            boolean authFlag = connectionAppService.conn(connectionDto, ctx.channel(), true);
+//            if (!authFlag) {
+//                return;
+//            }
+//        }
 
         if (null != msg) {
             MqttMessage mqttMessage = (MqttMessage) msg;
