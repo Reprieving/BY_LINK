@@ -7,7 +7,7 @@ public interface ConnectionProcessor {
 
     ProtocolType protocolType();
 
-    void connect(Channel channel, Object message);
+    void auth();
 
     void messaged(Channel channel,Object message);
 }

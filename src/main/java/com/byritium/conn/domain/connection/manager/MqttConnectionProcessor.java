@@ -1,9 +1,14 @@
 package com.byritium.conn.domain.connection.manager;
 
+import com.byritium.conn.apis.netty.BootMqttMsgBack;
+import com.byritium.conn.application.dto.ConnectionDto;
+import com.byritium.conn.infra.api.ConnectionAuthAclService;
 import com.byritium.conn.infra.general.constance.ProtocolType;
 import io.netty.channel.Channel;
 import io.netty.handler.codec.mqtt.*;
+import io.netty.util.CharsetUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -16,26 +21,34 @@ import java.util.stream.Collectors;
 public class MqttConnectionProcessor implements ConnectionProcessor{
     private static final ProtocolType protocolType = ProtocolType.MQTT;
 
+    @Autowired
+    private ConnectionAuthAclService connectionAuthAclService;
+
     @Override
     public ProtocolType protocolType() {
         return protocolType;
     }
 
+//    @Override
+//    public void connect(Channel channel,Object message) {
+//        MqttConnectMessage mqttConnectMessage = (MqttConnectMessage) message;
+//        MqttFixedHeader mqttFixedHeaderInfo = mqttConnectMessage.fixedHeader();
+//
+//        MqttConnectVariableHeader mqttConnectVariableHeaderInfo = mqttConnectMessage.variableHeader();
+//
+//        //	构建返回报文， 可变报头
+//        MqttConnAckVariableHeader mqttConnAckVariableHeaderBack = new MqttConnAckVariableHeader(MqttConnectReturnCode.CONNECTION_ACCEPTED, mqttConnectVariableHeaderInfo.isCleanSession());
+//        //	构建返回报文， 固定报头
+//        MqttFixedHeader mqttFixedHeaderBack = new MqttFixedHeader(MqttMessageType.CONNACK, mqttFixedHeaderInfo.isDup(), MqttQoS.AT_MOST_ONCE, mqttFixedHeaderInfo.isRetain(), 0x02);
+//        //	构建CONNACK消息体
+//        MqttConnAckMessage connAck = new MqttConnAckMessage(mqttFixedHeaderBack, mqttConnAckVariableHeaderBack);
+//        log.info("back--" + connAck.toString());
+//        channel.writeAndFlush(connAck);
+//    }
+
     @Override
-    public void connect(Channel channel,Object message) {
-        MqttConnectMessage mqttConnectMessage = (MqttConnectMessage) message;
-        MqttFixedHeader mqttFixedHeaderInfo = mqttConnectMessage.fixedHeader();
+    public void auth() {
 
-        MqttConnectVariableHeader mqttConnectVariableHeaderInfo = mqttConnectMessage.variableHeader();
-
-        //	构建返回报文， 可变报头
-        MqttConnAckVariableHeader mqttConnAckVariableHeaderBack = new MqttConnAckVariableHeader(MqttConnectReturnCode.CONNECTION_ACCEPTED, mqttConnectVariableHeaderInfo.isCleanSession());
-        //	构建返回报文， 固定报头
-        MqttFixedHeader mqttFixedHeaderBack = new MqttFixedHeader(MqttMessageType.CONNACK, mqttFixedHeaderInfo.isDup(), MqttQoS.AT_MOST_ONCE, mqttFixedHeaderInfo.isRetain(), 0x02);
-        //	构建CONNACK消息体
-        MqttConnAckMessage connAck = new MqttConnAckMessage(mqttFixedHeaderBack, mqttConnAckVariableHeaderBack);
-        log.info("back--" + connAck.toString());
-        channel.writeAndFlush(connAck);
     }
 
     @Override
@@ -45,6 +58,18 @@ public class MqttConnectionProcessor implements ConnectionProcessor{
         MqttFixedHeader mqttFixedHeader = mqttMessage.fixedHeader();
 
 
+        if (mqttFixedHeader.messageType().equals(MqttMessageType.CONNECT)) {
+            //	在一个网络连接上，客户端只能发送一次CONNECT报文。服务端必须将客户端发送的第二个CONNECT报文当作协议违规处理并断开客户端的连接
+            //	to do 建议connect消息单独处理，用来对客户端进行认证管理等 这里直接返回一个CONNACK消息
+            MqttConnectMessage mqttConnectMessage = (MqttConnectMessage) message;
+            MqttConnectPayload payload = mqttConnectMessage.payload();
+            String userName = payload.userName();
+            String password = new String(payload.passwordInBytes(), CharsetUtil.UTF_8);
+            String clientIdentifier = payload.clientIdentifier();
+            String[] args = clientIdentifier.split(",");
+            ConnectionDto connectionDto = new ConnectionDto();
+            connectionAuthAclService.auth(connectionDto);
+        }
 
         switch (mqttFixedHeader.messageType()) {
             case PUBLISH:        //	客户端发布消息
