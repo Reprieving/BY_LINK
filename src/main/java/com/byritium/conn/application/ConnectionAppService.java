@@ -14,9 +14,6 @@ import org.springframework.stereotype.Service;
 public class ConnectionAppService {
 
     @Autowired
-    private ConnectionAuthAclService connectionAuthACLService;
-
-    @Autowired
     private ConnectionManager connectionManager;
 
     public boolean comm(ConnectionDto connectionDto, Channel channel, Object message) {
@@ -26,7 +23,8 @@ public class ConnectionAppService {
         String publicKey = connectionDto.getPublicKey();
 
         //鉴权
-        connectionAuthACLService.auth(connectionDto);
+        connectionManager.auth(protocolType,channel,message);
+
 
         //发送消息
         connectionManager.comm(protocolType, channel, message);

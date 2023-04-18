@@ -47,8 +47,20 @@ public class MqttConnectionProcessor implements ConnectionProcessor{
 //    }
 
     @Override
-    public void auth() {
+    public void auth(Channel channel,Object message) {
+        MqttConnectMessage mqttConnectMessage = (MqttConnectMessage) message;
+        MqttFixedHeader mqttFixedHeaderInfo = mqttConnectMessage.fixedHeader();
 
+        MqttConnectVariableHeader mqttConnectVariableHeaderInfo = mqttConnectMessage.variableHeader();
+
+        //	构建返回报文， 可变报头
+        MqttConnAckVariableHeader mqttConnAckVariableHeaderBack = new MqttConnAckVariableHeader(MqttConnectReturnCode.CONNECTION_ACCEPTED, mqttConnectVariableHeaderInfo.isCleanSession());
+        //	构建返回报文， 固定报头
+        MqttFixedHeader mqttFixedHeaderBack = new MqttFixedHeader(MqttMessageType.CONNACK, mqttFixedHeaderInfo.isDup(), MqttQoS.AT_MOST_ONCE, mqttFixedHeaderInfo.isRetain(), 0x02);
+        //	构建CONNACK消息体
+        MqttConnAckMessage connAck = new MqttConnAckMessage(mqttFixedHeaderBack, mqttConnAckVariableHeaderBack);
+        log.info("back--" + connAck.toString());
+        channel.writeAndFlush(connAck);
     }
 
     @Override

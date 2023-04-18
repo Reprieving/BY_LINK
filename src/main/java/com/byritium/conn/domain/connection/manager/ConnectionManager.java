@@ -27,8 +27,8 @@ public class ConnectionManager implements ApplicationContextAware {
         }
     }
 
-    public void auth(ProtocolType protocolType) {
-        map.get(protocolType).auth();
+    public void auth(ProtocolType protocolType, Channel channel, Object message) {
+        map.get(protocolType).auth(channel, message);
     }
 
     public void comm(ProtocolType protocolType, Channel channel, Object message) {
