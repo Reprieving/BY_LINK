@@ -3,6 +3,8 @@ package com.byritium.conn.application;
 import com.byritium.conn.application.dto.ConnectionDto;
 import com.byritium.conn.application.dto.PublishDto;
 import com.byritium.conn.domain.connection.manager.ConnectionManager;
+import com.byritium.conn.domain.message.entity.MessageRoot;
+import com.byritium.conn.domain.message.repository.MessageRepository;
 import com.byritium.conn.infra.general.constance.CustomerType;
 import com.byritium.conn.infra.api.ConnectionAuthAclService;
 import com.byritium.conn.infra.general.constance.ProtocolType;
@@ -15,6 +17,9 @@ public class ConnectionAppService {
 
     @Autowired
     private ConnectionManager connectionManager;
+
+    @Autowired
+    private MessageRepository messageRepository;
 
     public void comm(ConnectionDto connectionDto, Channel channel, Object message) {
         ProtocolType protocolType = connectionDto.getProtocolType();
@@ -29,13 +34,12 @@ public class ConnectionAppService {
         connectionManager.comm(protocolType, channel, message);
 
         //存储消息
+        MessageRoot messageRoot = new MessageRoot();
+        messageRepository.save(messageRoot);
 
     }
 
-    public boolean publish(PublishDto publishDto, Channel channel) {
-        String objectID = publishDto.getObjectId();
-
-
+    public boolean disconnect() {
         return true;
     }
 }
