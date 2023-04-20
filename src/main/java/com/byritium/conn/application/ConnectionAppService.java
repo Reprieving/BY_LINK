@@ -16,7 +16,7 @@ public class ConnectionAppService {
     @Autowired
     private ConnectionManager connectionManager;
 
-    public boolean comm(ConnectionDto connectionDto, Channel channel, Object message) {
+    public void comm(ConnectionDto connectionDto, Channel channel, Object message) {
         ProtocolType protocolType = connectionDto.getProtocolType();
         CustomerType customerType = connectionDto.getCustomerType();
         String objectId = connectionDto.getObjectId();
@@ -25,14 +25,11 @@ public class ConnectionAppService {
         //鉴权
         connectionManager.auth(protocolType,channel,message);
 
-
         //发送消息
         connectionManager.comm(protocolType, channel, message);
 
         //存储消息
 
-
-        return true;
     }
 
     public boolean publish(PublishDto publishDto, Channel channel) {

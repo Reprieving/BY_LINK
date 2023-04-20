@@ -48,19 +48,29 @@ public class MqttConnectionProcessor implements ConnectionProcessor{
 
     @Override
     public void auth(Channel channel,Object message) {
-        MqttConnectMessage mqttConnectMessage = (MqttConnectMessage) message;
-        MqttFixedHeader mqttFixedHeaderInfo = mqttConnectMessage.fixedHeader();
+        MqttMessage mqttMessage = (MqttMessage) message;
+        MqttFixedHeader mqttFixedHeader = mqttMessage.fixedHeader();
 
-        MqttConnectVariableHeader mqttConnectVariableHeaderInfo = mqttConnectMessage.variableHeader();
+        if (mqttFixedHeader.messageType().equals(MqttMessageType.CONNECT)) {
+            MqttConnectMessage mqttConnectMessage = (MqttConnectMessage) message;
+            MqttConnectVariableHeader mqttConnectVariableHeaderInfo = mqttConnectMessage.variableHeader();
+            MqttConnectPayload payload = mqttConnectMessage.payload();
+            String userName = payload.userName();
+            String password = new String(payload.passwordInBytes(), CharsetUtil.UTF_8);
+            String clientIdentifier = payload.clientIdentifier();
+            String[] args = clientIdentifier.split(",");
+            ConnectionDto connectionDto = new ConnectionDto();
+            connectionAuthAclService.auth(connectionDto);
 
-        //	构建返回报文， 可变报头
-        MqttConnAckVariableHeader mqttConnAckVariableHeaderBack = new MqttConnAckVariableHeader(MqttConnectReturnCode.CONNECTION_ACCEPTED, mqttConnectVariableHeaderInfo.isCleanSession());
-        //	构建返回报文， 固定报头
-        MqttFixedHeader mqttFixedHeaderBack = new MqttFixedHeader(MqttMessageType.CONNACK, mqttFixedHeaderInfo.isDup(), MqttQoS.AT_MOST_ONCE, mqttFixedHeaderInfo.isRetain(), 0x02);
-        //	构建CONNACK消息体
-        MqttConnAckMessage connAck = new MqttConnAckMessage(mqttFixedHeaderBack, mqttConnAckVariableHeaderBack);
-        log.info("back--" + connAck.toString());
-        channel.writeAndFlush(connAck);
+            //	构建返回报文， 可变报头
+            MqttConnAckVariableHeader mqttConnAckVariableHeaderBack = new MqttConnAckVariableHeader(MqttConnectReturnCode.CONNECTION_ACCEPTED, mqttConnectVariableHeaderInfo.isCleanSession());
+            //	构建返回报文， 固定报头
+            MqttFixedHeader mqttFixedHeaderBack = new MqttFixedHeader(MqttMessageType.CONNACK, mqttFixedHeader.isDup(), MqttQoS.AT_MOST_ONCE, mqttFixedHeader.isRetain(), 0x02);
+            //	构建CONNACK消息体
+            MqttConnAckMessage connAck = new MqttConnAckMessage(mqttFixedHeaderBack, mqttConnAckVariableHeaderBack);
+            log.info("back--" + connAck.toString());
+            channel.writeAndFlush(connAck);
+        }
     }
 
     @Override
