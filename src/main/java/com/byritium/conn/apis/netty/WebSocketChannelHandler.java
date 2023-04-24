@@ -45,6 +45,13 @@ public class WebSocketChannelHandler extends SimpleChannelInboundHandler<Object>
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Object msg) {
+        ConnectionAppService connectionAppService = SpringUtils.getBean(ConnectionAppService.class);
+
+//        ConnectionDto connectionDto = new ConnectionDto();
+//        connectionDto.setProtocolType(protocolType);
+//        connectionAppService.comm(connectionDto, ctx.channel(), msg);
+
+
         log.debug("收到消息：" + msg);
         if (msg instanceof FullHttpRequest) {
             //以http请求形式接入，但是走的是websocket
@@ -90,7 +97,7 @@ public class WebSocketChannelHandler extends SimpleChannelInboundHandler<Object>
             log.debug("本例程仅支持文本消息，不支持二进制消息");
             throw new UnsupportedOperationException(String.format("%s frame types not supported", frame.getClass().getName()));
         }
-        // 返回应答消息
+        //返回应答消息
         String request = ((TextWebSocketFrame) frame).text();
         log.debug("服务端收到：" + request);
         TextWebSocketFrame tws = new TextWebSocketFrame(new Date().toString() + ctx.channel().id() + "：" + request);
@@ -108,15 +115,6 @@ public class WebSocketChannelHandler extends SimpleChannelInboundHandler<Object>
         if (!req.decoderResult().isSuccess() || (!"websocket".equals(req.headers().get("Upgrade")))) {
             //若不是websocket方式，则创建BAD_REQUEST的req，返回给客户端
             sendHttpResponse(ctx, req, new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.BAD_REQUEST));
-            return;
-        }
-
-        HttpHeaders httpHeaders = req.headers();
-        String identifier = httpHeaders.get("identifier");
-        ConnectionDto connectionDto = new ConnectionDto(identifier.split(","));
-        ConnectionAppService connectionAppService = SpringUtils.getBean(ConnectionAppService.class);
-        boolean authFlag = connectionAppService.conn(connectionDto, ctx.channel(),true);
-        if (!authFlag){
             return;
         }
 
