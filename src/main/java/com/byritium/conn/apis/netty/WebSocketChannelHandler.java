@@ -51,7 +51,6 @@ public class WebSocketChannelHandler extends SimpleChannelInboundHandler<Object>
         connectionDto.setProtocolType(protocolType);
         connectionAppService.comm(connectionDto, ctx.channel(), msg);
 
-
         if(msg instanceof FullHttpRequest){
             FullHttpRequest req = (FullHttpRequest) msg;
             WebSocketServerHandshakerFactory wsFactory = new WebSocketServerHandshakerFactory("ws://localhost:8081/websocket", null, false);
