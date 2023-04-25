@@ -16,11 +16,4 @@ public class ConnectionEntity {
         this.connectionRepository = SpringUtils.getBean(ConnectionRepository.class);
     }
 
-    public void connect(String objectId, Channel channel){
-        connectionRepository.saveConnection(objectId,channel);
-    }
-
-    public void disconnect(String objectId){
-        connectionRepository.removeConnection(objectId);
-    }
 }

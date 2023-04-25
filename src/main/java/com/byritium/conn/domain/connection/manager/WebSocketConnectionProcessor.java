@@ -54,15 +54,7 @@ public class WebSocketConnectionProcessor implements ConnectionProcessor{
 
             HttpHeaders httpHeaders = req.headers();
             String identifier = httpHeaders.get("identifier");
-//            ConnectionDto connectionDto = new ConnectionDto(identifier.split(","));
-
-            WebSocketServerHandshakerFactory wsFactory = new WebSocketServerHandshakerFactory("ws://localhost:8081/websocket", null, false);
-            handshaker = wsFactory.newHandshaker(req);
-            if (handshaker == null) {
-                WebSocketServerHandshakerFactory.sendUnsupportedVersionResponse(channel);
-            } else {
-                handshaker.handshake(channel, req);
-            }
+            ConnectionDto connectionDto = new ConnectionDto(identifier.split(","));
 
         } else if (message instanceof WebSocketFrame) {//websocket通信
             WebSocketFrame frame = (WebSocketFrame) message;
