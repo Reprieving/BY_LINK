@@ -7,10 +7,7 @@ import com.byritium.conn.infra.SpringUtils;
 import com.byritium.conn.infra.general.constance.ProtocolType;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelFutureListener;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.channel.*;
 import io.netty.handler.codec.http.*;
 import io.netty.handler.codec.http.websocketx.*;
 import io.netty.util.CharsetUtil;
@@ -45,20 +42,28 @@ public class WebSocketChannelHandler extends SimpleChannelInboundHandler<Object>
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Object msg) {
+        Channel channel = ctx.channel();
+
         ConnectionAppService connectionAppService = SpringUtils.getBean(ConnectionAppService.class);
 
         ConnectionDto connectionDto = new ConnectionDto();
         connectionDto.setProtocolType(protocolType);
-        connectionAppService.comm(connectionDto, ctx.channel(), msg);
+        connectionAppService.comm(connectionDto, channel, msg);
 
         if(msg instanceof FullHttpRequest){
             FullHttpRequest req = (FullHttpRequest) msg;
             WebSocketServerHandshakerFactory wsFactory = new WebSocketServerHandshakerFactory("ws://localhost:8081/websocket", null, false);
             handshaker = wsFactory.newHandshaker(req);
             if (handshaker == null) {
-                WebSocketServerHandshakerFactory.sendUnsupportedVersionResponse(ctx.channel());
+                WebSocketServerHandshakerFactory.sendUnsupportedVersionResponse(channel);
             } else {
-                handshaker.handshake(ctx.channel(), req);
+                handshaker.handshake(channel, req);
+            }
+        }else if(msg instanceof WebSocketFrame) {
+            WebSocketFrame frame = (WebSocketFrame) msg;
+            // 判断是否关闭链路的指令
+            if (frame instanceof CloseWebSocketFrame) {
+                handshaker.close(channel, (CloseWebSocketFrame) frame.retain());
             }
         }
     }

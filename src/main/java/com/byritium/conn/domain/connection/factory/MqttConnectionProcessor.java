@@ -1,6 +1,5 @@
-package com.byritium.conn.domain.connection.manager;
+package com.byritium.conn.domain.connection.factory;
 
-import com.byritium.conn.apis.netty.BootMqttMsgBack;
 import com.byritium.conn.application.dto.ConnectionDto;
 import com.byritium.conn.infra.api.ConnectionAuthAclService;
 import com.byritium.conn.infra.general.constance.ProtocolType;

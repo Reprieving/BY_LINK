@@ -1,4 +1,4 @@
-package com.byritium.conn.domain.connection.manager;
+package com.byritium.conn.domain.connection.factory;
 
 import com.byritium.conn.infra.general.constance.ProtocolType;
 import io.netty.channel.Channel;

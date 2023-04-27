@@ -1,12 +1,10 @@
 package com.byritium.conn.application;
 
 import com.byritium.conn.application.dto.ConnectionDto;
-import com.byritium.conn.application.dto.PublishDto;
-import com.byritium.conn.domain.connection.manager.ConnectionManager;
+import com.byritium.conn.domain.connection.factory.ConnectionManager;
 import com.byritium.conn.domain.message.entity.MessageRoot;
 import com.byritium.conn.domain.message.repository.MessageRepository;
 import com.byritium.conn.infra.general.constance.CustomerType;
-import com.byritium.conn.infra.api.ConnectionAuthAclService;
 import com.byritium.conn.infra.general.constance.ProtocolType;
 import io.netty.channel.Channel;
 import org.springframework.beans.factory.annotation.Autowired;
