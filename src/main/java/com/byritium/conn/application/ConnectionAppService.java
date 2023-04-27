@@ -1,7 +1,8 @@
 package com.byritium.conn.application;
 
 import com.byritium.conn.application.dto.ConnectionDto;
-import com.byritium.conn.domain.connection.factory.ConnectionManager;
+import com.byritium.conn.domain.connection.factory.ConnectionProcessor;
+import com.byritium.conn.domain.connection.factory.ConnectionProcessorFactory;
 import com.byritium.conn.domain.message.entity.MessageRoot;
 import com.byritium.conn.domain.message.repository.MessageRepository;
 import com.byritium.conn.infra.general.constance.CustomerType;
@@ -14,7 +15,7 @@ import org.springframework.stereotype.Service;
 public class ConnectionAppService {
 
     @Autowired
-    private ConnectionManager connectionManager;
+    private ConnectionProcessorFactory connectionProcessorFactory;
 
     @Autowired
     private MessageRepository messageRepository;
@@ -25,11 +26,13 @@ public class ConnectionAppService {
         String objectId = connectionDto.getObjectId();
         String publicKey = connectionDto.getPublicKey();
 
+        ConnectionProcessor connectionProcessor = connectionProcessorFactory.get(protocolType);
+
         //鉴权
-        connectionManager.auth(protocolType,channel,message);
+        connectionProcessor.auth(channel,message);
 
         //发送消息
-        connectionManager.comm(protocolType, channel, message);
+        connectionProcessor.messaged( channel, message);
 
         //存储消息
         MessageRoot messageRoot = new MessageRoot();
