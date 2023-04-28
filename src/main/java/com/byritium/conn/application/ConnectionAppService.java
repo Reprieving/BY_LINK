@@ -3,7 +3,7 @@ package com.byritium.conn.application;
 import com.byritium.conn.application.dto.ConnectionDto;
 import com.byritium.conn.domain.connection.factory.ConnectionProcessor;
 import com.byritium.conn.domain.connection.factory.ConnectionProcessorFactory;
-import com.byritium.conn.domain.message.entity.MessageRoot;
+import com.byritium.conn.domain.message.entity.Message;
 import com.byritium.conn.domain.message.repository.MessageRepository;
 import com.byritium.conn.infra.general.constance.CustomerType;
 import com.byritium.conn.infra.general.constance.ProtocolType;
@@ -35,7 +35,7 @@ public class ConnectionAppService {
         connectionProcessor.messaged( channel, message);
 
         //存储消息
-        MessageRoot messageRoot = new MessageRoot();
+        Message messageRoot = new Message();
         messageRepository.save(messageRoot);
 
     }
