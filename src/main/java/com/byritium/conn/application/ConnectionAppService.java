@@ -1,5 +1,6 @@
 package com.byritium.conn.application;
 
+import com.byritium.conn.application.command.ConnectionCommand;
 import com.byritium.conn.application.dto.ConnectionDto;
 import com.byritium.conn.domain.connection.factory.ConnectionProcessor;
 import com.byritium.conn.domain.connection.factory.ConnectionProcessorFactory;
@@ -20,11 +21,10 @@ public class ConnectionAppService {
     @Autowired
     private MessageRepository messageRepository;
 
-    public void comm(ConnectionDto connectionDto, Channel channel, Object message) {
-        ProtocolType protocolType = connectionDto.getProtocolType();
-        CustomerType customerType = connectionDto.getCustomerType();
-        String objectId = connectionDto.getObjectId();
-        String publicKey = connectionDto.getPublicKey();
+    public void comm(ConnectionCommand connectionCommand) {
+        ProtocolType protocolType = connectionCommand.getProtocolType();
+        Channel channel = connectionCommand.getChannel();
+        Object message = connectionCommand.getMessage();
 
         ConnectionProcessor connectionProcessor = connectionProcessorFactory.get(protocolType);
 

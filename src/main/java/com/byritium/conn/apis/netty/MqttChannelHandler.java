@@ -1,6 +1,7 @@
 package com.byritium.conn.apis.netty;
 
 import com.byritium.conn.application.ConnectionAppService;
+import com.byritium.conn.application.command.ConnectionCommand;
 import com.byritium.conn.application.dto.ConnectionDto;
 import com.byritium.conn.infra.SpringUtils;
 import com.byritium.conn.infra.general.constance.ProtocolType;
@@ -41,8 +42,8 @@ public class MqttChannelHandler extends SimpleChannelInboundHandler<Object> {
     public void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception, IOException {
         ConnectionAppService connectionAppService = SpringUtils.getBean(ConnectionAppService.class);
 
-        ConnectionDto connectionDto = new ConnectionDto();
-        connectionAppService.comm(connectionDto, ctx.channel(), msg);
+        ConnectionCommand connectionCommand = new ConnectionCommand();
+        connectionAppService.comm(connectionCommand);
 
 //        if (msg instanceof MqttConnectMessage) {
 //            MqttConnectMessage mqttConnectMessage = (MqttConnectMessage) msg;
