@@ -32,7 +32,7 @@ public class ConnectionAppService {
         connectionProcessor.auth(channel,message);
 
         //发送消息
-        connectionProcessor.messaged( channel, message);
+        connectionProcessor.messaged(channel, message);
 
         //存储消息
         Message messageRoot = new Message();

@@ -6,7 +6,8 @@ import lombok.Getter;
 
 @Getter
 public class Message {
-    private ConnectionVo connectionVo;
     private MessageSender sender;
     private MessageReceiver receiver;
+    private Long times;
+    private String content;
 }
