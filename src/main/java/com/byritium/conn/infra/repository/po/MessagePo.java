@@ -1,4 +1,4 @@
-package com.byritium.conn.domain.message.entity.po;
+package com.byritium.conn.infra.repository.po;
 
 public class MessagePo {
     private Long id;

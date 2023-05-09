@@ -1,4 +1,4 @@
-package com.byritium.conn.infra.repository;
+package com.byritium.conn.infra.repository.persistence;
 
 import com.byritium.conn.domain.message.entity.Message;
 import com.byritium.conn.domain.message.repository.MessageRepository;
