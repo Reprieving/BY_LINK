@@ -1,0 +1,8 @@
+server:
+  port: 9999
+spring:
+  application:
+    name: transaction
+  data:
+    mongodb:
+      uri: mongodb://admin:admin@localhost/conn
