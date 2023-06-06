@@ -1,18 +1,16 @@
 package com.byritium.conn;
 
-import com.byritium.conn.apis.netty.HttpChannelHandler;
-import com.byritium.conn.apis.netty.MqttChannelHandler;
-import com.byritium.conn.apis.netty.TcpChannelHandler;
-import com.byritium.conn.apis.netty.UdpChannelHandler;
-import com.byritium.conn.apis.netty.WebSocketChannelHandler;
+import com.byritium.conn.apis.netty.*;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.codec.DelimiterBasedFrameDecoder;
+import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpServerCodec;
+import io.netty.handler.codec.json.JsonObjectDecoder;
 import io.netty.handler.codec.mqtt.MqttDecoder;
 import io.netty.handler.codec.mqtt.MqttEncoder;
 import io.netty.handler.codec.string.StringDecoder;
@@ -34,10 +32,9 @@ public class NettyServerInitializer extends ChannelInitializer<SocketChannel> {
             case 1000:
                 pipeline.addLast(new LoggingHandler(LogLevel.INFO));
                 //加入自定义分割符号
-                ByteBuf delimiter = Unpooled.copiedBuffer("\r\n".getBytes());
-                pipeline.addLast("framer", new DelimiterBasedFrameDecoder(1024, delimiter));
-                pipeline.addLast("encoder", new StringEncoder(CharsetUtil.UTF_8));
-                pipeline.addLast("decoder", new StringDecoder(CharsetUtil.UTF_8));
+//                ByteBuf delimiter = Unpooled.copiedBuffer("\r\n".getBytes());
+//                pipeline.addLast("framer", new DelimiterBasedFrameDecoder(100, delimiter));
+                pipeline.addLast("framer", new XDecoder());
                 pipeline.addLast(new TcpChannelHandler());
                 break;
 

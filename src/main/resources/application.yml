@@ -2,7 +2,12 @@ server:
   port: 9999
 spring:
   application:
-    name: transaction
+    name: conn
   data:
     mongodb:
       uri: mongodb://admin:admin@localhost/conn
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password:
+
