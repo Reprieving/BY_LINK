@@ -1,5 +1,6 @@
 package com.byritium.conn.domain.connection.service;
 
+import com.byritium.conn.application.dto.ConnectionCommDto;
 import com.byritium.conn.application.dto.ConnectionDto;
 import com.byritium.conn.domain.connection.factory.ConnectionProcessor;
 import com.byritium.conn.infra.general.constance.ProtocolType;
@@ -24,11 +25,9 @@ import static io.netty.handler.codec.http.HttpUtil.isKeepAlive;
 @Service
 @Slf4j
 public class WebSocketConnectionDomainService implements ConnectionProcessor {
-    private static final ProtocolType protocolType = ProtocolType.WEBSOCKET;
-
     @Override
     public ProtocolType protocolType() {
-        return protocolType;
+        return ProtocolType.WEBSOCKET;
     }
 
     @Override
@@ -55,12 +54,13 @@ public class WebSocketConnectionDomainService implements ConnectionProcessor {
     }
 
     @Override
-    public void messaged(Channel channel, Object message) {
+    public ConnectionCommDto messaged(Channel channel, Object message) {
         WebSocketFrame frame = (WebSocketFrame) message;
+        ConnectionCommDto connectionCommDto = new ConnectionCommDto();
         // 判断是否ping消息
         if (frame instanceof PingWebSocketFrame) {
             channel.write(new PongWebSocketFrame(frame.content().retain()));
-            return;
+            return connectionCommDto;
         }
         // 本例程仅支持文本消息，不支持二进制消息
         if (!(frame instanceof TextWebSocketFrame)) {
@@ -71,6 +71,8 @@ public class WebSocketConnectionDomainService implements ConnectionProcessor {
         String request = ((TextWebSocketFrame) frame).text();
         log.debug("服务端收到：" + request);
         TextWebSocketFrame tws = new TextWebSocketFrame(new Date().toString() + channel.id() + "：" + request);
+        connectionCommDto.setMessage(request);
+        return connectionCommDto;
     }
 }
 

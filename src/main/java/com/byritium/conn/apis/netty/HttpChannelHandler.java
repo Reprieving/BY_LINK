@@ -18,7 +18,7 @@ import java.util.Map;
 
 @ChannelHandler.Sharable
 public class HttpChannelHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
-
+    private static final ProtocolType protocolType = ProtocolType.HTTP;
 
     /**
      * 客户端与服务端第一次建立连接时执行 在channelActive方法之前执行
@@ -47,6 +47,7 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<FullHttpRequ
 
         ConnectionAppService connectionAppService = SpringUtils.getBean(ConnectionAppService.class);
 
+        String message = null;
         switch (fullHttpRequest.method().name()) {
             case "GET":
                 processGetRequest(fullHttpRequest);
@@ -55,43 +56,49 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<FullHttpRequ
                 if (fullHttpRequest.headers().get("Content-Type").contains("x-www-form-urlencoded")) {
                     processPostFormRequest(fullHttpRequest);
                 } else if (fullHttpRequest.headers().get("Content-Type").contains("application/json")) {
-                    processPostJsonRequest(fullHttpRequest);
+                    message = processPostJsonRequest(fullHttpRequest);
                 }
                 break;
             default:
         }
+
+        connectionAppService.comm(protocolType, channel, message);
+
+
         ByteBuf buf = PooledByteBufAllocator.DEFAULT.buffer();
         buf.writeCharSequence("sucess", StandardCharsets.UTF_8);
         FullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.OK, buf);
-        response.headers().set("Content-Type","application/json;charset=UTF-8");
-        response.headers().set("Content-Length",response.content().readableBytes());
+        response.headers().set("Content-Type", "application/json;charset=UTF-8");
+        response.headers().set("Content-Length", response.content().readableBytes());
 
         channelHandlerContext.channel().writeAndFlush(response).addListener(ChannelFutureListener.CLOSE);
     }
 
     /**
      * 处理get请求
+     *
      * @param request
      */
-    private void processGetRequest(FullHttpRequest request){
+    private void processGetRequest(FullHttpRequest request) {
         QueryStringDecoder decoder = new QueryStringDecoder(request.uri());
         Map<String, List<String>> params = decoder.parameters();
-        params.forEach((key, value) -> System.out.println(key + " ==> "+ value));
+        params.forEach((key, value) -> System.out.println(key + " ==> " + value));
     }
 
     /**
      * 处理post form请求
+     *
      * @param request
      */
-    private void processPostFormRequest(FullHttpRequest request){
+    private void processPostFormRequest(FullHttpRequest request) {
         HttpPostRequestDecoder decoder = new HttpPostRequestDecoder(request);
         List<InterfaceHttpData> httpDataList = decoder.getBodyHttpDatas();
         httpDataList.forEach(item -> {
-            if (item.getHttpDataType() == InterfaceHttpData.HttpDataType.Attribute){
+            if (item.getHttpDataType() == InterfaceHttpData.HttpDataType.Attribute) {
                 Attribute attribute = (Attribute) item;
                 try {
                     System.out.println(attribute.getName() + " ==> " + attribute.getValue());
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
@@ -101,13 +108,13 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<FullHttpRequ
 
     /**
      * 处理post json请求
+     *
      * @param request
      */
-    private void processPostJsonRequest(FullHttpRequest request){
+    private String processPostJsonRequest(FullHttpRequest request) {
         ByteBuf content = request.content();
         byte[] bytes = new byte[content.readableBytes()];
         content.readBytes(bytes);
-//        JSONObject jsonObject = JSONObject.parseObject();
-//        jsonObject.getInnerMap().forEach((key,value) -> System.out.println(key + " ==> " + value));
+        return new String(bytes);
     }
 }

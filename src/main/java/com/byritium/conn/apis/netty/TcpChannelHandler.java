@@ -50,8 +50,8 @@ public class TcpChannelHandler extends ByteToMessageDecoder {
                 length = in.readInt();
             }
             // 根据 length 读入内容
+            // 当前可读数据不够，继续读取下一个协议包
             if (in.readableBytes() < length) {
-                System.out.println("当前可读数据不够，继续等待。。");
                 return;
             }
 

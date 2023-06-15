@@ -20,20 +20,16 @@ import java.util.stream.Collectors;
 @Service
 @Slf4j
 public class MqttConnectionDomainService implements ConnectionProcessor {
-    private static final ProtocolType protocolType = ProtocolType.MQTT;
-
     @Autowired
     private ConnectionAuthAclService connectionAuthAclService;
 
     @Override
     public ProtocolType protocolType() {
-        return protocolType;
+        return ProtocolType.MQTT;
     }
 
     @Override
-    public void auth(Channel channel,Object message) {
-
-    }
+    public void auth(Channel channel,Object message) {}
 
     @Override
     public ConnectionCommDto messaged(Channel channel, Object message) {
