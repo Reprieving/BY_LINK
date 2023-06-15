@@ -8,16 +8,19 @@ import com.byritium.conn.infra.SpringUtils;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.*;
+import io.netty.handler.codec.ByteToMessageDecoder;
 import io.netty.util.CharsetUtil;
 import lombok.extern.slf4j.Slf4j;
 
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.UUID;
 
 @Slf4j
 @ChannelHandler.Sharable
-public class TcpChannelHandler extends SimpleChannelInboundHandler<MessageProtocol> {
-    private int count;
+public class TcpChannelHandler extends ByteToMessageDecoder {
+    //消息读取索引
+    int length = 0;
 
     /**
      * 客户端与服务端第一次建立连接时执行 在channelActive方法之前执行
@@ -38,23 +41,31 @@ public class TcpChannelHandler extends SimpleChannelInboundHandler<MessageProtoc
     }
 
     @Override
-    protected void channelRead0(ChannelHandlerContext channelHandlerContext, MessageProtocol messageProtocol) throws Exception {
-        //接收到数据，并处理
-        int len = messageProtocol.getLen();
-        byte[] content = messageProtocol.getContent();
+    protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf in, List<Object> out) throws Exception {
+        // 首先要读入消息长度，然后才能知道处理后面的哪些字节
+        // int 为 4 字节
+        if(in.readableBytes() >= 4) {
+            if (length == 0){
+                // 通过readInt()将4字节的length读入
+                length = in.readInt();
+            }
+            // 根据 length 读入内容
+            if (in.readableBytes() < length) {
+                System.out.println("当前可读数据不够，继续等待。。");
+                return;
+            }
 
-        System.out.println();
-        System.out.println();
-        System.out.println();
-        System.out.println("服务器接收到信息如下");
-        System.out.println("长度=" + len);
-        System.out.println("内容=" + new String(content, StandardCharsets.UTF_8));
-
-        System.out.println("服务器接收到消息包数量=" + (++this.count));
-
-        //回复消息
-        String responseContent = UUID.randomUUID().toString();
-        int responseLen = responseContent.getBytes(StandardCharsets.UTF_8).length;
-        byte[] responseContent2 = responseContent.getBytes(StandardCharsets.UTF_8);
+            // 构建一个 length（目标消息长度）的缓冲数组
+            // 注：也正是这个数组保证了读入的长度
+            byte[] content = new byte[length];
+            if (in.readableBytes() >= length){
+                in.readBytes(content);
+                MessageProtocol messageProtocol = new MessageProtocol();
+                messageProtocol.setLen(length);
+                messageProtocol.setContent(content);
+                out.add(messageProtocol);
+            }
+            length = 0;
+        }
     }
 }

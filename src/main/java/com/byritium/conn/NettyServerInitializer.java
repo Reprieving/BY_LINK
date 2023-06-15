@@ -34,7 +34,6 @@ public class NettyServerInitializer extends ChannelInitializer<SocketChannel> {
                 //加入自定义分割符号
 //                ByteBuf delimiter = Unpooled.copiedBuffer("\r\n".getBytes());
 //                pipeline.addLast("framer", new DelimiterBasedFrameDecoder(100, delimiter));
-                pipeline.addLast("framer", new XDecoder());
                 pipeline.addLast(new TcpChannelHandler());
                 break;
 
