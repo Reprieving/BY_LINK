@@ -1,6 +1,7 @@
 package com.byritium.conn.application;
 
 import com.byritium.conn.application.command.ConnectionCommand;
+import com.byritium.conn.application.dto.ConnectionCommDto;
 import com.byritium.conn.application.dto.ConnectionDto;
 import com.byritium.conn.domain.connection.factory.ConnectionProcessor;
 import com.byritium.conn.domain.connection.factory.ConnectionProcessorFactory;
@@ -21,18 +22,14 @@ public class ConnectionAppService {
     @Autowired
     private MessageRepository messageRepository;
 
-    public void comm(ConnectionCommand connectionCommand) {
-        ProtocolType protocolType = connectionCommand.getProtocolType();
-        Channel channel = connectionCommand.getChannel();
-        Object message = connectionCommand.getMessage();
-
+    public void comm(ProtocolType protocolType,Channel channel,Object message) {
         ConnectionProcessor connectionProcessor = connectionProcessorFactory.get(protocolType);
 
         //鉴权
         connectionProcessor.auth(channel,message);
 
         //发送消息
-        connectionProcessor.messaged(channel, message);
+        ConnectionCommDto connectionCommDto = connectionProcessor.messaged(channel, message);
 
         //存储消息
         Message messageRoot = new Message();

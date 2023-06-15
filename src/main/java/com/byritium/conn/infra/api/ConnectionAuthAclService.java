@@ -21,14 +21,14 @@ public class ConnectionAuthAclService {
         String publicKey = connectionDto.getPublicKey();
 
 
-        switch (customerType) {
-            case USER:
-                userAccountRpc.auth(objectId, publicKey);
-                break;
-
-            case DEVICE:
-                deviceAccountRpc.auth(objectId, publicKey);
-                break;
-        }
+//        switch (customerType) {
+//            case USER:
+//                userAccountRpc.auth(objectId, publicKey);
+//                break;
+//
+//            case DEVICE:
+//                deviceAccountRpc.auth(objectId, publicKey);
+//                break;
+//        }
     }
 }

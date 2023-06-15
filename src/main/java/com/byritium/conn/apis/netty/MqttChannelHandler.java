@@ -41,9 +41,7 @@ public class MqttChannelHandler extends SimpleChannelInboundHandler<Object> {
     @Override
     public void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception, IOException {
         ConnectionAppService connectionAppService = SpringUtils.getBean(ConnectionAppService.class);
-
-        ConnectionCommand connectionCommand = new ConnectionCommand();
-        connectionAppService.comm(connectionCommand);
+        connectionAppService.comm(protocolType,ctx.channel(),msg);
 
     }
 

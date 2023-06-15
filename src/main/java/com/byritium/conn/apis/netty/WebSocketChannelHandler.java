@@ -46,9 +46,7 @@ public class WebSocketChannelHandler extends SimpleChannelInboundHandler<Object>
         Channel channel = ctx.channel();
 
         ConnectionAppService connectionAppService = SpringUtils.getBean(ConnectionAppService.class);
-
-        ConnectionCommand connectionCommand = new ConnectionCommand();
-        connectionAppService.comm(connectionCommand);
+        connectionAppService.comm(protocolType,channel,msg);
 
         if(msg instanceof FullHttpRequest){
             FullHttpRequest req = (FullHttpRequest) msg;

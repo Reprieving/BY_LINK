@@ -10,6 +10,8 @@ public class ConnectionDto {
     private CustomerType customerType;
     private String objectId;
     private String publicKey;
+    private String message;
+
 
     public ConnectionDto(){
 
