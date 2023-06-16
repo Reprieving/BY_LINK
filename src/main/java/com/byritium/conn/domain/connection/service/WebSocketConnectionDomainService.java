@@ -62,9 +62,8 @@ public class WebSocketConnectionDomainService implements ConnectionProcessor {
             channel.write(new PongWebSocketFrame(frame.content().retain()));
             return connectionCommDto;
         }
-        // 本例程仅支持文本消息，不支持二进制消息
         if (!(frame instanceof TextWebSocketFrame)) {
-            log.debug("本例程仅支持文本消息，不支持二进制消息");
+            log.debug("不支持二进制消息");
             throw new UnsupportedOperationException(String.format("%s frame types not supported", frame.getClass().getName()));
         }
         //返回应答消息

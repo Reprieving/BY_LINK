@@ -5,6 +5,7 @@ import com.byritium.conn.application.ConnectionAppService;
 import com.byritium.conn.application.dto.MessageProtocol;
 import com.byritium.conn.infra.JacksonUtils;
 import com.byritium.conn.infra.SpringUtils;
+import com.byritium.conn.infra.general.constance.ProtocolType;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.*;
@@ -19,6 +20,7 @@ import java.util.UUID;
 @Slf4j
 @ChannelHandler.Sharable
 public class TcpChannelHandler extends ByteToMessageDecoder {
+    private static final ProtocolType protocolType = ProtocolType.TCP;
     //消息读取索引
     int length = 0;
 
@@ -41,7 +43,7 @@ public class TcpChannelHandler extends ByteToMessageDecoder {
     }
 
     @Override
-    protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf in, List<Object> out) throws Exception {
+    protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
         // 首先要读入消息长度，然后才能知道处理后面的哪些字节
         // int 为 4 字节
         if(in.readableBytes() >= 4) {
@@ -63,6 +65,10 @@ public class TcpChannelHandler extends ByteToMessageDecoder {
                 MessageProtocol messageProtocol = new MessageProtocol();
                 messageProtocol.setLen(length);
                 messageProtocol.setContent(content);
+                String msg = new String(content);
+                ConnectionAppService connectionAppService = SpringUtils.getBean(ConnectionAppService.class);
+                connectionAppService.comm(protocolType,ctx.channel(),msg);
+
                 out.add(messageProtocol);
             }
             length = 0;

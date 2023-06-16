@@ -20,7 +20,6 @@ public class ConnectionAuthAclService {
         String objectId = connectionDto.getObjectId();
         String publicKey = connectionDto.getPublicKey();
 
-
 //        switch (customerType) {
 //            case USER:
 //                userAccountRpc.auth(objectId, publicKey);
