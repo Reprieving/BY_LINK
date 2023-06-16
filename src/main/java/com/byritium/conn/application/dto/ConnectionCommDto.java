@@ -4,5 +4,6 @@ import lombok.Data;
 
 @Data
 public class ConnectionCommDto {
+    private String identifier;
     private String message;
 }

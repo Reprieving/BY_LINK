@@ -3,6 +3,7 @@ package com.byritium.conn.application;
 import com.byritium.conn.application.command.ConnectionCommand;
 import com.byritium.conn.application.dto.ConnectionCommDto;
 import com.byritium.conn.application.dto.ConnectionDto;
+import com.byritium.conn.domain.connection.acl.BroadcastMessageProducer;
 import com.byritium.conn.domain.connection.factory.ConnectionProcessor;
 import com.byritium.conn.domain.connection.factory.ConnectionProcessorFactory;
 import com.byritium.conn.domain.message.entity.Message;
@@ -22,6 +23,9 @@ public class ConnectionAppService {
     @Autowired
     private MessageRepository messageRepository;
 
+    @Autowired
+    private BroadcastMessageProducer broadcastMessageProducer;
+
     public void comm(ConnectionCommand command) {
         ProtocolType protocolType = command.getProtocolType();
         Channel channel = command.getChannel();
@@ -31,12 +35,20 @@ public class ConnectionAppService {
         //鉴权
         connectionProcessor.auth(channel,message);
 
-        //发送消息
+        //解析
         ConnectionCommDto connectionCommDto = connectionProcessor.messaged(channel, message);
 
-        //存储消息
-        Message messageRoot = new Message();
+        //存储
+        Message messageRoot = Message.builder()
+                .protocolType(protocolType)
+                .identifier(connectionCommDto.getIdentifier())
+                .times(System.currentTimeMillis())
+                .content(connectionCommDto.getMessage())
+                .build();
+
         messageRepository.save(messageRoot);
+
+        //推送
 
     }
 
