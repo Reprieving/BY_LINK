@@ -1,6 +1,7 @@
 package com.byritium.conn.apis.netty;
 
 import com.byritium.conn.application.ConnectionAppService;
+import com.byritium.conn.application.command.ConnectionCommand;
 import com.byritium.conn.infra.ChannelSupervise;
 import com.byritium.conn.infra.SpringUtils;
 import com.byritium.conn.infra.general.constance.ProtocolType;
@@ -37,7 +38,8 @@ public class WebSocketChannelHandler extends SimpleChannelInboundHandler<Object>
         Channel channel = ctx.channel();
 
         ConnectionAppService connectionAppService = SpringUtils.getBean(ConnectionAppService.class);
-        connectionAppService.comm(protocolType,channel,msg);
+        ConnectionCommand command = new ConnectionCommand(protocolType, channel, msg);
+        connectionAppService.comm(command);
 
         if(msg instanceof FullHttpRequest){
             FullHttpRequest req = (FullHttpRequest) msg;

@@ -10,4 +10,10 @@ public class ConnectionCommand {
     private ProtocolType protocolType;
     private Channel channel;
     private Object message;
+
+    public ConnectionCommand(ProtocolType protocolType, Channel channel, Object msg) {
+        this.protocolType = protocolType;
+        this.channel = channel;
+        this.message = msg;
+    }
 }

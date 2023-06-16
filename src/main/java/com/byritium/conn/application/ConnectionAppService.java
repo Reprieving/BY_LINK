@@ -22,7 +22,10 @@ public class ConnectionAppService {
     @Autowired
     private MessageRepository messageRepository;
 
-    public void comm(ProtocolType protocolType,Channel channel,Object message) {
+    public void comm(ConnectionCommand command) {
+        ProtocolType protocolType = command.getProtocolType();
+        Channel channel = command.getChannel();
+        Object message = command.getMessage();
         ConnectionProcessor connectionProcessor = connectionProcessorFactory.get(protocolType);
 
         //鉴权

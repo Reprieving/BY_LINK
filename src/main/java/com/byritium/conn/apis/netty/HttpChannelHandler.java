@@ -1,6 +1,7 @@
 package com.byritium.conn.apis.netty;
 
 import com.byritium.conn.application.ConnectionAppService;
+import com.byritium.conn.application.command.ConnectionCommand;
 import com.byritium.conn.infra.SpringUtils;
 import com.byritium.conn.infra.general.constance.CustomerType;
 import com.byritium.conn.infra.general.constance.ProtocolType;
@@ -42,7 +43,8 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> {
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, Object msg) {
         Channel channel = channelHandlerContext.channel();
         ConnectionAppService connectionAppService = SpringUtils.getBean(ConnectionAppService.class);
-        connectionAppService.comm(protocolType, channel, msg);
+        ConnectionCommand command = new ConnectionCommand(protocolType, channel, msg);
+        connectionAppService.comm(command);
 
         ByteBuf buf = PooledByteBufAllocator.DEFAULT.buffer();
         buf.writeCharSequence("sucess", StandardCharsets.UTF_8);
