@@ -2,7 +2,7 @@ package com.byritium.application;
 
 import com.byritium.application.command.ConnectionCommand;
 import com.byritium.application.dto.ConnectionCommDto;
-import com.byritium.domain.connection.messaging.BroadcastMessageProducer;
+import com.byritium.domain.connection.messaging.MessageProducer;
 import com.byritium.domain.connection.service.ConnectionMessageService;
 import com.byritium.domain.connection.service.manager.ConnectionMessageManager;
 import com.byritium.domain.message.entity.Message;
@@ -22,7 +22,7 @@ public class ConnectionAppService {
     private MessageRepository messageRepository;
 
     @Autowired
-    private BroadcastMessageProducer broadcastMessageProducer;
+    private MessageProducer messageProducer;
 
     public void comm(ConnectionCommand command) {
         ProtocolType protocolType = command.getProtocolType();
@@ -47,7 +47,7 @@ public class ConnectionAppService {
         messageRepository.save(messageRoot);
 
         //推送
-
+        messageProducer.send();
     }
 
     public boolean disconnect() {

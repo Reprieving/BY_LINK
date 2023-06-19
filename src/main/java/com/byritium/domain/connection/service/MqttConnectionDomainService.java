@@ -2,7 +2,8 @@ package com.byritium.domain.connection.service;
 
 import com.byritium.application.dto.ConnectionCommDto;
 import com.byritium.application.dto.ConnectionDto;
-import com.byritium.external.service.ConnectionAuthAclService;
+import com.byritium.domain.connection.external.AuthExternalService;
+import com.byritium.external.impl.AccountAuthExternalService;
 import com.byritium.constance.ProtocolType;
 import io.netty.channel.Channel;
 import io.netty.handler.codec.mqtt.*;
@@ -20,7 +21,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class MqttConnectionDomainService implements ConnectionMessageService {
     @Autowired
-    private ConnectionAuthAclService connectionAuthAclService;
+    private AuthExternalService authExternalService;
 
     @Override
     public ProtocolType protocolType() {
@@ -46,7 +47,7 @@ public class MqttConnectionDomainService implements ConnectionMessageService {
             String clientIdentifier = payload.clientIdentifier();
             String[] args = clientIdentifier.split(",");
             ConnectionDto connectionDto = new ConnectionDto();
-            connectionAuthAclService.auth(connectionDto);
+            authExternalService.auth(connectionDto);
         }
 
         ConnectionCommDto connectionCommDto = new ConnectionCommDto();

@@ -2,7 +2,8 @@ package com.byritium.domain.connection.service;
 
 import com.byritium.application.dto.ConnectionCommDto;
 import com.byritium.application.dto.ConnectionDto;
-import com.byritium.external.service.ConnectionAuthAclService;
+import com.byritium.domain.connection.external.AuthExternalService;
+import com.byritium.external.impl.AccountAuthExternalService;
 import com.byritium.constance.ProtocolType;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
@@ -21,7 +22,8 @@ import java.util.Map;
 @Service
 public class HttpConnectionDomainService implements ConnectionMessageService {
     @Autowired
-    private ConnectionAuthAclService connectionAuthAclService;
+    private AuthExternalService authExternalService;
+
 
     @Override
     public ProtocolType protocolType() {
@@ -35,7 +37,7 @@ public class HttpConnectionDomainService implements ConnectionMessageService {
         String identifier = httpHeaders.get("identifier");
 
         ConnectionDto connectionDto = new ConnectionDto();
-        connectionAuthAclService.auth(connectionDto);
+        authExternalService.auth(connectionDto);
     }
 
     @Override

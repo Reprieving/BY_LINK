@@ -1,4 +1,4 @@
-package com.byritium.persistence.repository;
+package com.byritium.persistence.common;
 
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
