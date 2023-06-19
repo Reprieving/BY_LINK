@@ -1,13 +1,12 @@
 package com.byritium.conn.domain.service;
 
 import com.byritium.conn.application.dto.ConnectionCommDto;
-import com.byritium.conn.domain.factory.ConnectionProcessor;
 import com.byritium.conn.infra.general.constance.ProtocolType;
 import io.netty.channel.Channel;
 import org.springframework.stereotype.Service;
 
 @Service
-public class TcpConnectionDomainService implements ConnectionProcessor {
+public class TcpConnectionDomainService implements ConnectionMessageService {
     @Override
     public ProtocolType protocolType() {
         return null;

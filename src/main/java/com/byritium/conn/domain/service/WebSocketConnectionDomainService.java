@@ -2,7 +2,6 @@ package com.byritium.conn.domain.service;
 
 import com.byritium.conn.application.dto.ConnectionCommDto;
 import com.byritium.conn.application.dto.ConnectionDto;
-import com.byritium.conn.domain.factory.ConnectionProcessor;
 import com.byritium.conn.infra.general.constance.ProtocolType;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -24,7 +23,7 @@ import static io.netty.handler.codec.http.HttpUtil.isKeepAlive;
 
 @Service
 @Slf4j
-public class WebSocketConnectionDomainService implements ConnectionProcessor {
+public class WebSocketConnectionDomainService implements ConnectionMessageService {
     @Override
     public ProtocolType protocolType() {
         return ProtocolType.WEBSOCKET;

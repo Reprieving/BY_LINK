@@ -3,8 +3,8 @@ package com.byritium.conn.application;
 import com.byritium.conn.application.command.ConnectionCommand;
 import com.byritium.conn.application.dto.ConnectionCommDto;
 import com.byritium.conn.domain.messaging.BroadcastMessageProducer;
-import com.byritium.conn.domain.factory.ConnectionProcessor;
-import com.byritium.conn.domain.factory.ConnectionProcessorFactory;
+import com.byritium.conn.domain.service.ConnectionMessageService;
+import com.byritium.conn.domain.service.manager.ConnectionMessageManager;
 import com.byritium.message.domain.entity.Message;
 import com.byritium.message.domain.repository.MessageRepository;
 import com.byritium.conn.infra.general.constance.ProtocolType;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 public class ConnectionAppService {
 
     @Autowired
-    private ConnectionProcessorFactory connectionProcessorFactory;
+    private ConnectionMessageManager connectionMessageManager;
 
     @Autowired
     private MessageRepository messageRepository;
@@ -28,13 +28,13 @@ public class ConnectionAppService {
         ProtocolType protocolType = command.getProtocolType();
         Channel channel = command.getChannel();
         Object message = command.getMessage();
-        ConnectionProcessor connectionProcessor = connectionProcessorFactory.get(protocolType);
+        ConnectionMessageService connectionMessageService = connectionMessageManager.get(protocolType);
 
         //鉴权
-        connectionProcessor.auth(channel,message);
+        connectionMessageService.auth(channel, message);
 
         //解析
-        ConnectionCommDto connectionCommDto = connectionProcessor.messaged(channel, message);
+        ConnectionCommDto connectionCommDto = connectionMessageService.messaged(channel, message);
 
         //存储
         Message messageRoot = Message.builder()

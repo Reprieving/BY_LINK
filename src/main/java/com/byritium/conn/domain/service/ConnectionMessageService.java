@@ -1,11 +1,10 @@
-package com.byritium.conn.domain.factory;
+package com.byritium.conn.domain.service;
 
 import com.byritium.conn.application.dto.ConnectionCommDto;
-import com.byritium.conn.application.dto.ConnectionDto;
 import com.byritium.conn.infra.general.constance.ProtocolType;
 import io.netty.channel.Channel;
 
-public interface ConnectionProcessor {
+public interface ConnectionMessageService {
 
     ProtocolType protocolType();
 

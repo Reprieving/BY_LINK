@@ -2,7 +2,6 @@ package com.byritium.conn.domain.service;
 
 import com.byritium.conn.application.dto.ConnectionCommDto;
 import com.byritium.conn.application.dto.ConnectionDto;
-import com.byritium.conn.domain.factory.ConnectionProcessor;
 import com.byritium.conn.infra.api.ConnectionAuthAclService;
 import com.byritium.conn.infra.general.constance.ProtocolType;
 import io.netty.channel.Channel;
@@ -19,7 +18,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
-public class MqttConnectionDomainService implements ConnectionProcessor {
+public class MqttConnectionDomainService implements ConnectionMessageService {
     @Autowired
     private ConnectionAuthAclService connectionAuthAclService;
 

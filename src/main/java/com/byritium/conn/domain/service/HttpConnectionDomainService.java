@@ -2,7 +2,6 @@ package com.byritium.conn.domain.service;
 
 import com.byritium.conn.application.dto.ConnectionCommDto;
 import com.byritium.conn.application.dto.ConnectionDto;
-import com.byritium.conn.domain.factory.ConnectionProcessor;
 import com.byritium.conn.infra.api.ConnectionAuthAclService;
 import com.byritium.conn.infra.general.constance.ProtocolType;
 import io.netty.buffer.ByteBuf;
@@ -20,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class HttpConnectionDomainService implements ConnectionProcessor {
+public class HttpConnectionDomainService implements ConnectionMessageService {
     @Autowired
     private ConnectionAuthAclService connectionAuthAclService;
 
