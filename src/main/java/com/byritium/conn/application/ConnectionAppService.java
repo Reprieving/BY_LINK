@@ -2,13 +2,11 @@ package com.byritium.conn.application;
 
 import com.byritium.conn.application.command.ConnectionCommand;
 import com.byritium.conn.application.dto.ConnectionCommDto;
-import com.byritium.conn.application.dto.ConnectionDto;
-import com.byritium.conn.domain.connection.acl.BroadcastMessageProducer;
-import com.byritium.conn.domain.connection.factory.ConnectionProcessor;
-import com.byritium.conn.domain.connection.factory.ConnectionProcessorFactory;
-import com.byritium.conn.domain.message.entity.Message;
-import com.byritium.conn.domain.message.repository.MessageRepository;
-import com.byritium.conn.infra.general.constance.CustomerType;
+import com.byritium.conn.domain.messaging.BroadcastMessageProducer;
+import com.byritium.conn.domain.factory.ConnectionProcessor;
+import com.byritium.conn.domain.factory.ConnectionProcessorFactory;
+import com.byritium.message.domain.entity.Message;
+import com.byritium.message.domain.repository.MessageRepository;
 import com.byritium.conn.infra.general.constance.ProtocolType;
 import io.netty.channel.Channel;
 import org.springframework.beans.factory.annotation.Autowired;

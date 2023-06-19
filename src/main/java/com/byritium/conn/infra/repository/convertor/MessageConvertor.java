@@ -1,6 +1,6 @@
 package com.byritium.conn.infra.repository.convertor;
 
-import com.byritium.conn.domain.message.entity.Message;
+import com.byritium.message.domain.entity.Message;
 import com.byritium.conn.infra.repository.po.MessagePo;
 
 public class MessageConvertor {
