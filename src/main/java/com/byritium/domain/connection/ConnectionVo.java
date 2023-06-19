@@ -1,6 +1,6 @@
 package com.byritium.domain.connection;
 
-import com.byritium.infra.general.constance.ProtocolType;
+import com.byritium.constance.ProtocolType;
 import lombok.Data;
 
 @Data

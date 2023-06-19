@@ -2,8 +2,8 @@ package com.byritium.apis.netty;
 
 import com.byritium.application.ConnectionAppService;
 import com.byritium.application.command.ConnectionCommand;
-import com.byritium.infra.SpringUtils;
-import com.byritium.infra.general.constance.ProtocolType;
+import com.byritium.utils.SpringUtils;
+import com.byritium.constance.ProtocolType;
 import io.netty.channel.*;
 import lombok.extern.slf4j.Slf4j;
 

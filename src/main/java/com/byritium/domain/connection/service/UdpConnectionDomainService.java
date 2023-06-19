@@ -1,7 +1,7 @@
 package com.byritium.domain.connection.service;
 
 import com.byritium.application.dto.ConnectionCommDto;
-import com.byritium.infra.general.constance.ProtocolType;
+import com.byritium.constance.ProtocolType;
 import io.netty.channel.Channel;
 import org.springframework.stereotype.Service;
 

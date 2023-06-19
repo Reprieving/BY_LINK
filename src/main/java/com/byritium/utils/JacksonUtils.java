@@ -1,4 +1,4 @@
-package com.byritium.infra;
+package com.byritium.utils;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;

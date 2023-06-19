@@ -1,19 +1,11 @@
-package com.byritium.infra.api;
+package com.byritium.external.service;
 
 import com.byritium.application.dto.ConnectionDto;
-import com.byritium.infra.general.constance.CustomerType;
-import com.byritium.infra.rpc.DeviceAccountRpc;
-import com.byritium.infra.rpc.UserAccountRpc;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.byritium.constance.CustomerType;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ConnectionAuthAclService {
-    @Autowired
-    private UserAccountRpc userAccountRpc;
-
-    @Autowired
-    private DeviceAccountRpc deviceAccountRpc;
 
     public void auth(ConnectionDto connectionDto) {
         CustomerType customerType = connectionDto.getCustomerType();

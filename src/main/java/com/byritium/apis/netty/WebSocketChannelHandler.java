@@ -2,9 +2,8 @@ package com.byritium.apis.netty;
 
 import com.byritium.application.ConnectionAppService;
 import com.byritium.application.command.ConnectionCommand;
-import com.byritium.infra.ChannelSupervise;
-import com.byritium.infra.SpringUtils;
-import com.byritium.infra.general.constance.ProtocolType;
+import com.byritium.utils.SpringUtils;
+import com.byritium.constance.ProtocolType;
 import io.netty.channel.*;
 import io.netty.handler.codec.http.*;
 import io.netty.handler.codec.http.websocketx.*;
@@ -63,14 +62,12 @@ public class WebSocketChannelHandler extends SimpleChannelInboundHandler<Object>
     public void channelActive(ChannelHandlerContext ctx) {
         //添加连接
         log.debug("客户端加入连接：" + ctx.channel());
-        ChannelSupervise.addChannel(ctx.channel());
     }
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) {
         //断开连接
         log.debug("客户端断开连接：" + ctx.channel());
-        ChannelSupervise.removeChannel(ctx.channel());
     }
 
     @Override

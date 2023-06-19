@@ -1,4 +1,4 @@
-package com.byritium.infra;
+package com.byritium.utils;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;

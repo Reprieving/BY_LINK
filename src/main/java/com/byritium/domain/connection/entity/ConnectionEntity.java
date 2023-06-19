@@ -1,7 +1,7 @@
 package com.byritium.domain.connection.entity;
 
 import com.byritium.domain.connection.repository.ConnectionRepository;
-import com.byritium.infra.SpringUtils;
+import com.byritium.utils.SpringUtils;
 import lombok.Getter;
 
 @Getter

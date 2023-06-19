@@ -1,4 +1,4 @@
-package com.byritium.infra.peristent.common;
+package com.byritium.persistence.repository;
 
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-@Component
+//@Component
 public class RedisClient<Serializable, Value> {
     @Resource
     private RedisTemplate<Serializable, Value> redisTemplate;

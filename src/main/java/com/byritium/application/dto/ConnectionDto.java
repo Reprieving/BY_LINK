@@ -1,7 +1,7 @@
 package com.byritium.application.dto;
 
-import com.byritium.infra.general.constance.CustomerType;
-import com.byritium.infra.general.constance.ProtocolType;
+import com.byritium.constance.CustomerType;
+import com.byritium.constance.ProtocolType;
 import lombok.Data;
 
 @Data

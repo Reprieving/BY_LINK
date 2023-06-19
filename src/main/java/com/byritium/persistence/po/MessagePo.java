@@ -1,6 +1,6 @@
-package com.byritium.infra.repository.po;
+package com.byritium.persistence.po;
 
-import com.byritium.infra.general.constance.ProtocolType;
+import com.byritium.constance.ProtocolType;
 
 public class MessagePo {
     private Long id;

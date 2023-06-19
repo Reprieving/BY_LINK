@@ -1,7 +1,7 @@
 package com.byritium.apis.model;
 
-import com.byritium.infra.general.constance.ProtocolType;
-import com.byritium.infra.general.constance.CustomerType;
+import com.byritium.constance.ProtocolType;
+import com.byritium.constance.CustomerType;
 import lombok.Data;
 
 import java.time.LocalDateTime;

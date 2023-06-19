@@ -2,8 +2,8 @@ package com.byritium.domain.connection.service;
 
 import com.byritium.application.dto.ConnectionCommDto;
 import com.byritium.application.dto.ConnectionDto;
-import com.byritium.infra.api.ConnectionAuthAclService;
-import com.byritium.infra.general.constance.ProtocolType;
+import com.byritium.external.service.ConnectionAuthAclService;
+import com.byritium.constance.ProtocolType;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
 import io.netty.handler.codec.http.FullHttpRequest;

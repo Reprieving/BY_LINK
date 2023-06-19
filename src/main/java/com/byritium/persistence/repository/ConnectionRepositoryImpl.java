@@ -1,4 +1,4 @@
-package com.byritium.infra.repository.persistence;
+package com.byritium.persistence.repository;
 
 import com.byritium.domain.connection.repository.ConnectionRepository;
 import io.netty.channel.Channel;

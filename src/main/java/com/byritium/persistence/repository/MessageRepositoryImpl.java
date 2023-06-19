@@ -1,8 +1,8 @@
-package com.byritium.infra.repository.persistence;
+package com.byritium.persistence.repository;
 
 import com.byritium.domain.message.entity.Message;
 import com.byritium.domain.message.repository.MessageRepository;
-import com.byritium.infra.repository.convertor.MessageConvertor;
+import com.byritium.persistence.convertor.MessageConvertor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Component;
