@@ -7,7 +7,7 @@ import com.byritium.domain.connection.service.ConnectionMessageService;
 import com.byritium.domain.connection.service.manager.ConnectionMessageManager;
 import com.byritium.domain.message.entity.Message;
 import com.byritium.domain.message.repository.MessageRepository;
-import com.byritium.constance.ProtocolType;
+import com.byritium.types.constance.ProtocolType;
 import io.netty.channel.Channel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

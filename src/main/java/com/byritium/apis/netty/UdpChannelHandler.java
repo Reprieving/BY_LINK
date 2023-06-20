@@ -3,7 +3,7 @@ package com.byritium.apis.netty;
 import com.byritium.application.ConnectionAppService;
 import com.byritium.application.command.ConnectionCommand;
 import com.byritium.utils.SpringUtils;
-import com.byritium.constance.ProtocolType;
+import com.byritium.types.constance.ProtocolType;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;

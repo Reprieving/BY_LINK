@@ -4,7 +4,7 @@ import com.byritium.application.ConnectionAppService;
 import com.byritium.application.command.ConnectionCommand;
 import com.byritium.application.dto.MessageProtocol;
 import com.byritium.utils.SpringUtils;
-import com.byritium.constance.ProtocolType;
+import com.byritium.types.constance.ProtocolType;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.*;
 import io.netty.handler.codec.ByteToMessageDecoder;

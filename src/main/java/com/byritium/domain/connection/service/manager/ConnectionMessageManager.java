@@ -1,7 +1,7 @@
 package com.byritium.domain.connection.service.manager;
 
 import com.byritium.domain.connection.service.ConnectionMessageService;
-import com.byritium.constance.ProtocolType;
+import com.byritium.types.constance.ProtocolType;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;

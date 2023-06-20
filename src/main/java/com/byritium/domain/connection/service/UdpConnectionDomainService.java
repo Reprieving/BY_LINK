@@ -1,7 +1,7 @@
 package com.byritium.domain.connection.service;
 
 import com.byritium.application.dto.ConnectionCommDto;
-import com.byritium.constance.ProtocolType;
+import com.byritium.types.constance.ProtocolType;
 import io.netty.channel.Channel;
 import org.springframework.stereotype.Service;
 
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 public class UdpConnectionDomainService implements ConnectionMessageService {
     @Override
     public ProtocolType protocolType() {
-        return null;
+        return ProtocolType.UDP;
     }
 
     @Override

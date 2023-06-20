@@ -1,7 +1,7 @@
 package com.byritium.apis.model;
 
-import com.byritium.constance.CustomerType;
-import com.byritium.constance.MessagePayloadType;
+import com.byritium.types.constance.CustomerType;
+import com.byritium.types.constance.MessagePayloadType;
 import lombok.Data;
 
 @Data

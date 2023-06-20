@@ -1,6 +1,6 @@
 package com.byritium.application.command;
 
-import com.byritium.constance.ProtocolType;
+import com.byritium.types.constance.ProtocolType;
 import io.netty.channel.Channel;
 import lombok.Data;
 

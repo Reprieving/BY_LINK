@@ -3,8 +3,8 @@ package com.byritium.domain.connection.service;
 import com.byritium.application.dto.ConnectionCommDto;
 import com.byritium.application.dto.ConnectionDto;
 import com.byritium.domain.connection.external.AuthExternalService;
-import com.byritium.external.impl.AccountAuthExternalService;
-import com.byritium.constance.ProtocolType;
+import com.byritium.types.constance.ProtocolType;
+import com.byritium.types.external.ConnectionAuth;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
 import io.netty.handler.codec.http.FullHttpRequest;
@@ -36,8 +36,8 @@ public class HttpConnectionDomainService implements ConnectionMessageService {
         HttpHeaders httpHeaders = fullHttpRequest.headers();
         String identifier = httpHeaders.get("identifier");
 
-        ConnectionDto connectionDto = new ConnectionDto();
-        authExternalService.auth(connectionDto);
+        ConnectionAuth connectionAuth = new ConnectionAuth();
+        authExternalService.auth(connectionAuth);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.byritium.constance;
+package com.byritium.types.constance;
 
 import lombok.Getter;
 

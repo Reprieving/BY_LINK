@@ -1,6 +1,6 @@
 package com.byritium.domain.message.entity;
 
-import com.byritium.constance.ProtocolType;
+import com.byritium.types.constance.ProtocolType;
 import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.Accessors;

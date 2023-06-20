@@ -2,7 +2,7 @@ package com.byritium.domain.connection.service;
 
 import com.byritium.application.dto.ConnectionCommDto;
 import com.byritium.application.dto.ConnectionDto;
-import com.byritium.constance.ProtocolType;
+import com.byritium.types.constance.ProtocolType;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
