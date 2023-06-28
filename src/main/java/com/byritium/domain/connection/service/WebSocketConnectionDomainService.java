@@ -2,7 +2,9 @@ package com.byritium.domain.connection.service;
 
 import com.byritium.application.dto.ConnectionCommDto;
 import com.byritium.application.dto.ConnectionDto;
+import com.byritium.domain.connection.external.AuthExternalService;
 import com.byritium.types.constance.ProtocolType;
+import com.byritium.types.external.ConnectionAuth;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
@@ -15,6 +17,7 @@ import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.WebSocketFrame;
 import io.netty.util.CharsetUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -28,6 +31,9 @@ public class WebSocketConnectionDomainService implements ConnectionMessageServic
     public ProtocolType protocolType() {
         return ProtocolType.WEBSOCKET;
     }
+
+    @Autowired
+    private AuthExternalService authExternalService;
 
     @Override
     public void auth(Channel channel, Object message) {
@@ -48,8 +54,11 @@ public class WebSocketConnectionDomainService implements ConnectionMessageServic
         }
 
         HttpHeaders httpHeaders = req.headers();
+        String username = httpHeaders.get("username");
+        String password = httpHeaders.get("password");
         String identifier = httpHeaders.get("identifier");
-        ConnectionDto connectionDto = new ConnectionDto(identifier.split(","));
+        ConnectionAuth connectionAuth = new ConnectionAuth(username,password,identifier);
+        authExternalService.auth(connectionAuth);
     }
 
     @Override

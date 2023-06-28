@@ -34,9 +34,10 @@ public class HttpConnectionDomainService implements ConnectionMessageService {
     public void auth(Channel channel, Object msg) {
         FullHttpRequest fullHttpRequest = (FullHttpRequest) msg;
         HttpHeaders httpHeaders = fullHttpRequest.headers();
+        String username = httpHeaders.get("username");
+        String password = httpHeaders.get("password");
         String identifier = httpHeaders.get("identifier");
-
-        ConnectionAuth connectionAuth = new ConnectionAuth();
+        ConnectionAuth connectionAuth = new ConnectionAuth(username,password,identifier);
         authExternalService.auth(connectionAuth);
     }
 

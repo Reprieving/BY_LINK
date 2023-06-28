@@ -29,7 +29,8 @@ public class MqttConnectionDomainService implements ConnectionMessageService {
     }
 
     @Override
-    public void auth(Channel channel,Object message) {}
+    public void auth(Channel channel, Object message) {
+    }
 
     @Override
     public ConnectionCommDto messaged(Channel channel, Object message) {
@@ -42,11 +43,10 @@ public class MqttConnectionDomainService implements ConnectionMessageService {
             //	to do 建议connect消息单独处理，用来对客户端进行认证管理等 这里直接返回一个CONNACK消息
             MqttConnectMessage mqttConnectMessage = (MqttConnectMessage) message;
             MqttConnectPayload payload = mqttConnectMessage.payload();
-            String userName = payload.userName();
+            String username = payload.userName();
             String password = new String(payload.passwordInBytes(), CharsetUtil.UTF_8);
             String clientIdentifier = payload.clientIdentifier();
-            String[] args = clientIdentifier.split(",");
-            ConnectionAuth connectionAuth = new ConnectionAuth();
+            ConnectionAuth connectionAuth = new ConnectionAuth(username, password, clientIdentifier);
             authExternalService.auth(connectionAuth);
         }
 
