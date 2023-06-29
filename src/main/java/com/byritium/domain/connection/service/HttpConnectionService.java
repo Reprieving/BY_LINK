@@ -26,16 +26,14 @@ public class HttpConnectionService implements ConnectionMessageService {
     }
 
     @Override
-    public ConnectionDto auth(Channel channel, Object msg, AccountAuthService accountAuthService) {
+    public ConnectionDto auth(Channel channel, Object msg, Boolean authFlag, AccountAuthService accountAuthService) {
         FullHttpRequest fullHttpRequest = (FullHttpRequest) msg;
         HttpHeaders httpHeaders = fullHttpRequest.headers();
         String username = httpHeaders.get("username");
         String password = httpHeaders.get("password");
         String identifier = httpHeaders.get("identifier");
 
-        AccountAuth accountAuth = new AccountAuth(username, password, identifier);
-
-        accountAuthService.authenticate(accountAuth);
+        accountAuthService.authenticate(username, identifier, authFlag);
 
         ConnectionDto connectionDto = new ConnectionDto();
         return connectionDto;

@@ -11,6 +11,6 @@ public class ConnectionCommand {
     private ProtocolType protocolType;
     private Channel channel;
     private Object message;
-    private Boolean autoFlag;
+    private Boolean authFlag;
 
 }

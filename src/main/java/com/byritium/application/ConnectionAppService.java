@@ -36,10 +36,11 @@ public class ConnectionAppService {
         ProtocolType protocolType = command.getProtocolType();
         Channel channel = command.getChannel();
         Object message = command.getMessage();
+        Boolean authFlag = command.getAuthFlag();
         ConnectionMessageService connectionMessageService = connectionMessageManager.get(protocolType);
 
         //鉴权
-        connectionMessageService.auth(channel, message, accountAuthService);
+        connectionMessageService.auth(channel, message, authFlag, accountAuthService);
 
         //解析
         ConnectionDto connectionDto = connectionMessageService.messaged(channel, message);

@@ -9,7 +9,7 @@ public interface ConnectionMessageService {
 
     ProtocolType protocolType();
 
-    ConnectionDto auth(Channel channel, Object message, AccountAuthService accountAuthService);
+    ConnectionDto auth(Channel channel, Object message, Boolean authFlag, AccountAuthService accountAuthService);
 
     ConnectionDto messaged(Channel channel, Object message);
 }

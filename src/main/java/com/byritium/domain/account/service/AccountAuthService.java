@@ -3,5 +3,5 @@ package com.byritium.domain.account.service;
 import com.byritium.domain.account.entity.AccountAuth;
 
 public interface AccountAuthService {
-    AccountAuth authenticate(String userName, String idetifier, Boolean authFlag);
+    AccountAuth authenticate(String userName, String identifier, Boolean authFlag);
 }

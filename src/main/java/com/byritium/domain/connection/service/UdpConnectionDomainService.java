@@ -14,7 +14,7 @@ public class UdpConnectionDomainService implements ConnectionMessageService {
     }
 
     @Override
-    public ConnectionDto auth(Channel channel, Object message, AccountAuthService accountAuthService) {
+    public ConnectionDto auth(Channel channel, Object message, Boolean authFlag, AccountAuthService accountAuthService) {
         return null;
     }
 

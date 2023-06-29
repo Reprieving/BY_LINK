@@ -36,7 +36,7 @@ public class WebSocketConnectionDomainService implements ConnectionMessageServic
     private AuthExternalService authExternalService;
 
     @Override
-    public ConnectionDto auth(Channel channel, Object message, AccountAuthService accountAuthService) {
+    public ConnectionDto auth(Channel channel, Object message, Boolean authFlag, AccountAuthService accountAuthService) {
         FullHttpRequest req = (FullHttpRequest) message;
         if (!req.decoderResult().isSuccess() || (!"websocket".equals(req.headers().get("Upgrade")))) {
             DefaultFullHttpResponse res = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.BAD_REQUEST);
