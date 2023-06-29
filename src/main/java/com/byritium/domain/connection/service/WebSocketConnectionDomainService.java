@@ -1,6 +1,7 @@
 package com.byritium.domain.connection.service;
 
 import com.byritium.application.dto.ConnectionDto;
+import com.byritium.domain.account.service.AccountAuthService;
 import com.byritium.domain.connection.external.AuthExternalService;
 import com.byritium.types.constance.ProtocolType;
 import com.byritium.types.external.ConnectionAuth;
@@ -35,7 +36,7 @@ public class WebSocketConnectionDomainService implements ConnectionMessageServic
     private AuthExternalService authExternalService;
 
     @Override
-    public void auth(Channel channel, Object message) {
+    public ConnectionDto auth(Channel channel, Object message, AccountAuthService accountAuthService) {
         FullHttpRequest req = (FullHttpRequest) message;
         if (!req.decoderResult().isSuccess() || (!"websocket".equals(req.headers().get("Upgrade")))) {
             DefaultFullHttpResponse res = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.BAD_REQUEST);
@@ -49,7 +50,7 @@ public class WebSocketConnectionDomainService implements ConnectionMessageServic
             if (!isKeepAlive(req) || res.status().code() != 200) {
                 f.addListener(ChannelFutureListener.CLOSE);
             }
-            return;
+            return null;
         }
 
         HttpHeaders httpHeaders = req.headers();
@@ -57,7 +58,8 @@ public class WebSocketConnectionDomainService implements ConnectionMessageServic
         String password = httpHeaders.get("password");
         String identifier = httpHeaders.get("identifier");
         ConnectionAuth connectionAuth = new ConnectionAuth(username,password,identifier);
-        authExternalService.auth(connectionAuth);
+
+        return null;
     }
 
     @Override

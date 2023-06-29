@@ -1,9 +1,7 @@
 package com.byritium.domain.account.repository;
 
-import com.byritium.domain.account.entity.Account;
-import com.byritium.domain.account.entity.vo.AccountAuth;
-import com.byritium.types.external.ConnectionAuth;
+import com.byritium.persistence.po.AccountAuthPo;
 
 public interface AccountRepository {
-    Account getAccountAuth(AccountAuth accountAuth);
+    AccountAuthPo getAccountAuth(String username, String identifier);
 }

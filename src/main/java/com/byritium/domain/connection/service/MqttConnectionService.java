@@ -1,6 +1,7 @@
 package com.byritium.domain.connection.service;
 
 import com.byritium.application.dto.ConnectionDto;
+import com.byritium.domain.account.service.AccountAuthService;
 import com.byritium.domain.connection.external.AuthExternalService;
 import com.byritium.types.constance.ProtocolType;
 import com.byritium.types.external.ConnectionAuth;
@@ -18,7 +19,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
-public class MqttConnectionDomainService implements ConnectionMessageService {
+public class MqttConnectionService implements ConnectionMessageService {
     @Autowired
     private AuthExternalService authExternalService;
 
@@ -28,7 +29,8 @@ public class MqttConnectionDomainService implements ConnectionMessageService {
     }
 
     @Override
-    public void auth(Channel channel, Object message) {
+    public ConnectionDto auth(Channel channel, Object message, AccountAuthService accountAuthService) {
+        return null;
     }
 
     @Override

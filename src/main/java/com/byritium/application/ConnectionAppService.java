@@ -2,6 +2,7 @@ package com.byritium.application;
 
 import com.byritium.application.command.ConnectionCommand;
 import com.byritium.application.dto.ConnectionDto;
+import com.byritium.domain.account.service.AccountAuthService;
 import com.byritium.domain.connection.messaging.MessageProducer;
 import com.byritium.domain.connection.repository.ConnectionRepository;
 import com.byritium.domain.connection.service.ConnectionMessageService;
@@ -20,6 +21,9 @@ public class ConnectionAppService {
     private ConnectionMessageManager connectionMessageManager;
 
     @Autowired
+    private AccountAuthService accountAuthService;
+
+    @Autowired
     private MessageRepository messageRepository;
 
     @Autowired
@@ -35,7 +39,7 @@ public class ConnectionAppService {
         ConnectionMessageService connectionMessageService = connectionMessageManager.get(protocolType);
 
         //鉴权
-        connectionMessageService.auth(channel, message);
+        connectionMessageService.auth(channel, message, accountAuthService);
 
         //解析
         ConnectionDto connectionDto = connectionMessageService.messaged(channel, message);
@@ -54,7 +58,6 @@ public class ConnectionAppService {
         connectionRepository.saveConnection(connectionDto.getIdentifier(), channel);
 
         //存储会话
-
 
         //推送
         messageProducer.send();

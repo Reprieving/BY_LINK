@@ -1,10 +1,9 @@
 package com.byritium.domain.connection.service;
 
 import com.byritium.application.dto.ConnectionDto;
-import com.byritium.domain.account.entity.Account;
-import com.byritium.domain.account.entity.vo.AccountAuth;
+import com.byritium.domain.account.entity.AccountAuth;
+import com.byritium.domain.account.service.AccountAuthService;
 import com.byritium.types.constance.ProtocolType;
-import com.byritium.types.external.ConnectionAuth;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
 import io.netty.handler.codec.http.FullHttpRequest;
@@ -19,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class HttpConnectionDomainService implements ConnectionMessageService {
+public class HttpConnectionService implements ConnectionMessageService {
 
     @Override
     public ProtocolType protocolType() {
@@ -27,15 +26,17 @@ public class HttpConnectionDomainService implements ConnectionMessageService {
     }
 
     @Override
-    public ConnectionDto auth(Channel channel, Object msg) {
+    public ConnectionDto auth(Channel channel, Object msg, AccountAuthService accountAuthService) {
         FullHttpRequest fullHttpRequest = (FullHttpRequest) msg;
         HttpHeaders httpHeaders = fullHttpRequest.headers();
         String username = httpHeaders.get("username");
         String password = httpHeaders.get("password");
         String identifier = httpHeaders.get("identifier");
 
-        Account account = new Account();
         AccountAuth accountAuth = new AccountAuth(username, password, identifier);
+
+        accountAuthService.authenticate(accountAuth);
+
         ConnectionDto connectionDto = new ConnectionDto();
         return connectionDto;
     }

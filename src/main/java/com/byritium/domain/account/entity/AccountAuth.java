@@ -1,4 +1,4 @@
-package com.byritium.domain.account.entity.vo;
+package com.byritium.domain.account.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
