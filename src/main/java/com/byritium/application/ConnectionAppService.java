@@ -1,8 +1,9 @@
 package com.byritium.application;
 
 import com.byritium.application.command.ConnectionCommand;
-import com.byritium.application.dto.ConnectionCommDto;
+import com.byritium.application.dto.ConnectionDto;
 import com.byritium.domain.connection.messaging.MessageProducer;
+import com.byritium.domain.connection.repository.ConnectionRepository;
 import com.byritium.domain.connection.service.ConnectionMessageService;
 import com.byritium.domain.connection.service.manager.ConnectionMessageManager;
 import com.byritium.domain.message.entity.Message;
@@ -22,6 +23,9 @@ public class ConnectionAppService {
     private MessageRepository messageRepository;
 
     @Autowired
+    private ConnectionRepository connectionRepository;
+
+    @Autowired
     private MessageProducer messageProducer;
 
     public void comm(ConnectionCommand command) {
@@ -34,17 +38,23 @@ public class ConnectionAppService {
         connectionMessageService.auth(channel, message);
 
         //解析
-        ConnectionCommDto connectionCommDto = connectionMessageService.messaged(channel, message);
+        ConnectionDto connectionDto = connectionMessageService.messaged(channel, message);
 
-        //存储
-        Message messageRoot = Message.builder()
+        //存储消息
+        Message messageAgg = Message.builder()
                 .protocolType(protocolType)
-                .identifier(connectionCommDto.getIdentifier())
+                .identifier(connectionDto.getIdentifier())
                 .times(System.currentTimeMillis())
-                .content(connectionCommDto.getMessage())
+                .content(connectionDto.getMessage())
                 .build();
 
-        messageRepository.save(messageRoot);
+        messageRepository.save(messageAgg);
+
+        //存储连接
+        connectionRepository.saveConnection(connectionDto.getIdentifier(), channel);
+
+        //存储会话
+
 
         //推送
         messageProducer.send();

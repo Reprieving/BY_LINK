@@ -1,6 +1,6 @@
 package com.byritium.domain.connection.service;
 
-import com.byritium.application.dto.ConnectionCommDto;
+import com.byritium.application.dto.ConnectionDto;
 import com.byritium.types.constance.ProtocolType;
 import io.netty.channel.Channel;
 
@@ -8,7 +8,7 @@ public interface ConnectionMessageService {
 
     ProtocolType protocolType();
 
-    void auth(Channel channel, Object message);
+    ConnectionDto auth(Channel channel, Object message);
 
-    ConnectionCommDto messaged(Channel channel, Object message);
+    ConnectionDto messaged(Channel channel, Object message);
 }

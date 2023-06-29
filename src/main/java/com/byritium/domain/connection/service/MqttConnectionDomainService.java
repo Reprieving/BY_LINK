@@ -1,6 +1,5 @@
 package com.byritium.domain.connection.service;
 
-import com.byritium.application.dto.ConnectionCommDto;
 import com.byritium.application.dto.ConnectionDto;
 import com.byritium.domain.connection.external.AuthExternalService;
 import com.byritium.types.constance.ProtocolType;
@@ -33,7 +32,7 @@ public class MqttConnectionDomainService implements ConnectionMessageService {
     }
 
     @Override
-    public ConnectionCommDto messaged(Channel channel, Object message) {
+    public ConnectionDto messaged(Channel channel, Object message) {
         MqttMessage mqttMessage = (MqttMessage) message;
         log.info("info--" + mqttMessage.toString());
         MqttFixedHeader mqttFixedHeader = mqttMessage.fixedHeader();
@@ -50,12 +49,12 @@ public class MqttConnectionDomainService implements ConnectionMessageService {
             authExternalService.auth(connectionAuth);
         }
 
-        ConnectionCommDto connectionCommDto = new ConnectionCommDto();
+        ConnectionDto connectionDto = new ConnectionDto();
         switch (mqttFixedHeader.messageType()) {
             case PUBLISH:        //	客户端发布消息
                 //	PUBACK报文是对QoS 1等级的PUBLISH报文的响应
                 String publishData = puback(channel, mqttMessage);
-                connectionCommDto.setMessage(publishData);
+                connectionDto.setMessage(publishData);
                 break;
             case PUBREL:        //	发布释放
                 //	PUBREL报文是对PUBREC报文的响应
@@ -87,7 +86,7 @@ public class MqttConnectionDomainService implements ConnectionMessageService {
             default:
                 break;
         }
-        return connectionCommDto;
+        return connectionDto;
     }
 
 

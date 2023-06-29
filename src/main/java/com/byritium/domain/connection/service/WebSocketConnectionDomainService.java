@@ -1,6 +1,5 @@
 package com.byritium.domain.connection.service;
 
-import com.byritium.application.dto.ConnectionCommDto;
 import com.byritium.application.dto.ConnectionDto;
 import com.byritium.domain.connection.external.AuthExternalService;
 import com.byritium.types.constance.ProtocolType;
@@ -62,13 +61,13 @@ public class WebSocketConnectionDomainService implements ConnectionMessageServic
     }
 
     @Override
-    public ConnectionCommDto messaged(Channel channel, Object message) {
+    public ConnectionDto messaged(Channel channel, Object message) {
         WebSocketFrame frame = (WebSocketFrame) message;
-        ConnectionCommDto connectionCommDto = new ConnectionCommDto();
+        ConnectionDto connectionDto = new ConnectionDto();
         // 判断是否ping消息
         if (frame instanceof PingWebSocketFrame) {
             channel.write(new PongWebSocketFrame(frame.content().retain()));
-            return connectionCommDto;
+            return connectionDto;
         }
         if (!(frame instanceof TextWebSocketFrame)) {
             log.debug("不支持二进制消息");
@@ -78,8 +77,8 @@ public class WebSocketConnectionDomainService implements ConnectionMessageServic
         String request = ((TextWebSocketFrame) frame).text();
         log.debug("服务端收到：" + request);
         TextWebSocketFrame tws = new TextWebSocketFrame(new Date().toString() + channel.id() + "：" + request);
-        connectionCommDto.setMessage(request);
-        return connectionCommDto;
+        connectionDto.setMessage(request);
+        return connectionDto;
     }
 }
 

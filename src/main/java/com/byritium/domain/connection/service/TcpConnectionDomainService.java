@@ -1,6 +1,6 @@
 package com.byritium.domain.connection.service;
 
-import com.byritium.application.dto.ConnectionCommDto;
+import com.byritium.application.dto.ConnectionDto;
 import com.byritium.types.constance.ProtocolType;
 import io.netty.channel.Channel;
 import org.springframework.stereotype.Service;
@@ -18,9 +18,9 @@ public class TcpConnectionDomainService implements ConnectionMessageService {
     }
 
     @Override
-    public ConnectionCommDto messaged(Channel channel, Object message) {
-        ConnectionCommDto connectionCommDto = new ConnectionCommDto();
-        return connectionCommDto;
+    public ConnectionDto messaged(Channel channel, Object message) {
+        ConnectionDto connectionDto = new ConnectionDto();
+        return connectionDto;
     }
 }
 

@@ -1,8 +1,8 @@
 package com.byritium.domain.connection.service;
 
-import com.byritium.application.dto.ConnectionCommDto;
 import com.byritium.application.dto.ConnectionDto;
-import com.byritium.domain.connection.external.AuthExternalService;
+import com.byritium.domain.account.entity.Account;
+import com.byritium.domain.account.entity.vo.AccountAuth;
 import com.byritium.types.constance.ProtocolType;
 import com.byritium.types.external.ConnectionAuth;
 import io.netty.buffer.ByteBuf;
@@ -13,7 +13,6 @@ import io.netty.handler.codec.http.QueryStringDecoder;
 import io.netty.handler.codec.http.multipart.Attribute;
 import io.netty.handler.codec.http.multipart.HttpPostRequestDecoder;
 import io.netty.handler.codec.http.multipart.InterfaceHttpData;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,9 +20,6 @@ import java.util.Map;
 
 @Service
 public class HttpConnectionDomainService implements ConnectionMessageService {
-    @Autowired
-    private AuthExternalService authExternalService;
-
 
     @Override
     public ProtocolType protocolType() {
@@ -31,18 +27,21 @@ public class HttpConnectionDomainService implements ConnectionMessageService {
     }
 
     @Override
-    public void auth(Channel channel, Object msg) {
+    public ConnectionDto auth(Channel channel, Object msg) {
         FullHttpRequest fullHttpRequest = (FullHttpRequest) msg;
         HttpHeaders httpHeaders = fullHttpRequest.headers();
         String username = httpHeaders.get("username");
         String password = httpHeaders.get("password");
         String identifier = httpHeaders.get("identifier");
-        ConnectionAuth connectionAuth = new ConnectionAuth(username,password,identifier);
-        authExternalService.auth(connectionAuth);
+
+        Account account = new Account();
+        AccountAuth accountAuth = new AccountAuth(username, password, identifier);
+        ConnectionDto connectionDto = new ConnectionDto();
+        return connectionDto;
     }
 
     @Override
-    public ConnectionCommDto messaged(Channel channel, Object msg) {
+    public ConnectionDto messaged(Channel channel, Object msg) {
         FullHttpRequest fullHttpRequest = (FullHttpRequest) msg;
         HttpHeaders httpHeaders = fullHttpRequest.headers();
         String message = null;
@@ -60,9 +59,9 @@ public class HttpConnectionDomainService implements ConnectionMessageService {
             default:
         }
 
-        ConnectionCommDto connectionCommDto = new ConnectionCommDto();
-        connectionCommDto.setMessage(message);
-        return connectionCommDto;
+        ConnectionDto connectionDto = new ConnectionDto();
+        connectionDto.setMessage(message);
+        return connectionDto;
     }
 
 
