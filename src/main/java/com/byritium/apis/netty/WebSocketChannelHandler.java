@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 public class WebSocketChannelHandler extends SimpleChannelInboundHandler<Object> {
     private static final ProtocolType protocolType = ProtocolType.WEBSOCKET;
     private WebSocketServerHandshaker handshaker;
+    private boolean authFlag = false;
 
     /**
      * 客户端与服务端第一次建立连接时执行 在channelActive方法之前执行
@@ -37,7 +38,7 @@ public class WebSocketChannelHandler extends SimpleChannelInboundHandler<Object>
         Channel channel = ctx.channel();
 
         ConnectionAppService connectionAppService = SpringUtils.getBean(ConnectionAppService.class);
-        ConnectionCommand command = new ConnectionCommand(protocolType, channel, msg);
+        ConnectionCommand command = new ConnectionCommand(protocolType, channel, msg, authFlag);
         connectionAppService.comm(command);
 
         if(msg instanceof FullHttpRequest){
@@ -48,6 +49,7 @@ public class WebSocketChannelHandler extends SimpleChannelInboundHandler<Object>
                 WebSocketServerHandshakerFactory.sendUnsupportedVersionResponse(channel);
             } else {
                 handshaker.handshake(channel, req);
+                authFlag = true;
             }
         }else if(msg instanceof WebSocketFrame) {
             WebSocketFrame frame = (WebSocketFrame) msg;

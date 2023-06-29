@@ -40,7 +40,7 @@ public class UdpChannelHandler extends SimpleChannelInboundHandler<DatagramPacke
     protected void channelRead0(ChannelHandlerContext ctx, DatagramPacket datagramPacket) throws Exception {
         String msg = datagramPacket.content().toString(CharsetUtil.UTF_8);
         ConnectionAppService connectionAppService = SpringUtils.getBean(ConnectionAppService.class);
-        ConnectionCommand command = new ConnectionCommand(protocolType, ctx.channel(), msg);
+        ConnectionCommand command = new ConnectionCommand(protocolType, ctx.channel(), msg, null);
         connectionAppService.comm(command);
         //收到udp消息后，返回消息
         ctx.writeAndFlush(new DatagramPacket(Unpooled.copiedBuffer("receice data", CharsetUtil.UTF_8),

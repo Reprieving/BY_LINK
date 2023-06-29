@@ -8,6 +8,7 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.channel.*;
 import io.netty.handler.codec.http.*;
+import io.netty.util.NetUtil;
 
 import java.nio.charset.StandardCharsets;
 
@@ -37,7 +38,7 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> {
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, Object msg) {
         Channel channel = channelHandlerContext.channel();
         ConnectionAppService connectionAppService = SpringUtils.getBean(ConnectionAppService.class);
-        ConnectionCommand command = new ConnectionCommand(protocolType, channel, msg);
+        ConnectionCommand command = new ConnectionCommand(protocolType, channel, msg, null);
         connectionAppService.comm(command);
 
         ByteBuf buf = PooledByteBufAllocator.DEFAULT.buffer();

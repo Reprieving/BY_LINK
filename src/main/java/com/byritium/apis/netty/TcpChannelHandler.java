@@ -16,8 +16,8 @@ import java.util.List;
 @ChannelHandler.Sharable
 public class TcpChannelHandler extends ByteToMessageDecoder {
     private static final ProtocolType protocolType = ProtocolType.TCP;
-    //消息读取索引
-    int length = 0;
+    int length = 0;    //消息读取索引
+    private boolean authFlag = false;
 
     /**
      * 客户端与服务端第一次建立连接时执行 在channelActive方法之前执行
@@ -62,9 +62,9 @@ public class TcpChannelHandler extends ByteToMessageDecoder {
                 messageProtocol.setContent(content);
                 String msg = new String(content);
                 ConnectionAppService connectionAppService = SpringUtils.getBean(ConnectionAppService.class);
-                ConnectionCommand command = new ConnectionCommand(protocolType, ctx.channel(), msg);
+                ConnectionCommand command = new ConnectionCommand(protocolType, ctx.channel(), msg, authFlag);
                 connectionAppService.comm(command);
-
+                authFlag = true;
                 out.add(messageProtocol);
             }
             length = 0;

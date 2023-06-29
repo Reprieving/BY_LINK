@@ -13,8 +13,8 @@ public class AccountAuthServiceImpl implements AccountAuthService {
     @Autowired
     private AccountRepository accountRepository;
 
-    public AccountAuth authenticate(AccountAuth accountAuth) {
-        AccountAuthPo po = accountRepository.getAccountAuth(accountAuth.getUsername(), accountAuth.getIdentifier());
+    public AccountAuth authenticate(String username, String identifier, Boolean authFlag) {
+        AccountAuthPo po = accountRepository.getAccountAuth(username, identifier);
         if (po == null) {
             throw new AccountAuthException("auth failure");
         }

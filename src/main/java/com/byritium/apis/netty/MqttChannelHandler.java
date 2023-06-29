@@ -13,7 +13,7 @@ import java.io.IOException;
 @ChannelHandler.Sharable
 public class MqttChannelHandler extends SimpleChannelInboundHandler<Object> {
     private static final ProtocolType protocolType = ProtocolType.MQTT;
-
+    private boolean authFlag = false;
     /**
      * 客户端与服务端第一次建立连接时执行 在channelActive方法之前执行
      */
@@ -38,9 +38,9 @@ public class MqttChannelHandler extends SimpleChannelInboundHandler<Object> {
     @Override
     public void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception, IOException {
         ConnectionAppService connectionAppService = SpringUtils.getBean(ConnectionAppService.class);
-        ConnectionCommand command = new ConnectionCommand(protocolType, ctx.channel(), msg);
+        ConnectionCommand command = new ConnectionCommand(protocolType, ctx.channel(), msg, authFlag);
         connectionAppService.comm(command);
-
+        authFlag = true;
     }
 
 
