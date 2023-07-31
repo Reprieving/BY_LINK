@@ -4,16 +4,18 @@ import com.byritium.application.dto.ConnectionDto;
 import com.byritium.domain.account.entity.AccountAuth;
 import com.byritium.domain.account.service.AccountAuthService;
 import com.byritium.types.constance.ProtocolType;
+import com.byritium.types.exception.AccountAuthException;
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.channel.Channel;
-import io.netty.handler.codec.http.FullHttpRequest;
-import io.netty.handler.codec.http.HttpHeaders;
-import io.netty.handler.codec.http.QueryStringDecoder;
+import io.netty.channel.ChannelFutureListener;
+import io.netty.handler.codec.http.*;
 import io.netty.handler.codec.http.multipart.Attribute;
 import io.netty.handler.codec.http.multipart.HttpPostRequestDecoder;
 import io.netty.handler.codec.http.multipart.InterfaceHttpData;
 import org.springframework.stereotype.Service;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 
@@ -33,7 +35,17 @@ public class HttpConnectionService implements ConnectionMessageService {
         String password = httpHeaders.get("password");
         String identifier = httpHeaders.get("identifier");
 
-        accountAuthService.authenticate(username, identifier, authFlag);
+        try {
+            accountAuthService.authenticate(username, identifier, authFlag);
+        }catch (AccountAuthException e){
+            ByteBuf buf = PooledByteBufAllocator.DEFAULT.buffer();
+            buf.writeCharSequence("auth fail", StandardCharsets.UTF_8);
+            FullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.UNAUTHORIZED, buf);
+            response.headers().set("Content-Type", "application/json;charset=UTF-8");
+            response.headers().set("Content-Length", response.content().readableBytes());
+            channel.writeAndFlush(response).addListener(ChannelFutureListener.CLOSE);
+        }
+
 
         ConnectionDto connectionDto = new ConnectionDto();
         return connectionDto;

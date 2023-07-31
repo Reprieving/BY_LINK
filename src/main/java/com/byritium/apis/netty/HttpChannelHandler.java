@@ -40,13 +40,6 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> {
         ConnectionAppService connectionAppService = SpringUtils.getBean(ConnectionAppService.class);
         ConnectionCommand command = new ConnectionCommand(protocolType, channel, msg, null);
         connectionAppService.comm(command);
-
-        ByteBuf buf = PooledByteBufAllocator.DEFAULT.buffer();
-        buf.writeCharSequence("sucess", StandardCharsets.UTF_8);
-        FullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.OK, buf);
-        response.headers().set("Content-Type", "application/json;charset=UTF-8");
-        response.headers().set("Content-Length", response.content().readableBytes());
-        channelHandlerContext.channel().writeAndFlush(response).addListener(ChannelFutureListener.CLOSE);
     }
 
 
