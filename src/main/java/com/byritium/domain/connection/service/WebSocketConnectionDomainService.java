@@ -32,9 +32,6 @@ public class WebSocketConnectionDomainService implements ConnectionMessageServic
         return ProtocolType.WEBSOCKET;
     }
 
-    @Autowired
-    private AuthExternalService authExternalService;
-
     @Override
     public ConnectionDto auth(Channel channel, Object message, Boolean authFlag, AccountAuthService accountAuthService) {
         FullHttpRequest req = (FullHttpRequest) message;

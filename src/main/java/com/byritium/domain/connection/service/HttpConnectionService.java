@@ -35,20 +35,9 @@ public class HttpConnectionService implements ConnectionMessageService {
         String password = httpHeaders.get("password");
         String identifier = httpHeaders.get("identifier");
 
-        try {
-            accountAuthService.authenticate(identifier);
-        }catch (AccountAuthException e){
-            ByteBuf buf = PooledByteBufAllocator.DEFAULT.buffer();
-            buf.writeCharSequence("auth fail", StandardCharsets.UTF_8);
-            FullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.UNAUTHORIZED, buf);
-            response.headers().set("Content-Type", "application/json;charset=UTF-8");
-            response.headers().set("Content-Length", response.content().readableBytes());
-            channel.writeAndFlush(response).addListener(ChannelFutureListener.CLOSE);
-        }
+        accountAuthService.authenticate(identifier);
 
-
-        ConnectionDto connectionDto = new ConnectionDto();
-        return connectionDto;
+        return null;
     }
 
     @Override
