@@ -64,6 +64,7 @@ public class WebSocketChannelHandler extends SimpleChannelInboundHandler<Object>
                 }
             }
         } catch (AccountAuthException e) {
+            log.error(e.getMessage());
             ByteBuf buf = PooledByteBufAllocator.DEFAULT.buffer();
             buf.writeCharSequence("auth fail", StandardCharsets.UTF_8);
             FullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.UNAUTHORIZED, buf);

@@ -19,6 +19,7 @@ public class ConnectionRepositoryImpl implements ConnectionRepository {
 
     private static final ChannelGroup globalGroup = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
     private static final ConcurrentMap<String, ChannelId> channelMap = new ConcurrentHashMap<>();
+    private static final ConcurrentMap<String, ChannelId> authMap = new ConcurrentHashMap<>();
 
     @Override
     public Channel findChannelByObjId(String objectId) {
@@ -47,5 +48,15 @@ public class ConnectionRepositoryImpl implements ConnectionRepository {
             channelList.add(globalGroup.find(entry.getValue()));
         }
         return channelList;
+    }
+
+    @Override
+    public void saveAuth(String channelId, Channel channel) {
+        authMap.putIfAbsent(channelId, channel.id());
+    }
+
+    @Override
+    public ChannelId findAuthByChannelId(String objectId) {
+        return authMap.get(objectId);
     }
 }

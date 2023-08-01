@@ -11,6 +11,7 @@ import com.byritium.domain.message.entity.Message;
 import com.byritium.domain.message.repository.MessageRepository;
 import com.byritium.types.constance.ProtocolType;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,8 +41,11 @@ public class ConnectionAppService {
         Boolean authFlag = command.getAuthFlag();
 
         ConnectionMessageService connectionMessageService = connectionMessageManager.get(protocolType);
-        if (!authFlag) {
+        String channelId = channel.id().asLongText();
+        ChannelId channelIdPo = connectionRepository.findAuthByChannelId(channelId);
+        if (!authFlag && channelIdPo == null) {
             connectionMessageService.auth(channel, message, authFlag, accountAuthService);
+            connectionRepository.saveAuth(channelId, channel);
         }
 
     }

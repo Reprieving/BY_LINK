@@ -2,9 +2,14 @@ package com.byritium.apis.netty;
 
 import com.byritium.application.ConnectionAppService;
 import com.byritium.application.command.ConnectionCommand;
+import com.byritium.types.exception.AccountAuthException;
 import com.byritium.utils.SpringUtils;
 import com.byritium.types.constance.ProtocolType;
 import io.netty.channel.*;
+import io.netty.handler.codec.mqtt.MqttFixedHeader;
+import io.netty.handler.codec.mqtt.MqttMessage;
+import io.netty.handler.codec.mqtt.MqttMessageType;
+import io.netty.handler.codec.mqtt.MqttQoS;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
@@ -39,8 +44,18 @@ public class MqttChannelHandler extends SimpleChannelInboundHandler<Object> {
     public void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception, IOException {
         ConnectionAppService connectionAppService = SpringUtils.getBean(ConnectionAppService.class);
         ConnectionCommand command = new ConnectionCommand(protocolType, ctx.channel(), msg, authFlag);
-        connectionAppService.comm(command);
-        authFlag = true;
+
+        try {
+            connectionAppService.auth(command);
+            authFlag = true;
+            connectionAppService.comm(command);
+        }catch (AccountAuthException e){
+            MqttFixedHeader mqttFixedHeaderBack = new MqttFixedHeader(MqttMessageType.AUTH, false, MqttQoS.FAILURE, false, 0x02);
+            MqttMessage mqttMessageBack = new MqttMessage(mqttFixedHeaderBack);
+            log.info("auth failure--" + mqttMessageBack);
+            ctx.channel().writeAndFlush(mqttMessageBack);
+        }
+
     }
 
 
