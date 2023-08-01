@@ -31,6 +31,17 @@ public class MqttConnectionService implements ConnectionMessageService {
 
     @Override
     public ConnectionDto auth(Channel channel, Object message, Boolean authFlag, AccountAuthService accountAuthService) {
+        //	在一个网络连接上，客户端只能发送一次CONNECT报文。服务端必须将客户端发送的第二个CONNECT报文当作协议违规处理并断开客户端的连接
+        //	to do 建议connect消息单独处理，用来对客户端进行认证管理等 这里直接返回一个CONNACK消息
+        if(!authFlag){
+            MqttConnectMessage mqttConnectMessage = (MqttConnectMessage) message;
+            MqttConnectPayload payload = mqttConnectMessage.payload();
+            String username = payload.userName();
+            String password = new String(payload.passwordInBytes(), CharsetUtil.UTF_8);
+            String clientIdentifier = payload.clientIdentifier();
+            ConnectionAuth connectionAuth = new ConnectionAuth(username, password, clientIdentifier);
+            authExternalService.auth(connectionAuth);
+        }
         return null;
     }
 
@@ -41,19 +52,6 @@ public class MqttConnectionService implements ConnectionMessageService {
         MqttFixedHeader mqttFixedHeader = mqttMessage.fixedHeader();
         ConnectionDto connectionDto = new ConnectionDto();
         try {
-            if (mqttFixedHeader.messageType().equals(MqttMessageType.CONNECT)) {
-                //	在一个网络连接上，客户端只能发送一次CONNECT报文。服务端必须将客户端发送的第二个CONNECT报文当作协议违规处理并断开客户端的连接
-                //	to do 建议connect消息单独处理，用来对客户端进行认证管理等 这里直接返回一个CONNACK消息
-                MqttConnectMessage mqttConnectMessage = (MqttConnectMessage) message;
-                MqttConnectPayload payload = mqttConnectMessage.payload();
-                String username = payload.userName();
-                String password = new String(payload.passwordInBytes(), CharsetUtil.UTF_8);
-                String clientIdentifier = payload.clientIdentifier();
-                ConnectionAuth connectionAuth = new ConnectionAuth(username, password, clientIdentifier);
-                authExternalService.auth(connectionAuth);
-
-            }
-
             switch (mqttFixedHeader.messageType()) {
                 case PUBLISH:        //	客户端发布消息
                     //	PUBACK报文是对QoS 1等级的PUBLISH报文的响应

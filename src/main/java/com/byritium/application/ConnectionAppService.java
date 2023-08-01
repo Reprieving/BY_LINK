@@ -32,15 +32,26 @@ public class ConnectionAppService {
     @Autowired
     private MessageProducer messageProducer;
 
+
+    public void auth(ConnectionCommand command) {
+        ProtocolType protocolType = command.getProtocolType();
+        Channel channel = command.getChannel();
+        Object message = command.getMessage();
+        Boolean authFlag = command.getAuthFlag();
+
+        ConnectionMessageService connectionMessageService = connectionMessageManager.get(protocolType);
+        if (!authFlag) {
+            connectionMessageService.auth(channel, message, authFlag, accountAuthService);
+        }
+
+    }
+
     public void comm(ConnectionCommand command) {
         ProtocolType protocolType = command.getProtocolType();
         Channel channel = command.getChannel();
         Object message = command.getMessage();
         Boolean authFlag = command.getAuthFlag();
         ConnectionMessageService connectionMessageService = connectionMessageManager.get(protocolType);
-
-        //鉴权
-        connectionMessageService.auth(channel, message, authFlag, accountAuthService);
 
         //解析
         ConnectionDto connectionDto = connectionMessageService.messaged(channel, message);

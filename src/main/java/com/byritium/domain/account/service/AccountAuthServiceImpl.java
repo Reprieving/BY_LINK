@@ -13,15 +13,12 @@ public class AccountAuthServiceImpl implements AccountAuthService {
     @Autowired
     private AccountRepository accountRepository;
 
-    public AccountAuth authenticate(String username, String identifier, Boolean authFlag) {
-        if(authFlag == null || !authFlag){
-            AccountAuthPo po = accountRepository.getAccountAuth(username, identifier);
-            if (po == null) {
-                throw new AccountAuthException("auth failure");
-            }
-            return AccountAuthConvertor.convertAgg(po);
-        }else {
-            return new AccountAuth(username,identifier);
+    public AccountAuth authenticate(String identifier) {
+        String username = "";
+        AccountAuthPo po = accountRepository.getAccountAuth(username, identifier);
+        if (po == null) {
+            throw new AccountAuthException("auth failure");
         }
+        return AccountAuthConvertor.convertAgg(po);
     }
 }

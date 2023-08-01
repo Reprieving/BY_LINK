@@ -36,7 +36,7 @@ public class HttpConnectionService implements ConnectionMessageService {
         String identifier = httpHeaders.get("identifier");
 
         try {
-            accountAuthService.authenticate(username, identifier, authFlag);
+            accountAuthService.authenticate(identifier);
         }catch (AccountAuthException e){
             ByteBuf buf = PooledByteBufAllocator.DEFAULT.buffer();
             buf.writeCharSequence("auth fail", StandardCharsets.UTF_8);

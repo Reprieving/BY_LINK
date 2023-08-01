@@ -36,11 +36,8 @@ public class WebSocketChannelHandler extends SimpleChannelInboundHandler<Object>
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Object msg) {
         Channel channel = ctx.channel();
-
         ConnectionAppService connectionAppService = SpringUtils.getBean(ConnectionAppService.class);
         ConnectionCommand command = new ConnectionCommand(protocolType, channel, msg, authFlag);
-        connectionAppService.comm(command);
-
         if(msg instanceof FullHttpRequest){
             FullHttpRequest req = (FullHttpRequest) msg;
             WebSocketServerHandshakerFactory wsFactory = new WebSocketServerHandshakerFactory("ws://localhost:8081/websocket", null, false);
@@ -48,11 +45,13 @@ public class WebSocketChannelHandler extends SimpleChannelInboundHandler<Object>
             if (handshaker == null) {
                 WebSocketServerHandshakerFactory.sendUnsupportedVersionResponse(channel);
             } else {
+                connectionAppService.auth(command);
                 handshaker.handshake(channel, req);
                 authFlag = true;
             }
         }else if(msg instanceof WebSocketFrame) {
             WebSocketFrame frame = (WebSocketFrame) msg;
+            connectionAppService.comm(command);
             // 判断是否关闭链路的指令
             if (frame instanceof CloseWebSocketFrame) {
                 handshaker.close(channel, (CloseWebSocketFrame) frame.retain());
