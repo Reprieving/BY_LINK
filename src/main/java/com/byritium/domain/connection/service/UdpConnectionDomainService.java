@@ -15,13 +15,13 @@ public class UdpConnectionDomainService implements ConnectionMessageService {
 
     @Override
     public ConnectionDto auth(Channel channel, Object message, Boolean authFlag, AccountAuthService accountAuthService) {
-        return null;
+        ConnectionDto connectionDto = (ConnectionDto) message;
+        accountAuthService.authenticate(connectionDto.getIdentifier());
+        return connectionDto;
     }
 
     @Override
     public ConnectionDto messaged(Channel channel, Object message) {
-        ConnectionDto connectionDto = new ConnectionDto();
-
-        return connectionDto;
+        return (ConnectionDto) message;
     }
 }

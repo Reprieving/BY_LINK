@@ -2,7 +2,9 @@ package com.byritium.apis.netty;
 
 import com.byritium.application.ConnectionAppService;
 import com.byritium.application.command.ConnectionCommand;
+import com.byritium.application.dto.ConnectionDto;
 import com.byritium.application.dto.MessageProtocol;
+import com.byritium.utils.JacksonUtils;
 import com.byritium.utils.SpringUtils;
 import com.byritium.types.constance.ProtocolType;
 import io.netty.buffer.ByteBuf;
@@ -63,6 +65,8 @@ public class TcpChannelHandler extends ByteToMessageDecoder {
                 String msg = new String(content);
                 ConnectionAppService connectionAppService = SpringUtils.getBean(ConnectionAppService.class);
                 ConnectionCommand command = new ConnectionCommand(protocolType, ctx.channel(), msg, authFlag);
+                ConnectionDto connectionDto = JacksonUtils.deserialize(command.getMessage().toString(),ConnectionDto.class);
+                command.setMessage(connectionDto.getMessage());
                 connectionAppService.auth(command);
                 connectionAppService.comm(command);
                 out.add(messageProtocol);

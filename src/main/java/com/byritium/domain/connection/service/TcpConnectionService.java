@@ -4,6 +4,8 @@ import com.byritium.application.dto.ConnectionDto;
 import com.byritium.domain.account.service.AccountAuthService;
 import com.byritium.types.constance.ProtocolType;
 import io.netty.channel.Channel;
+import io.netty.handler.codec.http.FullHttpRequest;
+import io.netty.handler.codec.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,13 +17,14 @@ public class TcpConnectionService implements ConnectionMessageService {
 
     @Override
     public ConnectionDto auth(Channel channel, Object message, Boolean authFlag, AccountAuthService accountAuthService) {
-        return null;
+        ConnectionDto connectionDto = (ConnectionDto) message;
+        accountAuthService.authenticate(connectionDto.getIdentifier());
+        return connectionDto;
     }
 
     @Override
     public ConnectionDto messaged(Channel channel, Object message) {
-        ConnectionDto connectionDto = new ConnectionDto();
-        return connectionDto;
+        return (ConnectionDto) message;
     }
 }
 

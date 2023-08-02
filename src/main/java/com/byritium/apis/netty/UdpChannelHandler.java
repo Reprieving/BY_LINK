@@ -2,7 +2,9 @@ package com.byritium.apis.netty;
 
 import com.byritium.application.ConnectionAppService;
 import com.byritium.application.command.ConnectionCommand;
+import com.byritium.application.dto.ConnectionDto;
 import com.byritium.types.exception.AccountAuthException;
+import com.byritium.utils.JacksonUtils;
 import com.byritium.utils.SpringUtils;
 import com.byritium.types.constance.ProtocolType;
 import io.netty.buffer.Unpooled;
@@ -43,6 +45,8 @@ public class UdpChannelHandler extends SimpleChannelInboundHandler<DatagramPacke
         ConnectionAppService connectionAppService = SpringUtils.getBean(ConnectionAppService.class);
         ConnectionCommand command = new ConnectionCommand(protocolType, ctx.channel(), msg, null);
         try {
+            ConnectionDto connectionDto = JacksonUtils.deserialize(command.getMessage().toString(),ConnectionDto.class);
+            command.setMessage(connectionDto.getMessage());
             connectionAppService.auth(command);
             connectionAppService.comm(command);
         }catch (AccountAuthException e){
