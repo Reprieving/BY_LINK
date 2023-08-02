@@ -2,6 +2,7 @@ package com.byritium.apis.netty;
 
 import com.byritium.application.ConnectionAppService;
 import com.byritium.application.command.ConnectionCommand;
+import com.byritium.types.exception.AccountAuthException;
 import com.byritium.utils.SpringUtils;
 import com.byritium.types.constance.ProtocolType;
 import io.netty.buffer.Unpooled;
@@ -41,7 +42,15 @@ public class UdpChannelHandler extends SimpleChannelInboundHandler<DatagramPacke
         String msg = datagramPacket.content().toString(CharsetUtil.UTF_8);
         ConnectionAppService connectionAppService = SpringUtils.getBean(ConnectionAppService.class);
         ConnectionCommand command = new ConnectionCommand(protocolType, ctx.channel(), msg, null);
-        connectionAppService.comm(command);
+        try {
+            connectionAppService.auth(command);
+            connectionAppService.comm(command);
+        }catch (AccountAuthException e){
+            //收到udp消息后，返回消息
+            ctx.writeAndFlush(new DatagramPacket(Unpooled.copiedBuffer("auth fail", CharsetUtil.UTF_8),
+                    datagramPacket.sender()));
+        }
+
         //收到udp消息后，返回消息
         ctx.writeAndFlush(new DatagramPacket(Unpooled.copiedBuffer("receice data", CharsetUtil.UTF_8),
                 datagramPacket.sender()));

@@ -63,8 +63,8 @@ public class TcpChannelHandler extends ByteToMessageDecoder {
                 String msg = new String(content);
                 ConnectionAppService connectionAppService = SpringUtils.getBean(ConnectionAppService.class);
                 ConnectionCommand command = new ConnectionCommand(protocolType, ctx.channel(), msg, authFlag);
+                connectionAppService.auth(command);
                 connectionAppService.comm(command);
-                authFlag = true;
                 out.add(messageProtocol);
             }
             length = 0;

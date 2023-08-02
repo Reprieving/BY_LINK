@@ -47,7 +47,6 @@ public class MqttChannelHandler extends SimpleChannelInboundHandler<Object> {
 
         try {
             connectionAppService.auth(command);
-            authFlag = true;
             connectionAppService.comm(command);
         }catch (AccountAuthException e){
             MqttFixedHeader mqttFixedHeaderBack = new MqttFixedHeader(MqttMessageType.AUTH, false, MqttQoS.FAILURE, false, 0x02);

@@ -43,7 +43,7 @@ public class ConnectionAppService {
         ConnectionMessageService connectionMessageService = connectionMessageManager.get(protocolType);
         String channelId = channel.id().asLongText();
         ChannelId channelIdPo = connectionRepository.findAuthByChannelId(channelId);
-        if (!authFlag && channelIdPo == null) {
+        if (channelIdPo == null) {
             connectionMessageService.auth(channel, message, authFlag, accountAuthService);
             connectionRepository.saveAuth(channelId, channel);
         }
@@ -54,7 +54,6 @@ public class ConnectionAppService {
         ProtocolType protocolType = command.getProtocolType();
         Channel channel = command.getChannel();
         Object message = command.getMessage();
-        Boolean authFlag = command.getAuthFlag();
         ConnectionMessageService connectionMessageService = connectionMessageManager.get(protocolType);
 
         //解析
@@ -67,7 +66,6 @@ public class ConnectionAppService {
                 .times(System.currentTimeMillis())
                 .content(connectionDto.getMessage())
                 .build();
-
         messageRepository.save(messageAgg);
 
         //存储连接
