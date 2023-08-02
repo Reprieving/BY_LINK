@@ -55,7 +55,7 @@ public class WebSocketConnectionDomainService implements ConnectionMessageServic
         String password = httpHeaders.get("password");
         String identifier = httpHeaders.get("identifier");
         accountAuthService.authenticate(identifier);
-        return null;
+        return new ConnectionDto(identifier);
     }
 
     @Override

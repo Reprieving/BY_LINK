@@ -37,7 +37,7 @@ public class HttpConnectionService implements ConnectionMessageService {
 
         accountAuthService.authenticate(identifier);
 
-        return null;
+        return new ConnectionDto(identifier);
     }
 
     @Override

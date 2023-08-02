@@ -13,6 +13,7 @@ import com.byritium.types.constance.ProtocolType;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -44,8 +45,11 @@ public class ConnectionAppService {
         String channelId = channel.id().asLongText();
         ChannelId channelIdPo = connectionRepository.findAuthByChannelId(channelId);
         if (channelIdPo == null) {
-            connectionMessageService.auth(channel, message, authFlag, accountAuthService);
+            ConnectionDto connectionDto = connectionMessageService.auth(channel, message, authFlag, accountAuthService);
             connectionRepository.saveAuth(channelId, channel);
+
+            //存储连接
+            connectionRepository.saveConnection(connectionDto.getIdentifier(), channel);
         }
 
     }
@@ -68,8 +72,7 @@ public class ConnectionAppService {
                 .build();
         messageRepository.save(messageAgg);
 
-        //存储连接
-        connectionRepository.saveConnection(connectionDto.getIdentifier(), channel);
+
 
         //存储会话
 
@@ -79,5 +82,10 @@ public class ConnectionAppService {
 
     public boolean disconnect() {
         return true;
+    }
+
+    @KafkaListener(topics = "TOPIC_NAME", groupId = "MyGroup1", containerFactory = "kafkaListenerContainerFactory")
+    public void listen(){
+
     }
 }
