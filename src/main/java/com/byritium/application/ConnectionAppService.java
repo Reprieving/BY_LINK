@@ -12,6 +12,7 @@ import com.byritium.domain.message.repository.MessageRepository;
 import com.byritium.types.constance.ProtocolType;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelId;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
@@ -54,7 +55,7 @@ public class ConnectionAppService {
 
     }
 
-    public void comm(ConnectionCommand command) {
+    public void commForWard(ConnectionCommand command) {
         ProtocolType protocolType = command.getProtocolType();
         Channel channel = command.getChannel();
         Object message = command.getMessage();
@@ -84,8 +85,8 @@ public class ConnectionAppService {
         return true;
     }
 
-    @KafkaListener(topics = "TOPIC_NAME", groupId = "MyGroup1", containerFactory = "kafkaListenerContainerFactory")
-    public void listen(){
-
+    @KafkaListener(topics = "SERVER_SEND_CONNECTION", groupId = "group", containerFactory = "kafkaListenerContainerFactory")
+    public void commReverse(ConsumerRecord<String, String> record){
+        record.value();
     }
 }

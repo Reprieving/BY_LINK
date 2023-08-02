@@ -48,7 +48,7 @@ public class UdpChannelHandler extends SimpleChannelInboundHandler<DatagramPacke
             ConnectionDto connectionDto = JacksonUtils.deserialize(command.getMessage().toString(),ConnectionDto.class);
             command.setMessage(connectionDto.getMessage());
             connectionAppService.auth(command);
-            connectionAppService.comm(command);
+            connectionAppService.commForWard(command);
         }catch (AccountAuthException e){
             //收到udp消息后，返回消息
             ctx.writeAndFlush(new DatagramPacket(Unpooled.copiedBuffer("auth fail", CharsetUtil.UTF_8),

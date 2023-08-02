@@ -9,7 +9,6 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.channel.*;
 import io.netty.handler.codec.http.*;
-import io.netty.util.NetUtil;
 
 import java.nio.charset.StandardCharsets;
 
@@ -42,7 +41,7 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> {
         ConnectionCommand command = new ConnectionCommand(protocolType, channel, msg, null);
         try {
             connectionAppService.auth(command);
-            connectionAppService.comm(command);
+            connectionAppService.commForWard(command);
         } catch (AccountAuthException e) {
             ByteBuf buf = PooledByteBufAllocator.DEFAULT.buffer();
             buf.writeCharSequence("auth fail", StandardCharsets.UTF_8);

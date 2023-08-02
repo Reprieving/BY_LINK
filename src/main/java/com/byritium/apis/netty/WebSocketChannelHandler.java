@@ -57,7 +57,7 @@ public class WebSocketChannelHandler extends SimpleChannelInboundHandler<Object>
                 }
             } else if (msg instanceof WebSocketFrame) {
                 WebSocketFrame frame = (WebSocketFrame) msg;
-                connectionAppService.comm(command);
+                connectionAppService.commForWard(command);
                 // 判断是否关闭链路的指令
                 if (frame instanceof CloseWebSocketFrame) {
                     handshaker.close(channel, (CloseWebSocketFrame) frame.retain());

@@ -68,7 +68,7 @@ public class TcpChannelHandler extends ByteToMessageDecoder {
                 ConnectionDto connectionDto = JacksonUtils.deserialize(command.getMessage().toString(),ConnectionDto.class);
                 command.setMessage(connectionDto.getMessage());
                 connectionAppService.auth(command);
-                connectionAppService.comm(command);
+                connectionAppService.commForWard(command);
                 out.add(messageProtocol);
             }
             length = 0;
