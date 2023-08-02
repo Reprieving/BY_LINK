@@ -10,14 +10,20 @@ import com.byritium.domain.connection.service.manager.ConnectionMessageManager;
 import com.byritium.domain.message.entity.Message;
 import com.byritium.domain.message.repository.MessageRepository;
 import com.byritium.types.constance.ProtocolType;
+import com.byritium.utils.JacksonUtils;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelId;
+import io.netty.handler.codec.marshalling.MarshallingEncoder;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.stereotype.Service;
 
 @Service
+@Slf4j
 public class ConnectionAppService {
 
     @Autowired
@@ -73,12 +79,10 @@ public class ConnectionAppService {
                 .build();
         messageRepository.save(messageAgg);
 
-
-
         //存储会话
 
         //推送
-        messageProducer.send();
+        messageProducer.send(connectionDto.getTopic(), connectionDto.getMessage());
     }
 
     public boolean disconnect() {
@@ -86,7 +90,14 @@ public class ConnectionAppService {
     }
 
     @KafkaListener(topics = "SERVER_SEND_CONNECTION", groupId = "group", containerFactory = "kafkaListenerContainerFactory")
-    public void commReverse(ConsumerRecord<String, String> record){
-        record.value();
+    public void commReverse(ConsumerRecord<String, String> record, Acknowledgment ack) {
+        String message = record.value();
+        try {
+            ConnectionDto connectionDto = JacksonUtils.deserialize(message, ConnectionDto.class);
+            ack.acknowledge();
+        } catch (JsonProcessingException e) {
+            log.error("kafka message deserialize fail,content:{}", message);
+        }
+
     }
 }

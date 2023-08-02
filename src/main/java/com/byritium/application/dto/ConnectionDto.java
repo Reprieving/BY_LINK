@@ -5,6 +5,7 @@ import lombok.Data;
 @Data
 public class ConnectionDto {
     private String identifier;
+    private String topic;
     private String message;
 
     public ConnectionDto() {
