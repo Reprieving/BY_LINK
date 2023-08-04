@@ -94,10 +94,14 @@ public class ConnectionAppService {
         String message = record.value();
         try {
             ConnectionDto connectionDto = JacksonUtils.deserialize(message, ConnectionDto.class);
+            Channel channel = connectionRepository.findChannelByObjId(connectionDto.getIdentifier());
+
+            if (channel != null) {
+                channel.writeAndFlush(connectionDto.getMessage());
+            }
             ack.acknowledge();
         } catch (JsonProcessingException e) {
             log.error("kafka message deserialize fail,content:{}", message);
         }
-
     }
 }
