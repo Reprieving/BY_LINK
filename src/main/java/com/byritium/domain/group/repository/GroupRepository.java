@@ -10,6 +10,10 @@ import java.util.List;
 public interface GroupRepository {
     void saveGroup(Group group);
 
+    void saveGroupMember(Group group);
+
+    void removeGroupMember(Group group);
+
     List<GroupMember> findMemberByGroup(long groupId);
 
     List<GroupMember> findMemberByApp(long groupId);
