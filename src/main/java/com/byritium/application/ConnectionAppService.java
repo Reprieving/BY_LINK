@@ -7,9 +7,12 @@ import com.byritium.domain.connection.messaging.MessageProducer;
 import com.byritium.domain.connection.repository.ConnectionRepository;
 import com.byritium.domain.connection.service.ConnectionMessageService;
 import com.byritium.domain.connection.service.manager.ConnectionMessageManager;
+import com.byritium.domain.group.entity.GroupMember;
+import com.byritium.domain.group.repository.GroupRepository;
 import com.byritium.domain.message.entity.Message;
 import com.byritium.domain.message.repository.MessageRepository;
 import com.byritium.types.constance.ProtocolType;
+import com.byritium.types.constance.SendType;
 import com.byritium.utils.JacksonUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.netty.channel.Channel;
@@ -21,6 +24,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -37,6 +43,9 @@ public class ConnectionAppService {
 
     @Autowired
     private ConnectionRepository connectionRepository;
+
+    @Autowired
+    private GroupRepository groupRepository;
 
     @Autowired
     private MessageProducer messageProducer;
@@ -94,10 +103,39 @@ public class ConnectionAppService {
         String message = record.value();
         try {
             ConnectionDto connectionDto = JacksonUtils.deserialize(message, ConnectionDto.class);
-            Channel channel = connectionRepository.findChannelByObjId(connectionDto.getIdentifier());
+            List<Channel> channelList = new ArrayList<>();
+            String content = connectionDto.getMessage();
+            SendType sendType = connectionDto.getSendType();
+            Channel channel;
+            switch (sendType) {
+                case POINT_SEND: {
+                    channel = connectionRepository.findChannelByObjId(connectionDto.getIdentifier());
+                    if (channel != null) {
+                        channelList.add(channel);
+                    }
+                    break;
+                }
 
-            if (channel != null) {
-                channel.writeAndFlush(connectionDto.getMessage());
+                case GROUP_SEND: {
+                    List<GroupMember> list = groupRepository.findMemberByGroup(connectionDto.getGroupId());
+                    for (GroupMember groupMember : list) {
+                        channel = connectionRepository.findChannelByObjId(groupMember.getIdentifier());
+                        channelList.add(channel);
+                    }
+                    break;
+                }
+
+                case APPLICATION_SEND: {
+                    List<GroupMember> list = groupRepository.findMemberByApp(connectionDto.getAppId());
+                    for (GroupMember groupMember : list) {
+                        channel = connectionRepository.findChannelByObjId(groupMember.getIdentifier());
+                        channelList.add(channel);
+                    }
+                    break;
+                }
+            }
+            for (Channel c : channelList) {
+                c.writeAndFlush(content);
             }
             ack.acknowledge();
         } catch (JsonProcessingException e) {

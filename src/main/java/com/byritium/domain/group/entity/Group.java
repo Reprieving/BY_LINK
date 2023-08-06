@@ -1,4 +1,4 @@
-package com.byritium.domain.group;
+package com.byritium.domain.group.entity;
 
 import com.byritium.types.constance.ObjectState;
 import lombok.Getter;
