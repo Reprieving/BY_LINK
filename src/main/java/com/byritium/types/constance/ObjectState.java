@@ -4,9 +4,8 @@ import lombok.Getter;
 
 @Getter
 public enum ObjectState {
-    NORMAL("WEB"),
-    DELETE("APP"),
-    DEVICE("DEVICE");
+    ENABLE("ENABLE"),
+    DELETE("DELETE");
 
     private final String type;
     ObjectState(String type) {

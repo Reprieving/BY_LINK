@@ -1,16 +1,21 @@
 package com.byritium.domain.account.entity;
 
 import com.byritium.types.constance.ObjectState;
-import lombok.Getter;
+import lombok.*;
+import lombok.experimental.Accessors;
 
 import java.time.LocalDateTime;
 
-@Getter
+@Accessors(chain = true)
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Data
 public class Account {
     private Long id;
     private Long appId;
     private Long uid;
-    private Long identifier;
+    private String identifier;
     private LocalDateTime createTime;
     private ObjectState os;
     private AccountAuth auth;
