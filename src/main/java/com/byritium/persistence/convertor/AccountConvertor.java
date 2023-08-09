@@ -12,7 +12,7 @@ public class AccountConvertor {
         return accountAuth;
     }
 
-    public static AccountPo convertAccountPo(AccountCommand accountCommand){
+    public static AccountPo convertAccountPo(Account account){
         AccountPo po = new AccountPo();
         return po;
     }
