@@ -27,7 +27,6 @@ public class AccountAppService {
     public void resisterAccount(AccountCommand accountCommand) {
         Account account = Account.builder()
                 .appId(accountCommand.getAppId())
-                .uid(accountCommand.getUid())
                 .createTime(LocalDateTime.now())
                 .os(ObjectState.ENABLE)
                 .build();
