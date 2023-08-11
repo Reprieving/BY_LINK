@@ -18,6 +18,11 @@ public class AccountController {
         accountAppService.resisterAccount(accountCommand);
     }
 
+    @RequestMapping("identifier/create")
+    public void registerIdentifier(AccountCommand accountCommand) {
+        accountAppService.resisterAccount(accountCommand);
+    }
+
     @RequestMapping("logout")
     public void logout() {
 

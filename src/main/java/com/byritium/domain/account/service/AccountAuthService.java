@@ -1,7 +1,7 @@
 package com.byritium.domain.account.service;
 
-import com.byritium.domain.account.entity.AccountAuth;
+import com.byritium.domain.account.entity.AccountIdentifier;
 
 public interface AccountAuthService {
-    AccountAuth authenticate(String identifier);
+    AccountIdentifier authenticate(String identifier);
 }

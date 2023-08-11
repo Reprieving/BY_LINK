@@ -15,8 +15,7 @@ public class Account {
     private Long id;
     private Long appId;
     private Long uid;
-    private String identifier;
     private LocalDateTime createTime;
     private ObjectState os;
-    private AccountAuth auth;
+    private AccountIdentifier auth;
 }

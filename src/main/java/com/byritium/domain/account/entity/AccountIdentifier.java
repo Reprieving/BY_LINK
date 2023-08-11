@@ -7,13 +7,14 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AccountAuth {
+public class AccountIdentifier {
+    private Long accountId;
     private String username;
     private String password;
     private String identifier;
 
 
-    public AccountAuth(String username, String identifier) {
+    public AccountIdentifier(String username, String identifier) {
         this.username = username;
         this.identifier = identifier;
     }

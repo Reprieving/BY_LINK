@@ -1,21 +1,16 @@
 package com.byritium.domain.connection.service;
 
 import com.byritium.application.dto.ConnectionDto;
-import com.byritium.domain.account.entity.AccountAuth;
 import com.byritium.domain.account.service.AccountAuthService;
 import com.byritium.types.constance.ProtocolType;
-import com.byritium.types.exception.AccountAuthException;
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.channel.Channel;
-import io.netty.channel.ChannelFutureListener;
 import io.netty.handler.codec.http.*;
 import io.netty.handler.codec.http.multipart.Attribute;
 import io.netty.handler.codec.http.multipart.HttpPostRequestDecoder;
 import io.netty.handler.codec.http.multipart.InterfaceHttpData;
 import org.springframework.stereotype.Service;
 
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 
