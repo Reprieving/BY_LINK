@@ -16,8 +16,13 @@ public class AccountConvertor {
         return po;
     }
 
-    public static AccountIdentifierPo convertAccountIdentifierPo(Account account){
+    public static AccountIdentifierPo convertAccountIdentifierPo(AccountIdentifier accountIdentifier){
         AccountIdentifierPo po = new AccountIdentifierPo();
+        return po;
+    }
+
+    public static AccountIdentifier convertAccountIdentifierPo(AccountIdentifierPo accountIdentifierPo){
+        AccountIdentifier po = new AccountIdentifier();
         return po;
     }
 

@@ -12,5 +12,7 @@ public interface AccountRepository {
 
     void saveAccountIdentifier(Account account, AccountIdentifier accountIdentifier);
 
+    AccountIdentifier findAccountIdentifier(Long accountId,String identifier);
+
     AccountIdentifierPo getAccountAuth(String username, String identifier);
 }

@@ -35,7 +35,7 @@ public class AccountAppService {
         accountRepository.saveAccount(account);
     }
 
-    public void resisterAccountIdentifier(AccountCommand accountCommand) {
+    public void createIdentifier(AccountCommand accountCommand) {
         Account account = accountRepository.findAccountById(accountCommand.getAccountId());
 
         AccountIdentifier accountIdentifier = AccountIdentifier.builder()
@@ -44,6 +44,10 @@ public class AccountAppService {
                 .build();
 
         accountRepository.saveAccountIdentifier(account, accountIdentifier);
+    }
+
+    public void authIdentifier(AccountCommand accountCommand) {
+        accountRepository.findAccountIdentifier(accountCommand.getAccountId(), accountCommand.getIdentifier());
     }
 
     public void joinGroup() {

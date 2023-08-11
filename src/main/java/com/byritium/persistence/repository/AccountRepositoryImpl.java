@@ -54,11 +54,19 @@ public class AccountRepositoryImpl implements AccountRepository {
         );
 
         if (list.size() > 0) {
-            throw new BizException("account exist");
+            throw new BizException("identifier exist");
         }
+        AccountIdentifierPo accountIdentifierPo = AccountConvertor.convertAccountIdentifierPo(accountIdentifier);
+        accountIdentifierPoMapper.insert(accountIdentifierPo);
+    }
 
-        AccountPo accountPo = AccountConvertor.convertAccountPo(account);
-        accountPoMapper.insert(accountPo);
+    @Override
+    public AccountIdentifier findAccountIdentifier(Long accountId, String identifier) {
+        return AccountConvertor.convertAccountIdentifierPo(accountIdentifierPoMapper.selectOne(
+                new LambdaQueryWrapper<AccountIdentifierPo>()
+                        .eq(AccountIdentifierPo::getAccountId, accountId)
+                        .eq(AccountIdentifierPo::getIdentify, identifier)
+        ));
     }
 
     @Override
