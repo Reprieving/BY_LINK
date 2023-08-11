@@ -13,8 +13,8 @@ public class AccountAuthServiceImpl implements AccountAuthService {
     @Autowired
     private AccountRepository accountRepository;
 
-    public AccountIdentifier authenticate(String identifier) {
-        AccountIdentifier accountIdentifier = accountRepository.findAccountIdentifier(null, identifier);
+    public AccountIdentifier authenticate(Long accountId, String identifier) {
+        AccountIdentifier accountIdentifier = accountRepository.findAccountIdentifier(accountId, identifier);
         if (accountIdentifier == null) {
             throw new AccountAuthException("auth failure");
         }

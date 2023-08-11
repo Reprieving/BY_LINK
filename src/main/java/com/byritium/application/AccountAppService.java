@@ -46,10 +46,6 @@ public class AccountAppService {
         accountRepository.saveAccountIdentifier(account, accountIdentifier);
     }
 
-    public void authIdentifier(AccountCommand accountCommand) {
-        accountRepository.findAccountIdentifier(accountCommand.getAccountId(), accountCommand.getIdentifier());
-    }
-
     public void joinGroup() {
         GroupMember groupMember = new GroupMember();
         groupRepository.saveGroupMember(groupMember);

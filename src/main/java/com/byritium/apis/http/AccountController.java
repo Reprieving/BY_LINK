@@ -19,7 +19,7 @@ public class AccountController {
     }
 
     @RequestMapping("identifier/create")
-    public void registerIdentifier(AccountCommand accountCommand) {
+    public void createIdentifier(AccountCommand accountCommand) {
         accountAppService.createIdentifier(accountCommand);
     }
 
