@@ -5,17 +5,18 @@ import lombok.*;
 import lombok.experimental.Accessors;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Data
+@Getter
 public class Account {
     private Long id;
     private Long appId;
     private Long uid;
     private LocalDateTime createTime;
     private ObjectState os;
-    private AccountIdentifier auth;
+    private List<AccountIdentifier> identifierList;
 }

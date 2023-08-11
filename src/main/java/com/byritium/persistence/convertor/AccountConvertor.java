@@ -20,4 +20,9 @@ public class AccountConvertor {
         AccountIdentifierPo po = new AccountIdentifierPo();
         return po;
     }
+
+    public static Account convertAgg(AccountPo accountPo){
+        Account account = new Account();
+        return account;
+    }
 }

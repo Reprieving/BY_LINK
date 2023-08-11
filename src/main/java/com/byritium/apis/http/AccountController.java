@@ -20,7 +20,7 @@ public class AccountController {
 
     @RequestMapping("identifier/create")
     public void registerIdentifier(AccountCommand accountCommand) {
-        accountAppService.resisterAccount(accountCommand);
+        accountAppService.resisterAccountIdentifier(accountCommand);
     }
 
     @RequestMapping("logout")

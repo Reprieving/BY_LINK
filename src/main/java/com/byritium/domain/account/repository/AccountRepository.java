@@ -8,6 +8,8 @@ public interface AccountRepository {
 
     void saveAccount(Account account);
 
+    Account findAccountById(Long accountId);
+
     void saveAccountIdentifier(Account account, AccountIdentifier accountIdentifier);
 
     AccountIdentifierPo getAccountAuth(String username, String identifier);

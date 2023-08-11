@@ -40,11 +40,17 @@ public class AccountRepositoryImpl implements AccountRepository {
     }
 
     @Override
+    public Account findAccountById(Long accountId) {
+        AccountPo accountPo = accountPoMapper.selectById(accountId);
+        return AccountConvertor.convertAgg(accountPo);
+    }
+
+    @Override
     public void saveAccountIdentifier(Account account, AccountIdentifier accountIdentifier) {
         List<AccountIdentifierPo> list = accountIdentifierPoMapper.selectList(
                 new LambdaQueryWrapper<AccountIdentifierPo>()
                         .eq(AccountIdentifierPo::getAccountId, account.getId())
-                        .eq(AccountIdentifierPo::getIdentify,accountIdentifier.getIdentifier())
+                        .eq(AccountIdentifierPo::getIdentify, accountIdentifier.getIdentifier())
         );
 
         if (list.size() > 0) {

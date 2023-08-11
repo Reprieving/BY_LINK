@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Service
 @Slf4j
@@ -35,14 +36,12 @@ public class AccountAppService {
     }
 
     public void resisterAccountIdentifier(AccountCommand accountCommand) {
-        Account account = Account.builder()
-                .appId(accountCommand.getAppId())
-                .uid(accountCommand.getUid())
-                .createTime(LocalDateTime.now())
-                .os(ObjectState.ENABLE)
-                .build();
+        Account account = accountRepository.findAccountById(accountCommand.getAccountId());
 
-        AccountIdentifier accountIdentifier = new AccountIdentifier();
+        AccountIdentifier accountIdentifier = AccountIdentifier.builder()
+                .accountId(account.getId())
+                .identifier(UUID.randomUUID().toString())
+                .build();
 
         accountRepository.saveAccountIdentifier(account, accountIdentifier);
     }
