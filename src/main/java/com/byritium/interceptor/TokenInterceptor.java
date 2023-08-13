@@ -1,6 +1,7 @@
 package com.byritium.interceptor;
 
 import com.byritium.types.constance.TokenVerify;
+import com.byritium.types.exception.TokenVerifyException;
 import com.byritium.utils.JwtUtils;
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +12,6 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@Component
 @Slf4j
 public class TokenInterceptor implements HandlerInterceptor {
 
@@ -28,7 +28,7 @@ public class TokenInterceptor implements HandlerInterceptor {
             return true;
         } catch (Exception e){
             log.error("verify token error");
-            return false;
+            throw new TokenVerifyException("verify token error");
         }
     }
 
