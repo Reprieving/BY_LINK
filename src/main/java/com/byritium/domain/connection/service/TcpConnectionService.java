@@ -18,7 +18,7 @@ public class TcpConnectionService implements ConnectionMessageService {
     @Override
     public ConnectionDto auth(Channel channel, Object message, Boolean authFlag, AccountAuthService accountAuthService) {
         ConnectionDto connectionDto = (ConnectionDto) message;
-        accountAuthService.authenticate(connectionDto.getIdentifier());
+        accountAuthService.authenticate(connectionDto.getAppId(), connectionDto.getIdentifier());
         return connectionDto;
     }
 

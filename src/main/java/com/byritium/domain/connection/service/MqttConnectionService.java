@@ -34,14 +34,14 @@ public class MqttConnectionService implements ConnectionMessageService {
         //	在一个网络连接上，客户端只能发送一次CONNECT报文。服务端必须将客户端发送的第二个CONNECT报文当作协议违规处理并断开客户端的连接
         //	to do 建议connect消息单独处理，用来对客户端进行认证管理等 这里直接返回一个CONNACK消息
         ConnectionDto connectionDto = new ConnectionDto();
-        if(!authFlag){
+        if (!authFlag) {
             MqttConnectMessage mqttConnectMessage = (MqttConnectMessage) message;
             MqttConnectPayload payload = mqttConnectMessage.payload();
             String username = payload.userName();
             String password = new String(payload.passwordInBytes(), CharsetUtil.UTF_8);
             String clientIdentifier = payload.clientIdentifier();
-            ConnectionAuth connectionAuth = new ConnectionAuth(username, password, clientIdentifier);
-            authExternalService.auth(connectionAuth);
+            String[] param = clientIdentifier.split(",");
+            accountAuthService.authenticate(Long.valueOf(param[0]), param[1]);
             connectionDto.setIdentifier(clientIdentifier);
         }
         return null;
