@@ -23,6 +23,11 @@ public class AccountController {
         accountAppService.createIdentifier(accountCommand);
     }
 
+    @RequestMapping("login")
+    public void login() {
+
+    }
+
     @RequestMapping("logout")
     public void logout() {
 

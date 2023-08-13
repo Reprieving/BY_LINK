@@ -23,9 +23,6 @@ public class NettyServerInitializer extends ChannelInitializer<SocketChannel> {
         switch (port) {
             case 1000:
                 pipeline.addLast(new LoggingHandler(LogLevel.INFO));
-                //加入自定义分割符号
-//                ByteBuf delimiter = Unpooled.copiedBuffer("\r\n".getBytes());
-//                pipeline.addLast("framer", new DelimiterBasedFrameDecoder(100, delimiter));
                 pipeline.addLast(new TcpChannelHandler());
                 break;
 
