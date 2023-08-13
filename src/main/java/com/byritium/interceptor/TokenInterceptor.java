@@ -1,6 +1,8 @@
 package com.byritium.interceptor;
 
+import com.byritium.types.constance.ResultEnum;
 import com.byritium.types.constance.TokenVerify;
+import com.byritium.types.exception.BizException;
 import com.byritium.types.exception.TokenVerifyException;
 import com.byritium.utils.JwtUtils;
 import io.jsonwebtoken.Claims;
@@ -28,7 +30,7 @@ public class TokenInterceptor implements HandlerInterceptor {
             return true;
         } catch (Exception e){
             log.error("verify token error");
-            throw new TokenVerifyException("verify token error");
+            throw new BizException(ResultEnum.ACCOUNT_VERIFY_FAIL);
         }
     }
 

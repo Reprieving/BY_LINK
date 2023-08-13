@@ -16,8 +16,9 @@ public enum ResultEnum {
     ERROR_CODE(-1, "失败"),
     EMPTY(1, "EMPTY DATA"),
 
-    ACCOUNT_EXIST(1000, "ACCOUNT_EXIST"),
-    ACCOUNT_IDENTIFIER_EXIST(1000, "ACCOUNT_IDENTIFIER_EXIST"),
+    ACCOUNT_EXIST(1000, "account exist"),
+    ACCOUNT_IDENTIFIER_EXIST(1000, "account identifier exist"),
+    ACCOUNT_VERIFY_FAIL(1000, "account verify fail"),
     ;
 
 
