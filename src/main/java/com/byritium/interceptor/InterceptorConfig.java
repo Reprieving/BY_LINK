@@ -13,9 +13,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Slf4j
 public class InterceptorConfig implements WebMvcConfigurer {
 
+    @Autowired
+    private TokenInterceptor tokenInterceptor;
+
     public void addInterceptors(InterceptorRegistry registry) {
         // 拦截所有请求
-        registry.addInterceptor(new TokenInterceptor()).addPathPatterns("/**");
+        registry.addInterceptor(tokenInterceptor).addPathPatterns("/**");
     }
 
 }
