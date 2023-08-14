@@ -1,7 +1,7 @@
 package com.byritium.types;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.byritium.types.constance.ResultEnum;
+import com.byritium.types.exception.BusinessException;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -35,6 +35,10 @@ public class ResultData<T> {
         return common(ResultEnum.ERROR_CODE.getCode(), null, message);
     }
 
+    public static ResultData error(int code, String message) {
+        return common(code, null, message);
+    }
+
     public static ResultData error(int code, Object data, String message) {
         return common(code, data, message);
     }
@@ -49,4 +53,7 @@ public class ResultData<T> {
         return resultData;
     }
 
+    public static ResultData<?> error(BusinessException ex) {
+        return common(ex.getExpType().getCode(), null, ex.getExpType().getMessage());
+    }
 }

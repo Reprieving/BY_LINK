@@ -1,14 +1,11 @@
 package com.byritium.interceptor;
 
 import com.byritium.types.constance.ResultEnum;
-import com.byritium.types.constance.TokenVerify;
-import com.byritium.types.exception.BizException;
-import com.byritium.types.exception.TokenVerifyException;
+import com.byritium.types.exception.BusinessException;
 import com.byritium.utils.JwtUtils;
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,7 +25,7 @@ public class TokenInterceptor implements HandlerInterceptor {
             return true;
         } catch (Exception e){
             log.error("verify token error");
-            throw new BizException(ResultEnum.ACCOUNT_VERIFY_FAIL);
+            throw new BusinessException(ResultEnum.ACCOUNT_VERIFY_FAIL);
         }
     }
 

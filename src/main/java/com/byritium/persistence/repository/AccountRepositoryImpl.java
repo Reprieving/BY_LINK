@@ -10,7 +10,7 @@ import com.byritium.persistence.mapper.AccountPoMapper;
 import com.byritium.persistence.po.AccountIdentifierPo;
 import com.byritium.persistence.po.AccountPo;
 import com.byritium.types.constance.ResultEnum;
-import com.byritium.types.exception.BizException;
+import com.byritium.types.exception.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -33,7 +33,7 @@ public class AccountRepositoryImpl implements AccountRepository {
         );
 
         if (list.size() > 0) {
-            throw new BizException(ResultEnum.ACCOUNT_EXIST);
+            throw new BusinessException(ResultEnum.ACCOUNT_EXIST);
         }
 
         AccountPo accountPo = AccountConvertor.convertAccountPo(account);
@@ -55,7 +55,7 @@ public class AccountRepositoryImpl implements AccountRepository {
         );
 
         if (list.size() > 0) {
-            throw new BizException(ResultEnum.ACCOUNT_IDENTIFIER_EXIST);
+            throw new BusinessException(ResultEnum.ACCOUNT_IDENTIFIER_EXIST);
         }
         AccountIdentifierPo accountIdentifierPo = AccountConvertor.convertAccountIdentifierPo(accountIdentifier);
         accountIdentifierPoMapper.insert(accountIdentifierPo);
