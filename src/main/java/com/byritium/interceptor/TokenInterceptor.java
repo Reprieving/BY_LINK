@@ -2,6 +2,7 @@ package com.byritium.interceptor;
 
 import com.byritium.types.constance.ResultEnum;
 import com.byritium.types.exception.BusinessException;
+import com.byritium.utils.AccountHolder;
 import com.byritium.utils.JwtUtils;
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
@@ -15,18 +16,24 @@ import javax.servlet.http.HttpServletResponse;
 @Component
 public class TokenInterceptor implements HandlerInterceptor {
 
+    @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String token = request.getHeader("access_token");
 
         try {
             Claims claims = JwtUtils.verifyToken(token);
-            String accountId = (String) claims.get("id");
-
+            Long accountId = (Long) claims.get("id");
+            AccountHolder.set(accountId);
             return true;
-        } catch (Exception e){
+        } catch (Exception e) {
             log.error("verify token error");
             throw new BusinessException(ResultEnum.ACCOUNT_VERIFY_FAIL);
         }
+    }
+
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
+        AccountHolder.clear();
     }
 
 }

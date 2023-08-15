@@ -24,8 +24,8 @@ public class AccountController {
     }
 
     @RequestMapping("login")
-    public void login() {
-
+    public String login() {
+        return "";
     }
 
     @RequestMapping("logout")
