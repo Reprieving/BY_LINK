@@ -23,9 +23,7 @@ public class GlobalHandler implements ResponseBodyAdvice<Object> {
 
     @Override
     public Object beforeBodyWrite(Object o, MethodParameter methodParameter, MediaType mediaType, Class<? extends HttpMessageConverter<?>> aClass, ServerHttpRequest serverHttpRequest, ServerHttpResponse serverHttpResponse) {
-        ResponseBody<Object> responseBody = new ResponseBody<>();
-        responseBody.setData(o);
-        return responseBody;
+        return ResponseEntity.status(HttpStatus.OK).body(o);
     }
 
     @ExceptionHandler(value = Exception.class)
