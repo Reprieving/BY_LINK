@@ -20,8 +20,8 @@ public class GroupController {
     }
 
     @RequestMapping("join")
-    public void join() {
-
+    public void join(@RequestHeader String token, GroupCommand groupCommand) {
+        groupAppService.createGroupMember(groupCommand);
     }
 
     @RequestMapping("leave")

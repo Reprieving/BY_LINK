@@ -2,6 +2,7 @@ package com.byritium.application;
 
 import com.byritium.application.command.GroupCommand;
 import com.byritium.domain.group.entity.Group;
+import com.byritium.domain.group.entity.GroupMember;
 import com.byritium.domain.group.repository.GroupRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,12 @@ public class GroupAppService {
 
     }
 
-    public void saveGroupMember() {
-
+    public void createGroupMember(GroupCommand groupCommand) {
+        GroupMember groupMember = GroupMember.builder()
+                .appId(groupCommand.getAppId())
+                .groupId(groupCommand.getGroupId())
+                .identifier(groupCommand.getGroupName())
+                .build();
+        groupRepository.saveGroupMember(groupMember);
     }
 }

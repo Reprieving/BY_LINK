@@ -4,6 +4,8 @@ import lombok.Data;
 
 @Data
 public class GroupCommand {
-    private String groupName;
     private Long appId;
+    private String groupName;
+    private String identifier;
+    private Long groupId;
 }
