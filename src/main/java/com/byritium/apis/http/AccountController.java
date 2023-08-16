@@ -2,6 +2,8 @@ package com.byritium.apis.http;
 
 import com.byritium.application.AccountAppService;
 import com.byritium.application.command.AccountCommand;
+import com.byritium.application.command.AccountIdentifierCommand;
+import com.byritium.domain.account.entity.AccountIdentifier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,8 +21,8 @@ public class AccountController {
     }
 
     @RequestMapping("identifier/create")
-    public void createIdentifier(AccountCommand accountCommand) {
-        accountAppService.createIdentifier(accountCommand);
+    public void createIdentifier(AccountIdentifierCommand command) {
+        accountAppService.createIdentifier(command);
     }
 
     @RequestMapping("login")

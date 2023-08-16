@@ -1,6 +1,7 @@
 package com.byritium.application;
 
 import com.byritium.application.command.AccountCommand;
+import com.byritium.application.command.AccountIdentifierCommand;
 import com.byritium.domain.account.entity.Account;
 import com.byritium.domain.account.entity.AccountIdentifier;
 import com.byritium.domain.account.repository.AccountRepository;
@@ -9,6 +10,7 @@ import com.byritium.domain.group.repository.GroupRepository;
 import com.byritium.types.constance.ObjectState;
 import com.byritium.types.constance.ResultEnum;
 import com.byritium.types.exception.BusinessException;
+import com.byritium.utils.AccountHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,11 +39,13 @@ public class AccountAppService {
         accountRepository.saveAccount(account);
     }
 
-    public void createIdentifier(AccountCommand accountCommand) {
-        Account account = accountRepository.findAccountById(accountCommand.getAccountId());
+    public void createIdentifier(AccountIdentifierCommand command) {
+        Long accountId = AccountHolder.get();
+        Account account = accountRepository.findAccountById(accountId);
 
         AccountIdentifier accountIdentifier = AccountIdentifier.builder()
                 .accountId(account.getId())
+                .name(command.getName())
                 .identifier(UUID.randomUUID().toString())
                 .build();
 

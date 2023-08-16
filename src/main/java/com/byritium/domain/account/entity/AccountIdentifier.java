@@ -13,7 +13,6 @@ import lombok.experimental.Accessors;
 @Data
 public class AccountIdentifier {
     private Long accountId;
-    private String username;
-    private String password;
+    private String name;
     private String identifier;
 }
