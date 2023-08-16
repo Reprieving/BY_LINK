@@ -5,17 +5,17 @@ import com.byritium.types.constance.ResultEnum;
 
 public class BusinessException extends RuntimeException{
     private final ResultEnum expType;
-    private final String msg;
+    private final String message;
     public BusinessException(ResultEnum expType) {
         this.expType = expType;
-        this.msg = expType.getMessage();
+        this.message = expType.getMessage();
     }
 
     public ResultEnum getExpType() {
         return expType;
     }
 
-    public String getMsg() {
-        return msg;
+    public String getMessage() {
+        return message;
     }
 }

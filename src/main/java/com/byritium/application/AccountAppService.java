@@ -32,7 +32,6 @@ public class AccountAppService {
         Account account = Account.builder()
                 .accountName(accountCommand.getAccountName())
                 .accountSecret(accountCommand.getAccountSecret())
-                .createTime(LocalDateTime.now())
                 .os(ObjectState.ENABLE)
                 .build();
 
