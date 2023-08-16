@@ -10,7 +10,8 @@ public class AccountPo {
     private Long id;
     private Long appId;
     private Long uid;
-    private Long identifier;
+    private String accountName;
+    private String accountSecret;
     private LocalDateTime createTime;
     private ObjectState os;
 }

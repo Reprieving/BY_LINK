@@ -10,6 +10,8 @@ public interface AccountRepository {
 
     Account findAccountById(Long accountId);
 
+    Account findAccountByName(String name);
+
     void saveAccountIdentifier(Account account, AccountIdentifier accountIdentifier);
 
     AccountIdentifier findAccountIdentifier(Long accountId,String identifier);

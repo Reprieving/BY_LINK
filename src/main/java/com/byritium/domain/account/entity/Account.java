@@ -15,6 +15,8 @@ import java.util.List;
 public class Account {
     private Long id;
     private Long appId;
+    private String accountName;
+    private String accountSecret;
     private LocalDateTime createTime;
     private ObjectState os;
     private List<AccountIdentifier> identifierList;

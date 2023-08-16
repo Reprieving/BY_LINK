@@ -29,7 +29,7 @@ public class AccountRepositoryImpl implements AccountRepository {
     public void saveAccount(Account account) {
         List<AccountPo> list = accountPoMapper.selectList(
                 new LambdaQueryWrapper<AccountPo>()
-                        .eq(AccountPo::getAppId, account.getAppId())
+                        .eq(AccountPo::getAccountName,account.getAccountName())
         );
 
         if (list.size() > 0) {
@@ -43,6 +43,12 @@ public class AccountRepositoryImpl implements AccountRepository {
     @Override
     public Account findAccountById(Long accountId) {
         AccountPo accountPo = accountPoMapper.selectById(accountId);
+        return AccountConvertor.convertAgg(accountPo);
+    }
+
+    @Override
+    public Account findAccountByName(String name) {
+        AccountPo accountPo = accountPoMapper.selectOne(new LambdaQueryWrapper<AccountPo>().eq(AccountPo::getAccountName,name));
         return AccountConvertor.convertAgg(accountPo);
     }
 

@@ -7,6 +7,8 @@ import com.byritium.domain.account.repository.AccountRepository;
 import com.byritium.domain.group.entity.GroupMember;
 import com.byritium.domain.group.repository.GroupRepository;
 import com.byritium.types.constance.ObjectState;
+import com.byritium.types.constance.ResultEnum;
+import com.byritium.types.exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,7 +28,8 @@ public class AccountAppService {
 
     public void resisterAccount(AccountCommand accountCommand) {
         Account account = Account.builder()
-                .appId(accountCommand.getAppId())
+                .accountName(accountCommand.getAccountName())
+                .accountSecret(accountCommand.getAccountSecret())
                 .createTime(LocalDateTime.now())
                 .os(ObjectState.ENABLE)
                 .build();
