@@ -19,6 +19,7 @@ public enum ResultEnum {
     ACCOUNT_EXIST(1000, "account exist"),
     ACCOUNT_IDENTIFIER_EXIST(1000, "account identifier exist"),
     ACCOUNT_VERIFY_FAIL(1000, "account verify fail"),
+    ACCOUNT_WRONG_SECRET(1000, "wrong password"),
     ;
 
 

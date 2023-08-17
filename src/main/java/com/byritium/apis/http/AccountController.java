@@ -26,8 +26,8 @@ public class AccountController {
     }
 
     @RequestMapping("login")
-    public String login() {
-        return "";
+    public String login(AccountCommand command) {
+        return accountAppService.login(command);
     }
 
     @RequestMapping("logout")

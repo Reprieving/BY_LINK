@@ -11,6 +11,7 @@ import com.byritium.types.constance.ObjectState;
 import com.byritium.types.constance.ResultEnum;
 import com.byritium.types.exception.BusinessException;
 import com.byritium.utils.AccountHolder;
+import com.byritium.utils.JwtUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -59,5 +60,15 @@ public class AccountAppService {
     public void quitGroup() {
         GroupMember groupMember = new GroupMember();
         groupRepository.removeGroupMember(groupMember);
+    }
+
+    public String login(AccountCommand command) {
+        String accountName = command.getAccountName();
+        String accountSecret = command.getAccountSecret();
+        Account account = accountRepository.findByNameSecret(accountName, accountSecret);
+        if (account == null) {
+            throw new BusinessException(ResultEnum.ACCOUNT_WRONG_SECRET);
+        }
+        return JwtUtils.createToken(account.getId());
     }
 }

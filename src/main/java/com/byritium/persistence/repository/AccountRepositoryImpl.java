@@ -80,4 +80,13 @@ public class AccountRepositoryImpl implements AccountRepository {
     public AccountIdentifierPo getAccountAuth(String username, String identifier) {
         return null;
     }
+
+    @Override
+    public Account findByNameSecret(String accountName, String accountSecret) {
+        return AccountConvertor.convertAgg(accountPoMapper.selectOne(
+                new LambdaQueryWrapper<AccountPo>()
+                        .eq(AccountPo::getAccountName, accountName)
+                        .eq(AccountPo::getAccountSecret, accountSecret)
+        ));
+    }
 }

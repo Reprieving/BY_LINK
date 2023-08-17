@@ -17,4 +17,6 @@ public interface AccountRepository {
     AccountIdentifier findAccountIdentifier(Long accountId,String identifier);
 
     AccountIdentifierPo getAccountAuth(String username, String identifier);
+
+    Account findByNameSecret(String accountName, String accountSecret);
 }
