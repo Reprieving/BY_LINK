@@ -14,6 +14,7 @@ import com.byritium.utils.AccountHolder;
 import com.byritium.utils.JwtUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -47,6 +48,8 @@ public class AccountAppService {
                 .accountId(account.getId())
                 .name(command.getName())
                 .identifier(UUID.randomUUID().toString())
+                .createTime(LocalDateTime.now())
+                .os(ObjectState.ENABLE)
                 .build();
 
         accountRepository.saveAccountIdentifier(account, accountIdentifier);

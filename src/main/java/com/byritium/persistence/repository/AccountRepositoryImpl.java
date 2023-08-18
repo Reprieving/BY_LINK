@@ -57,7 +57,7 @@ public class AccountRepositoryImpl implements AccountRepository {
         List<AccountIdentifierPo> list = accountIdentifierPoMapper.selectList(
                 new LambdaQueryWrapper<AccountIdentifierPo>()
                         .eq(AccountIdentifierPo::getAccountId, account.getId())
-                        .eq(AccountIdentifierPo::getIdentify, accountIdentifier.getIdentifier())
+                        .eq(AccountIdentifierPo::getIdentifier, accountIdentifier.getIdentifier())
         );
 
         if (list.size() > 0) {
@@ -72,7 +72,7 @@ public class AccountRepositoryImpl implements AccountRepository {
         return AccountConvertor.convertAccountIdentifierPo(accountIdentifierPoMapper.selectOne(
                 new LambdaQueryWrapper<AccountIdentifierPo>()
                         .eq(AccountIdentifierPo::getAccountId, accountId)
-                        .eq(AccountIdentifierPo::getIdentify, identifier)
+                        .eq(AccountIdentifierPo::getIdentifier, identifier)
         ));
     }
 

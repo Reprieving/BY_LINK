@@ -34,6 +34,11 @@ public class AccountConvertor {
             return null;
         }
         AccountIdentifierPo po = new AccountIdentifierPo();
+        po.setAccountId(accountIdentifier.getAccountId());
+        po.setIdentifier(accountIdentifier.getIdentifier());
+        po.setCreateTime(accountIdentifier.getCreateTime());
+        po.setName(accountIdentifier.getName());
+        po.setOs(accountIdentifier.getOs());
         return po;
     }
 
