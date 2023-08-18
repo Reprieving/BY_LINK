@@ -5,6 +5,7 @@ import com.byritium.application.command.GroupCommand;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -20,6 +21,7 @@ public class GroupController {
     }
 
     @RequestMapping("join")
+    @ResponseBody
     public void join(@RequestHeader String token, GroupCommand groupCommand) {
         groupAppService.createGroupMember(groupCommand);
     }

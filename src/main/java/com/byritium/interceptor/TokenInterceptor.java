@@ -4,7 +4,6 @@ import com.byritium.types.constance.ResultEnum;
 import com.byritium.types.exception.BusinessException;
 import com.byritium.utils.AccountHolder;
 import com.byritium.utils.JwtUtils;
-import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -21,8 +20,11 @@ public class TokenInterceptor implements HandlerInterceptor {
         String token = request.getHeader("access_token");
 
         try {
-            Claims claims = JwtUtils.verifyToken(token);
-            Long accountId = (Long) claims.get("id");
+            String id = JwtUtils.get(token);
+            if (id == null) {
+                throw new BusinessException(ResultEnum.ACCOUNT_VERIFY_FAIL);
+            }
+            Long accountId = Long.valueOf(id);
             AccountHolder.set(accountId);
             return true;
         } catch (Exception e) {

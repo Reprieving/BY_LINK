@@ -1,12 +1,17 @@
 package com.byritium.utils;
 
-import com.byritium.types.constance.TokenVerify;
-import io.jsonwebtoken.*;
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTDecodeException;
+import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.interfaces.DecodedJWT;
 
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.security.NoSuchAlgorithmException;
+import java.time.Instant;
 import java.util.*;
 
 public class JwtUtils {
@@ -22,73 +27,51 @@ public class JwtUtils {
         Map<String, Object> claimMaps = new HashMap<>();
         claimMaps.put("id", id);
         long currentTime = System.currentTimeMillis();
-        return Jwts.builder()
-                .setId(UUID.randomUUID().toString())
-                .setIssuedAt(new Date(currentTime))  //签发时间
-//                .setSubject("system")  //说明
-//                .setIssuer("jjw") //签发者信息
-//                .setAudience("app")  //接收用户
-                .compressWith(CompressionCodecs.GZIP)  //数据压缩方式
-                .signWith(SignatureAlgorithm.HS512, generalKey()) //加密方式
-                //过期一个小时
-                .setExpiration(new Date(currentTime + TOKEN_TIME_OUT * 1000))  //过期时间戳
-                .addClaims(claimMaps) //cla信息
-                .compact();
+        Algorithm algorithm = Algorithm.HMAC256(TOKEN_ENCRYPT_KEY);
+        return JWT.create()
+                // 将 user id 保存到 token 里面
+                .withAudience(id.toString())
+                // 五分钟后token过期
+                .withExpiresAt(Instant.ofEpochSecond(currentTime + 3600 * 1000))
+                // token 的密钥
+                .sign(algorithm);
     }
 
     /**
-     * 获取token中的claims信息
+     * 根据token获取userId
      *
      * @param token
      * @return
      */
-    private static Jws<Claims> getJws(String token) {
-        return Jwts.parser()
-                .setSigningKey(generalKey())
-                .parseClaimsJws(token);
+
+    public static String get(String token) {
+        try {
+            String userId = JWT.decode(token).getAudience().get(0);
+            return userId;
+        } catch (JWTDecodeException e) {
+            return null;
+        }
     }
 
-    /**
-     * 获取payload body信息
-     *
-     * @param token
-     * @return
-     */
-    public static Claims getClaimsBody(String token) {
-        return getJws(token).getBody();
-    }
+    public static boolean checkSign(String token) {
 
-    /**
-     * 获取hearder body信息
-     *
-     * @param token
-     * @return
-     */
-    public static JwsHeader getHeaderBody(String token) {
-        return getJws(token).getHeader();
-    }
+        try {
 
-    /**
-     * 是否过期
-     *
-     * @param token
-     * @return 1 有效  0 无效  2 已过期
-     */
-    public static Claims verifyToken(String token) {
-        Claims claims = JwtUtils.getClaimsBody(token);
+            Algorithm algorithm = Algorithm.HMAC256(TOKEN_ENCRYPT_KEY);
 
-        return claims;
-    }
+            JWTVerifier verifier = JWT.require(algorithm)
 
-    /**
-     * 由字符串生成加密key
-     *
-     * @return
-     */
-    public static SecretKey generalKey() {
-        byte[] encodedKey = Base64.getEncoder().encode(TOKEN_ENCRYPT_KEY.getBytes());
-        SecretKey key = new SecretKeySpec(encodedKey, 0, encodedKey.length, "AES");
-        return key;
+                    // .withClaim("username", username)
+
+                    .build();
+
+            DecodedJWT jwt = verifier.verify(token);
+            return true;
+        } catch (JWTVerificationException exception) {
+            throw new RuntimeException("token 无效，请重新获取");
+
+        }
+
     }
 
     public static void main(String[] args) {

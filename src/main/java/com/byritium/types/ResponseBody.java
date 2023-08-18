@@ -14,6 +14,10 @@ public class ResponseBody<T> {
 
     }
 
+    public ResponseBody(T data) {
+        this.data = data;
+    }
+
     public ResponseBody<T> code(Integer code) {
         this.code = code;
         return this;
