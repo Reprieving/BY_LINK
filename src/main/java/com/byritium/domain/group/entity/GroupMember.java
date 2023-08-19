@@ -1,5 +1,6 @@
 package com.byritium.domain.group.entity;
 
+import com.byritium.types.CommonAttr;
 import lombok.*;
 import lombok.experimental.Accessors;
 
@@ -8,7 +9,7 @@ import lombok.experimental.Accessors;
 @AllArgsConstructor
 @Builder
 @Getter
-public class GroupMember {
+public class GroupMember extends CommonAttr {
     private Long appId;
     private Long groupId;
     private String identifier;

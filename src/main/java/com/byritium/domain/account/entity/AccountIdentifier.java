@@ -1,5 +1,6 @@
 package com.byritium.domain.account.entity;
 
+import com.byritium.types.CommonAttr;
 import com.byritium.types.constance.ObjectState;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,7 +15,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @Data
-public class AccountIdentifier {
+public class AccountIdentifier extends CommonAttr {
     private Long accountId;
     private String name;
     private String identifier;

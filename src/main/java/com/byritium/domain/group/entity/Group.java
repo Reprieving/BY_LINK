@@ -1,5 +1,6 @@
 package com.byritium.domain.group.entity;
 
+import com.byritium.types.CommonAttr;
 import com.byritium.types.constance.ObjectState;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,7 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Getter
-public class Group {
+public class Group extends CommonAttr {
     private Long id;
     private Long appId;
     private String groupName;

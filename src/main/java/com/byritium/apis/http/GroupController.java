@@ -16,13 +16,13 @@ public class GroupController {
     private GroupAppService groupAppService;
 
     @RequestMapping("create")
-    public void create(@RequestHeader String token, GroupCommand groupCommand) {
+    public void create(GroupCommand groupCommand) {
         groupAppService.createGroup(groupCommand);
     }
 
     @RequestMapping("join")
     @ResponseBody
-    public void join(@RequestHeader String token, GroupCommand groupCommand) {
+    public void join(GroupCommand groupCommand) {
         groupAppService.createGroupMember(groupCommand);
     }
 
