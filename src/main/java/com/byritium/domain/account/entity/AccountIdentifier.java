@@ -19,6 +19,4 @@ public class AccountIdentifier extends CommonAttr {
     private Long accountId;
     private String name;
     private String identifier;
-    private LocalDateTime createTime;
-    private ObjectState os;
 }

@@ -18,7 +18,5 @@ public class Account extends CommonAttr {
     private Long appId;
     private String accountName;
     private String accountSecret;
-    private LocalDateTime createTime;
-    private ObjectState os;
     private List<AccountIdentifier> identifierList;
 }

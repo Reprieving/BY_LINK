@@ -22,6 +22,4 @@ public class Group extends CommonAttr {
     private String groupName;
     private List<GroupMember> members;
     private GroupMember creator;
-    private LocalDateTime creteTime;
-    private ObjectState os;
 }
