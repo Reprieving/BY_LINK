@@ -18,8 +18,9 @@ import java.util.List;
 @Getter
 public class Group extends CommonAttr {
     private Long id;
-    private Long appId;
+    private Long accountId;
     private String groupName;
     private List<GroupMember> members;
+    private String createIdentifier;
     private GroupMember creator;
 }

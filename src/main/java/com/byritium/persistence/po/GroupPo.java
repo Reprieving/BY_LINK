@@ -15,6 +15,6 @@ import java.time.LocalDateTime;
 public class GroupPo extends CommonAttr {
     private Long id;
     private Long accountId;
-    private Long creatorIdentifier;
+    private String creatorIdentifier;
     private String name;
 }
