@@ -1,5 +1,6 @@
 package com.byritium.persistence.repository;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.byritium.domain.group.entity.Group;
 import com.byritium.domain.group.entity.GroupMember;
 import com.byritium.domain.group.repository.GroupRepository;
@@ -28,6 +29,14 @@ public class GroupRepositoryImpl implements GroupRepository {
     }
 
     @Override
+    public Group findGroupByAccountId(Long groupId, Long accountId) {
+        return GroupConvertor.convertToGroup(groupPoMapper.selectOne(
+                new LambdaQueryWrapper<GroupPo>()
+                        .eq(GroupPo::getAccountId, accountId)
+                        .eq(GroupPo::getId, groupId)));
+    }
+
+    @Override
     public void saveGroupMember(GroupMember member) {
         GroupMemberPo po = GroupConvertor.convertorGroupMemberPo(member);
         groupMemberPoMapper.insert(po);
@@ -44,7 +53,7 @@ public class GroupRepositoryImpl implements GroupRepository {
     }
 
     @Override
-    public List<GroupMember> findMemberByApp(long groupId) {
+    public List<GroupMember> findMemberByAccountId(long groupId) {
         return null;
     }
 }

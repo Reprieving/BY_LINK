@@ -16,11 +16,13 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Getter
-public class Group extends CommonAttr {
+public class Group {
     private Long id;
     private Long accountId;
     private String groupName;
     private List<GroupMember> members;
     private String createIdentifier;
     private GroupMember creator;
+    private LocalDateTime createTime;
+    private ObjectState os;
 }

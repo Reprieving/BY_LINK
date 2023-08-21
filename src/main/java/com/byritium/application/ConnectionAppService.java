@@ -17,7 +17,6 @@ import com.byritium.utils.JacksonUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelId;
-import io.netty.handler.codec.marshalling.MarshallingEncoder;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -126,7 +125,7 @@ public class ConnectionAppService {
                 }
 
                 case APPLICATION_SEND: {
-                    List<GroupMember> list = groupRepository.findMemberByApp(connectionDto.getAppId());
+                    List<GroupMember> list = groupRepository.findMemberByAccountId(connectionDto.getAppId());
                     for (GroupMember groupMember : list) {
                         channel = connectionRepository.findChannelByObjId(groupMember.getIdentifier());
                         channelList.add(channel);
