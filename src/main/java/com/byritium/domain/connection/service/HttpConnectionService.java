@@ -29,8 +29,8 @@ public class HttpConnectionService implements ConnectionMessageService {
         String username = httpHeaders.get("username");
         String password = httpHeaders.get("password");
         String identifier = httpHeaders.get("identifier");
-        Long appId = Long.valueOf(httpHeaders.get("appId"));
-        accountAuthService.authenticate(appId,identifier);
+        Long accountId = Long.valueOf(httpHeaders.get("accountId"));
+        accountAuthService.authenticate(accountId, identifier);
 
         return new ConnectionDto(identifier);
     }

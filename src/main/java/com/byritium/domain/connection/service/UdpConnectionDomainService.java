@@ -16,7 +16,7 @@ public class UdpConnectionDomainService implements ConnectionMessageService {
     @Override
     public ConnectionDto auth(Channel channel, Object message, Boolean authFlag, AccountAuthService accountAuthService) {
         ConnectionDto connectionDto = (ConnectionDto) message;
-        accountAuthService.authenticate(connectionDto.getAppId(), connectionDto.getIdentifier());
+        accountAuthService.authenticate(connectionDto.getAccountId(), connectionDto.getIdentifier());
         return connectionDto;
     }
 

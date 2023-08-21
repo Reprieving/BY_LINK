@@ -125,7 +125,7 @@ public class ConnectionAppService {
                 }
 
                 case APPLICATION_SEND: {
-                    List<GroupMember> list = groupRepository.findMemberByAccountId(connectionDto.getAppId());
+                    List<GroupMember> list = groupRepository.findMemberByAccountId(connectionDto.getAccountId());
                     for (GroupMember groupMember : list) {
                         channel = connectionRepository.findChannelByObjId(groupMember.getIdentifier());
                         channelList.add(channel);

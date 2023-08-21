@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 public class ConnectionDto {
-    private Long appId;
+    private Long accountId;
     private String identifier;
     private Long groupId;
     private SendType sendType;
